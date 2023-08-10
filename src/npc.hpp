@@ -1,24 +1,24 @@
 #include "Doom.hpp"
+using namespace std;
 
-class npc : public DoomAdventure{
-    
+class Npc : public DoomAdventure {
+public:
+   float x,y;    
 };
 
 
-class Hero : public npc{
+class Hero : public Npc{
 public:
     shared_ptr<sf::Sprite> hero;
-    vector<sf::Texture> herotexture; //vetor inteligente para a textura do heroi
-
-protected:
-    void animation();
+    sf::Texture herotexture[3]; //vetor inteligente para a textura do heroi
 
 public:
     void drawHero();
     Hero();
+    void animation();
 };
 
-class Villain : public npc{
+class Villain : public Npc{
 
     vector<sf::Texture> villaintexture;
     

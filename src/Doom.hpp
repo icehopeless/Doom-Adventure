@@ -10,10 +10,12 @@
 using namespace std;
 
 class DoomAdventure {
+protected:
     shared_ptr<sf::RenderWindow> window; //ponteiro inteligente para a janela
     shared_ptr<sf::Sprite> background;
     sf::Texture bgtexutre;
-
+    Hero * hero = new Hero();
+    
 protected:
     void events();
     void draw();

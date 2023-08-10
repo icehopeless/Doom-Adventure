@@ -12,14 +12,15 @@ DoomAdventure::DoomAdventure(){
 
 
 Hero::Hero(){
+    hero = make_shared<sf::Sprite>();
     herotexture[0].loadFromFile("assets/Hero/Gunner_Idle_1.png");
-    
 }
 
 //animando o hero
 void Hero::animation(){
     hero->setTexture(herotexture[0]);
 }
+
 
 void DoomAdventure :: events(){
     sf::Event event;
@@ -31,16 +32,26 @@ void DoomAdventure :: events(){
     }
 }
 
+void Hero::drawHero(){
+     window->clear(sf::Color::Black);
+     window->draw(*hero);
+     window->display();
+}
+
 void DoomAdventure::draw(){
-    window->clear(sf::Color::Black);
-    window->draw();
-    
-    
-    
+    hero->drawHero();
 }
    
 
+void DoomAdventure::game(){
+    hero->animation();
+}
 
-void run(){
-
+void DoomAdventure::run(){
+    while(window->isOpen()){
+        draw();
+        events();
+        game();
+        
+    }
 }
