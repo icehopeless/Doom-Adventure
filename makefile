@@ -1,12 +1,13 @@
-all: compile link run
+all: compile link delete run
 
 compile:
-	
-	g++ -IC:\SFML-2.5.1\include -c src/main.cpp
+	g++ -c src/main.cpp src/*.cpp
 
 link:
-	g++ main.o -o main -LC:\SFML-2.5.1\lib -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
-	
-	
+	g++ *.o -o main -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+
 run:
-	./main.exe
+	./main
+
+delete:
+	rm -rf *.o  
