@@ -1,2 +1,5 @@
-/.vscode
 makefile
+/.vscode
+main
+*.exe
+*.o
