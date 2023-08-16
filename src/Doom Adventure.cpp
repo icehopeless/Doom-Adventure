@@ -44,7 +44,7 @@ Hero::Hero() {
 			"assets/Hero/Gunner/Gunner_Idle_4.png");
 	down.loadFromFile("assets/Hero/Gunner/Gunner_Crouch.png");
 	attacksprite->setTexture(bullettexture);
-	attacksprite->setScale(1.f,1.f);
+	attacksprite->setScale(1.3f,1.3f);
 	hero->setScale(2.f,2.f);
 	hero->setTexture(herotexture[0]);
 	attack();
@@ -111,15 +111,23 @@ void Hero::animation() {
 }
 
 void Hero::attk(){
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
-		
-		attacksprite->setPosition(hero->getPosition().x + 83, hero->getPosition().y + 85);
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) and hero->getScale().x == -2 ){
+		attacksprite->setPosition(hero->getPosition().x - 77, hero->getPosition().y + 77);
+		attacksprite->setScale(-1.3f,1.3f);
+		orientation = true;
+	}
+
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) and hero->getScale().x == 2 ){
+		attacksprite->setPosition(hero->getPosition().x + 75, hero->getPosition().y + 77);
+		attacksprite->setScale(1.3f,1.3f);
+		orientation = false;
 	}
 	attack();
 }
 
-void Npc::attack(){
-	attacksprite->move(10,0);
+void Entity::attack(){
+		//test if and else
+	orientation == true ? attacksprite->move(-10,0) : attacksprite->move(10,0);
 }
 
 void DoomAdventure::events() {

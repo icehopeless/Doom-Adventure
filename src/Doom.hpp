@@ -8,18 +8,19 @@
 
 using namespace std;
 
-class Npc {
+class Entity {
 public:
 	int frame = 0;
     int countattacks;
     shared_ptr<sf::Sprite> attacksprite;
+    bool orientation;
 
 protected:
     void attack();
     void animation();
 };
 
-class Hero : public Npc{
+class Hero : public Entity{
 public:
 	int framestophero =0,
 	frameLeftAndRight = 0;
@@ -56,7 +57,7 @@ public:
     void run();
 };
 
-class Villain : public Npc{
+class Villain : public Entity{
 
     vector<sf::Texture> villaintexture;
 
