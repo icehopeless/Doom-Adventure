@@ -105,28 +105,41 @@ void Hero::animation() {
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
 		hero->move(0, -15);
 	}
-
 	hero->move(0, 5);
-
 }
 
 void Hero::attk(){
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) and hero->getScale().x == -2 ){
-		attacksprite->setPosition(hero->getPosition().x - 77, hero->getPosition().y + 77);
-		attacksprite->setScale(-1.3f,1.3f);
-		orientation = true;
-	}
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) and hero->getScale().x == -2){
+			attacksprite->setPosition(hero->getPosition().x - 77, hero->getPosition().y + 77);
+			attacksprite->setScale(-1.3f,1.3f);
+			orientation = true;
+		}
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) and hero->getScale().x == 2 ){
-		attacksprite->setPosition(hero->getPosition().x + 75, hero->getPosition().y + 77);
-		attacksprite->setScale(1.3f,1.3f);
-		orientation = false;
-	}
+			attacksprite->setPosition(hero->getPosition().x + 75, hero->getPosition().y + 77);
+			attacksprite->setScale(1.3f,1.3f);
+			orientation = false;
+		}
+
+		//agachando
+		if((sf::Keyboard::isKeyPressed(sf::Keyboard::Space) and hero->getScale().x == -2 and 			sf::Keyboard::isKeyPressed(sf::Keyboard::Down))){
+			attacksprite->setPosition(hero->getPosition().x - 77, hero->getPosition().y + 88);
+			attacksprite->setScale(-1.3f,1.3f);
+			orientation = true;		
+		}
+
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) and hero->getScale().x == 2 and sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
+			attacksprite->setPosition(hero->getPosition().x + 75, hero->getPosition().y + 88);
+			attacksprite->setScale(1.3f,1.3f);
+			orientation = false;
+		}
+			
+		
 	attack();
 }
 
 void Entity::attack(){
-		//test if and else
+		//test if e else
 	orientation == true ? attacksprite->move(-10,0) : attacksprite->move(10,0);
 }
 

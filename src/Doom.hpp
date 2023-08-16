@@ -45,7 +45,6 @@ protected:
     shared_ptr<sf::Sprite> background;
     sf::Texture bgtexutre;
     Hero *heroobj = new Hero();
-   // Bullet *bulletobj = new Bullet();
 
 protected:
     void events();

@@ -3,3 +3,4 @@ makefile
 main
 *.exe
 *.o
+*.dll
