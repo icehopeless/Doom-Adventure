@@ -8,9 +8,15 @@
 
 using namespace std;
 
-class Npc{
+class Npc {
 public:
 	int frame = 0;
+    int countattacks;
+    shared_ptr<sf::Sprite> attacksprite;
+
+protected:
+    void attack();
+    void animation();
 };
 
 class Hero : public Npc{
@@ -21,12 +27,15 @@ public:
 	sf::Texture textureherostop[4];
 	sf::Texture down;
     shared_ptr<sf::Sprite> hero;
-    sf::Texture herotexture[3]; //vetor inteligente para a textura do heroi
+    sf::Texture herotexture[3];
+    sf::Texture bullettexture;
+    
 
 public:
-    void drawHero();
     Hero();
     void animation();
+    void attk();
+    
 };
 
 class DoomAdventure {
@@ -34,7 +43,8 @@ protected:
     shared_ptr<sf::RenderWindow> window; //ponteiro inteligente para a janela
     shared_ptr<sf::Sprite> background;
     sf::Texture bgtexutre;
-    Hero * hero = new Hero();
+    Hero *heroobj = new Hero();
+   // Bullet *bulletobj = new Bullet();
 
 protected:
     void events();
@@ -54,4 +64,7 @@ public:
     Villain();
     ~Villain();
 };
+
+
+
 

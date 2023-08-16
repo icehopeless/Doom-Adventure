@@ -11,6 +11,9 @@ DoomAdventure::DoomAdventure() {
 
 Hero::Hero() {
 	hero = make_shared<sf::Sprite>();
+	attacksprite = make_shared<sf::Sprite>();
+
+	bullettexture.loadFromFile("assets/Shoots/Player-Shoot/player-shoot1.png");
 	herotexture[0].loadFromFile("assets/Hero/Gunner/Gunner_Idle_1.png");
 
 	textureheroRight[0].loadFromFile(
@@ -31,7 +34,6 @@ Hero::Hero() {
 			"assets/Hero/Gunner/Gunner_Walk_7.png");
 	textureheroRight[8].loadFromFile(
 			"assets/Hero/Gunner/Gunner_Walk_8.png");
-
 	textureherostop[0].loadFromFile(
 			"assets/Hero/Gunner/Gunner_Idle_1.png");
 	textureherostop[1].loadFromFile(
@@ -41,8 +43,11 @@ Hero::Hero() {
 	textureherostop[3].loadFromFile(
 			"assets/Hero/Gunner/Gunner_Idle_4.png");
 	down.loadFromFile("assets/Hero/Gunner/Gunner_Crouch.png");
-	hero->setScale(3,3);
+	attacksprite->setTexture(bullettexture);
+	attacksprite->setScale(1.f,1.f);
+	hero->setScale(2.f,2.f);
 	hero->setTexture(herotexture[0]);
+	attack();
 }
 
 //animando o hero
@@ -59,12 +64,9 @@ void Hero::animation() {
 
 	frame++;
 
-	//cout << frame << endl;
-	fflush(stdout);
-
 	hero->setTexture(textureherostop[framestophero], true);
 
-
+	float x;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 
 				if (frame >= 4) {
@@ -78,6 +80,8 @@ void Hero::animation() {
 				frame++;
 				hero->setTexture(textureheroRight[frameLeftAndRight], true);
 				hero->move(8, 0);
+				hero->setScale(2.f, 2.f);
+				
 			}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
@@ -92,6 +96,8 @@ void Hero::animation() {
 				frame++;
 				hero->setTexture(textureheroRight[frameLeftAndRight], true);
 				hero->move(-8, 0);
+				hero->setScale(-2.f,2.f);
+				
 			}
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
 				hero->setTexture(down, true);
@@ -104,6 +110,18 @@ void Hero::animation() {
 
 }
 
+void Hero::attk(){
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
+		
+		attacksprite->setPosition(hero->getPosition().x + 83, hero->getPosition().y + 85);
+	}
+	attack();
+}
+
+void Npc::attack(){
+	attacksprite->move(10,0);
+}
+
 void DoomAdventure::events() {
 	sf::Event event;
 
@@ -114,18 +132,18 @@ void DoomAdventure::events() {
 	}
 }
 
-void Hero::drawHero() {
-
-}
 
 void DoomAdventure::draw() {
 	window->clear(sf::Color::Black);
-	window->draw(*hero->hero);
+	window->draw(*heroobj->hero);
+	window->draw(*heroobj->attacksprite);
 	window->display();
 }
 
 void DoomAdventure::game() {
-	hero->animation();
+	heroobj->animation();
+	heroobj->attk();
+
 }
 
 void DoomAdventure::run() {
@@ -133,7 +151,5 @@ void DoomAdventure::run() {
 		draw();
 		events();
 		game();
-
-
 	}
 }
