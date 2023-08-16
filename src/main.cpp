@@ -1,4 +1,5 @@
 #include "Doom.hpp"
+#include "Doom Adventure.cpp"
 
 //rodar game
 int main (){
