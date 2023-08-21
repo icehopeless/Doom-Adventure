@@ -90,7 +90,7 @@ void Villain::attk1(){
 			frame++;
 		}
 
-	
+		cout << framesStopVilion << endl;
 		if (fireanimation == false) {
 			if (framesStopVilion == 1) {
 				sf::Vector2i position(31, 14);

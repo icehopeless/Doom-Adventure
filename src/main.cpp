@@ -1,7 +1,6 @@
 #include "Doom.hpp"
-#include "Doom Adventure.cpp"
-#include "Vilions.cpp"
-#include "Hero.cpp"
+
+
 //rodar game
 int main (){
     auto Doom = make_shared<DoomAdventure>();
