@@ -20,24 +20,27 @@ public:
 	void animation();
 	Bullet();
 	~Bullet();
-
 };
 
 
 class Entity {
 public:
+	int framestop = 0,
+	frameOrientationX = 1, 
+	referent;
 	int frame = 0;
 	int countattacks;
 	int vel;
+	shared_ptr<sf::Sprite> entitysprite;
 	vector<Bullet> shots;
+
+protected: 
+	void animation();
 };
 
 class Hero: public Entity {
 public:
-	int framestophero = 0,
-	frameLeftAndRight = 0,
-	shotstimer = 0;
-
+	int shotstimer = 0;
 	sf::Texture textureheroRight[9];
 	sf::Texture textureherostop[4];
 	sf::Texture down;
@@ -47,17 +50,15 @@ public:
 public:
 	Hero();
 	void animation();
-	void attk();
+	void attack();
 	void pop_attack();
 
 };
 
 class Villain: public Entity {
 public:
-	int referent = 0;
-	int framesStopVilion = 1,
-	frameLeftAndRight = 1,
-	timer = 0;
+	//variavel de id dos viloes
+	int timer = 0;
 	int distance = 0;
 	bool fireanimation;
 	bool attack;
@@ -65,29 +66,42 @@ public:
 	sf::Texture textureVilionstop[4];
 	sf::Texture downVilion;
 	shared_ptr<sf::Sprite> Vilion;
-	sf::Texture herotexture[3];
+
 
 public:
-	void animation();
-	void attks();
-	void attk1();
-	void pop_attack();
-	void Villan1();
-	void transtion1(),
-		transtion2(),
-		transtion3();
-	void testAproxim(Hero * heroobj);
 	Villain(int referent);
 	~Villain();
+	void animation();
+	void attacks();
+	void attack1();
+	void pop_attack();
+	void Villan1();
+	void testAproxim(Hero * heroobj);
+	void transition1(),
+		transition2(),
+		transition3();
+};
+
+class Npcs : public Entity{
+public:
+	shared_ptr<sf::Sprite> npc;
+	sf::Texture npcstexture;
+
+public:
+	Npcs(int referent);
+	~Npcs();
+	void animation();
+	void npc1();
 };
 
 class DoomAdventure {
-protected:
 	shared_ptr<sf::RenderWindow> window; //ponteiro inteligente para a janela
 	shared_ptr<sf::Sprite> background;
 	sf::Texture bgtexutre;
-	Hero *heroobj;
-	Villain * villian;
+	Hero *heroobj = new Hero();
+	Villain *villian = new Villain(1);
+	Npcs *npc1 = new Npcs(1);
+
 protected:
 	void events();
 	void draw();
@@ -95,8 +109,6 @@ protected:
 
 public:
 	DoomAdventure();
+	~DoomAdventure();
 	void run();
 };
-
-
-

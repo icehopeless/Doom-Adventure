@@ -32,30 +32,30 @@ Hero::Hero() {
 void Hero::animation() {
 	if (frame >= 5) {
 		frame = 0;
-		if (framestophero == 3) {
+		if (framestop == 3) {
 
-			framestophero = 0;
+			framestop = 0;
 		} else {
-			framestophero++;
+			framestop++;
 		}
 	}
 
 	frame++;
 
-	hero->setTexture(textureherostop[framestophero], true);
+	hero->setTexture(textureherostop[framestop], true);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 
 		if (frame >= 4) {
 			frame = 0;
-			if (frameLeftAndRight == 8) {
-				frameLeftAndRight = 0;
+			if (frameOrientationX == 8) {
+				frameOrientationX = 0;
 			} else {
-				frameLeftAndRight++;
+				frameOrientationX++;
 			}
 		}
 		frame++;
-		hero->setTexture(textureheroRight[frameLeftAndRight], true);
+		hero->setTexture(textureheroRight[frameOrientationX], true);
 		hero->move(8, 0);
 		hero->setScale(2.f, 2.f);
 
@@ -64,14 +64,14 @@ void Hero::animation() {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 		if (frame >= 4) {
 			frame = 0;
-			if (frameLeftAndRight == 8) {
-				frameLeftAndRight = 0;
+			if (frameOrientationX == 8) {
+				frameOrientationX = 0;
 			} else {
-				frameLeftAndRight++;
+				frameOrientationX++;
 			}
 		}
 		frame++;
-		hero->setTexture(textureheroRight[frameLeftAndRight], true);
+		hero->setTexture(textureheroRight[frameOrientationX], true);
 		hero->move(-8, 0);
 		hero->setScale(-2.f, 2.f);
 
@@ -86,7 +86,7 @@ void Hero::animation() {
 
 }
 
-void Hero::attk() {
+void Hero::attack() {
 
 	int tam = shots.size();
 
@@ -137,7 +137,7 @@ void Hero::attk() {
 			for(int j =0; j < x; j++){
 				for (int i =0; i < 4; i++){
 					stringstream ss;
-					ss << "assets/Shoots/Player-Shoot/player-shoot" <<i + 1<< ".png";
+					ss << "assets/Shoots/Player-Shoot/player-shoot"<<i + 1<<".png";
 					shots[j].bullettexture[i]->loadFromFile(ss.str());
 				}
 			}
@@ -157,5 +157,4 @@ void Hero::pop_attack() {
 	for(int i  = 0; i < tam ; i++){
 		shots.pop_back();
 	}
-
 }
