@@ -644,7 +644,7 @@ void Npcs::testAproxim(Hero * herobobj){
             attack = false;
         }
     }
-    
+
 
 }
 void Npcs::pop_attack() {
@@ -655,6 +655,16 @@ void Npcs::pop_attack() {
 	}	
 }
 
+
+void Npcs::colison(Hero * heroobj, bool  * GameOver){
+    	int tam = shots.size();
+
+	for(int i  = 0; i < tam ; i++){
+		if(heroobj->hero->getGlobalBounds().intersects(shots[i].attacksprite->getGlobalBounds())){
+            *GameOver = true;
+        }
+	}	
+}
 
 
 

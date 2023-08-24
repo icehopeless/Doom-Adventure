@@ -5,6 +5,7 @@ DoomAdventure::DoomAdventure() {
 			//criando a janela com ponteiro inteligente
 			sf::VideoMode(1280, 720), "Doom Adventure",
 			sf::Style::Titlebar | sf::Style::Close);
+	GameOver = false;
 	heroobj = new Hero();
 	npc1 = new Npcs(1);
 	npc3 = new Npcs(3);
@@ -95,13 +96,17 @@ void DoomAdventure::run() {
 	while (window->isOpen()) {
 		draw();
 		events();
-		game();
+		if(GameOver == false){
+			game();
+			npc1->colison(heroobj,&GameOver);
+			npc3->colison(heroobj,&GameOver);
+		}
+		
 	}
 }
 
 DoomAdventure::~DoomAdventure(){
 	delete heroobj;
-
 	heroobj = NULL;
 
 }

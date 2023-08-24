@@ -36,6 +36,7 @@ public:
 
 protected: 
 	void animation();
+
 };
 
 class Hero: public Entity {
@@ -105,6 +106,7 @@ public:
 	void npc1();
 	void npc2();
 	void npc3();
+	void colison(Hero * heroobj, bool * GameOver);
 };
 
 class DoomAdventure {
@@ -112,7 +114,7 @@ class DoomAdventure {
 	shared_ptr<sf::Sprite> background;
 	sf::Texture bgtexutre;
 	Hero *heroobj = new Hero();
-	
+	bool GameOver;
 	Npcs *npc1 = new Npcs(1);
 	Npcs *npc3 = new Npcs(3);
 
