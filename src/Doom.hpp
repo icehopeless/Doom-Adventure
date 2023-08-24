@@ -83,8 +83,12 @@ public:
 
 class Npcs : public Entity{
 public:
+bool fireanimation;
 	shared_ptr<sf::Sprite> npc;
 	sf::Texture npcstexture;
+	sf::Texture textureVilionRight[9];
+	sf::Texture textureVilionstop[4];
+	sf::Texture downVilion;
 	int timer = 0;
 	int distance = 0;
 public:
@@ -93,12 +97,14 @@ public:
 	void RightWalk(),
 		LeftWalk();
 	void animation();
-	
+	void Iddle();
 	void attack1();
+	void attack3();
 	void testAproxim(Hero * heroobj);
 	void pop_attack();
 	void npc1();
 	void npc2();
+	void npc3();
 };
 
 class DoomAdventure {
@@ -106,8 +112,9 @@ class DoomAdventure {
 	shared_ptr<sf::Sprite> background;
 	sf::Texture bgtexutre;
 	Hero *heroobj = new Hero();
-	Villain *villian = new Villain(1);
+	
 	Npcs *npc1 = new Npcs(1);
+	Npcs *npc3 = new Npcs(3);
 
 protected:
 	void events();

@@ -37,7 +37,7 @@ void Villain::testAproxim(Hero * herobobj){
         else{
             attack = false;
         }
-cout << herobobj->hero->getPosition().y - Vilion->getPosition().y << endl;
+
 }
 void Villain::Villan1() {
 

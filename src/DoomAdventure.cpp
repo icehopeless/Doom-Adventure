@@ -6,8 +6,8 @@ DoomAdventure::DoomAdventure() {
 			sf::VideoMode(1280, 720), "Doom Adventure",
 			sf::Style::Titlebar | sf::Style::Close);
 	heroobj = new Hero();
-	villian = new Villain(1);
 	npc1 = new Npcs(1);
+	npc3 = new Npcs(3);
 	window->setFramerateLimit(60);
 }
 
@@ -51,7 +51,7 @@ void DoomAdventure::draw() {
 
 	window->clear(sf::Color::Black);
 	window->draw(*heroobj->hero);
-	window->draw(*villian->Vilion);
+	window->draw(*npc3->npc);
 	window->draw(*npc1->npc);
 
 	int x = heroobj->shots.size();
@@ -61,11 +61,11 @@ void DoomAdventure::draw() {
 		window->draw(*heroobj->shots[i].attacksprite);
 	}
 
-	int y = villian->shots.size();
+	int y = npc3->shots.size();
 
 		for(int i = 0; i < y; i++){
-			villian->shots[i].Orientation(10);
-			window->draw(*villian->shots[i].attacksprite);
+			npc3->shots[i].Orientation(10);
+			window->draw(*npc3->shots[i].attacksprite);
 		}
 
 	int z = npc1->shots.size();
@@ -80,8 +80,8 @@ void DoomAdventure::draw() {
 }
 
 void DoomAdventure::game() {
-	villian->animation();
-	villian->testAproxim(heroobj);
+	npc3->animation();
+	npc3->testAproxim(heroobj);
 	npc1->animation();
 	npc1->testAproxim(heroobj);
 	heroobj->attack();
@@ -101,9 +101,9 @@ void DoomAdventure::run() {
 
 DoomAdventure::~DoomAdventure(){
 	delete heroobj;
-	delete villian;
+
 	heroobj = NULL;
-	villian = NULL;
+
 }
 
 
