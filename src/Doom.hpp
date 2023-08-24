@@ -31,7 +31,7 @@ public:
 	int frame = 0;
 	int countattacks;
 	int vel;
-	shared_ptr<sf::Sprite> entitysprite;
+	bool attack;
 	vector<Bullet> shots;
 
 protected: 
@@ -61,7 +61,6 @@ public:
 	int timer = 0;
 	int distance = 0;
 	bool fireanimation;
-	bool attack;
 	sf::Texture textureVilionRight[9];
 	sf::Texture textureVilionstop[4];
 	sf::Texture downVilion;
@@ -77,21 +76,29 @@ public:
 	void pop_attack();
 	void Villan1();
 	void testAproxim(Hero * heroobj);
-	void transition1(),
-		transition2(),
-		transition3();
+	void WalkRight(),
+		WalkLeft(),
+		Iddle();
 };
 
 class Npcs : public Entity{
 public:
 	shared_ptr<sf::Sprite> npc;
 	sf::Texture npcstexture;
-
+	int timer = 0;
+	int distance = 0;
 public:
 	Npcs(int referent);
 	~Npcs();
+	void RightWalk(),
+		LeftWalk();
 	void animation();
+	
+	void attack1();
+	void testAproxim(Hero * heroobj);
+	void pop_attack();
 	void npc1();
+	void npc2();
 };
 
 class DoomAdventure {

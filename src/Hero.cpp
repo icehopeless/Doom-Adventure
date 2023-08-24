@@ -2,7 +2,7 @@
 
 Hero::Hero() {
 	hero = make_shared<sf::Sprite>();
-
+	hero->setPosition(0,0);
 	herotexture[0].loadFromFile("assets/Hero/Gunner/Gunner_Idle_1.png");
 
 	for (int i = 0; i < 9; i++) {

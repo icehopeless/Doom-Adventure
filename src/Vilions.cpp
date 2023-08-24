@@ -5,9 +5,9 @@ Villain::Villain(int referent) {
 	fireanimation = false;
 	this->referent = referent;
 	Vilion = make_shared<sf::Sprite>();
-
+	
 	if (referent == 1) {
-		textureVilionRight[0].loadFromFile("assets/Vilions/Death/Idle.png");
+		textureVilionRight[0].loadFromFile("assets/Npcs/Death/Idle.png");
 		Vilion->setTexture(textureVilionRight[0]);
 		sf::Vector2i position(19, 8);
 		sf::Vector2i size(42, 63);
@@ -26,13 +26,18 @@ void Villain::animation() {
 
 void Villain::testAproxim(Hero * herobobj){
 	if(herobobj->hero->getPosition().x - Vilion->getPosition().x <= 20 and herobobj->hero->getPosition().x - Vilion->getPosition().x > -200 ){
-		distance = herobobj->hero->getPosition().x - Vilion->getPosition().x;
-		attack = true;
-	}
-	else{
-		attack = false;
-	}
-
+            if(herobobj->hero->getPosition().y - Vilion->getPosition().y <= 60 and herobobj->hero->getPosition().y - Vilion->getPosition().y > -90 ){
+                distance = herobobj->hero->getPosition().x - Vilion->getPosition().x;
+                attack = true;
+            }
+            else{
+                attack = false;
+            }
+        }
+        else{
+            attack = false;
+        }
+cout << herobobj->hero->getPosition().y - Vilion->getPosition().y << endl;
 }
 void Villain::Villan1() {
 
@@ -42,12 +47,12 @@ void Villain::Villan1() {
 			fireanimation = false;
 		}
 		if (timer < 100) {
-			transition1();
+			Iddle();
 		}
 		else if (timer > 100 and timer < 200) {
-			transition2();
+			WalkLeft();
 		}else if(timer >= 200){
-			transition3();
+			WalkRight();
 		}
 		if(timer == 300){
 			timer = 0;
@@ -74,7 +79,7 @@ void Villain::attack1(){
 		Vilion->setScale(-1, 1);
 	}
 
-	textureVilionRight[0].loadFromFile("assets/Vilions/Death/Attack.png");
+	textureVilionRight[0].loadFromFile("assets/Npcs/Death/Attack.png");
 		Vilion->setTexture(textureVilionRight[0]);
 
 
@@ -146,8 +151,9 @@ void Villain::attack1(){
 
 			if (check == false) {
 				for (int j = 0; j < x; j++) {
-						shots[j].bullettexture[0]->loadFromFile("assets/Vilions/Death/Shot.png");
+						shots[j].bullettexture[0]->loadFromFile("assets/Npcs/Death/Shot.png");
 						shots[j].attacksprite->setTexture(*shots[j].bullettexture[0]);
+						
 
 				}
 				check = true;
@@ -170,8 +176,8 @@ void Villain::pop_attack() {
 
 }
 
-void Villain::transition1(){
-	textureVilionRight[0].loadFromFile("assets/Vilions/Death/Idle.png");
+void Villain::Iddle(){
+	textureVilionRight[0].loadFromFile("assets/Npcs/Death/Idle.png");
 			Vilion->setTexture(textureVilionRight[0]);
 			Vilion->setScale(2,2);
 			if (frame >= 5) {
@@ -248,10 +254,10 @@ void Villain::transition1(){
 				}
 			}
 }
-//andar para a direita
-void Villain::transition2(){
+//andar para a esquerda
+void Villain::WalkLeft(){
 	Vilion->setScale(2,2);
-			textureVilionRight[0].loadFromFile("assets/Vilions/Death/fly_Left.png");
+			textureVilionRight[0].loadFromFile("assets/Npcs/Death/fly_Left.png");
 			Vilion->setTexture(textureVilionRight[0]);
 
 			if (frame >= 5) {
@@ -310,9 +316,9 @@ void Villain::transition2(){
 			Vilion->move(-10,0);
 }
 //andar para a esquerda
-void Villain::transition3(){
+void Villain::WalkRight(){
 
-	textureVilionRight[0].loadFromFile("assets/Vilions/Death/fly_Left.png");
+	textureVilionRight[0].loadFromFile("assets/Npcs/Death/fly_Left.png");
 			Vilion->setTexture(textureVilionRight[0]);
 			Vilion->setScale(-2,2);
 			if (frame >= 5) {
