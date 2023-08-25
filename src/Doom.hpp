@@ -102,11 +102,13 @@ public:
 	void Iddle();
 	void attack1();
 	void attack3();
+	void attack4();
 	void testAproxim(Hero * heroobj);
 	void pop_attack();
 	void npc1();
 	void npc2();
 	void npc3();
+	void npc4();
 	void colison(Hero * heroobj, bool * GameOver);
 };
 
@@ -118,7 +120,9 @@ class DoomAdventure {
 	Hero *heroobj = new Hero();
 	bool GameOver;
 	Npcs *npc1 = new Npcs(1);
+	Npcs *npc2 = new Npcs(2);
 	Npcs *npc3 = new Npcs(3);
+	Npcs *npc4 = new Npcs(4);
 	bool KeyIntro;
 	bool KeyMenu; 
 	bool KeyGame;

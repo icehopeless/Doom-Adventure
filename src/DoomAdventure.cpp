@@ -6,12 +6,13 @@ DoomAdventure::DoomAdventure() {
 			sf::VideoMode(1280, 720), "Doom Adventure",
 			sf::Style::Titlebar | sf::Style::Close);
 	GameOver = false;
-	KeyIntro = true;
-	KeyGame = false;
+	KeyIntro = false;
+	KeyGame = true;
 	KeyMenu = false;
 	heroobj = new Hero();
 	npc1 = new Npcs(1);
 	npc3 = new Npcs(3);
+	npc4 = new Npcs(4);
 	time = 0;
 	background = make_shared<sf::Sprite>();
 	window->setFramerateLimit(60);
@@ -235,7 +236,7 @@ void DoomAdventure::Menu(){
 		logo.setColor(sf::Color(255,255,255,f));
 		Persona.setColor(sf::Color(255,255,255,f));
 		background->setColor(sf::Color(255,255,255,f));
-		cout << f << endl;
+		
 	}
 }
 Bullet::Bullet() {
@@ -288,9 +289,10 @@ void DoomAdventure::draw() {
 	}
 	if(KeyGame == true){
 		window->draw(*heroobj->hero);
-		window->draw(*npc3->npc);
 		window->draw(*npc1->npc);
-
+		window->draw(*npc2->npc);
+		window->draw(*npc3->npc);
+		window->draw(*npc4->npc);
 		int x = heroobj->shots.size();
 
 		for(int i = 0; i < x; i++){
@@ -304,6 +306,14 @@ void DoomAdventure::draw() {
 				npc3->shots[i].Orientation(10);
 				window->draw(*npc3->shots[i].attacksprite);
 			}
+
+			
+		int r = npc4->shots.size();
+
+		for(int i = 0; i < r; i++){
+			npc4->shots[i].Orientation(10);
+			window->draw(*npc4->shots[i].attacksprite);
+		}
 
 		int z = npc1->shots.size();
 
@@ -319,8 +329,11 @@ void DoomAdventure::draw() {
 void DoomAdventure::game() {
 	npc3->animation();
 	npc3->testAproxim(heroobj);
+	npc4->animation();
+	npc4->testAproxim(heroobj);
 	npc1->animation();
 	npc1->testAproxim(heroobj);
+	npc2->animation();
 	heroobj->attack();
 	heroobj->shotstimer++;
 	heroobj->animation();
