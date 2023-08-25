@@ -4,6 +4,7 @@
 #include <memory>
 #include <cstdlib>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <vector>
 #include <sstream>
 using namespace std;
@@ -110,6 +111,7 @@ public:
 };
 
 class DoomAdventure {
+
 	shared_ptr<sf::RenderWindow> window; //ponteiro inteligente para a janela
 	shared_ptr<sf::Sprite> background;
 	sf::Texture bgtexutre;
@@ -117,11 +119,42 @@ class DoomAdventure {
 	bool GameOver;
 	Npcs *npc1 = new Npcs(1);
 	Npcs *npc3 = new Npcs(3);
+	bool KeyIntro;
+	bool KeyMenu; 
+	bool KeyGame;
 
+	 sf::Texture mYSt;
+	 sf::Texture mYSt2;
+	 sf::Texture mYSt3;
+	 sf::Sprite r1;
+	 sf::Sprite r2;
+	 sf::Sprite r3;
+
+	 sf::Texture name;
+	 sf::Texture name2;
+	 sf::Texture name3;
+	 sf::Music rain;
+	sf::Music musicGame;
+	bool chekedaudio = false;
+	 sf::Sprite n1;
+	 sf::Sprite n2;
+	 sf::Sprite n3;
+	 sf::Sprite Persona;
+	 sf::Texture texturePersona[4];
+	 sf::Sprite logo;
+	 sf::Texture logotexture;
+	 int time;
+	 int frame = 0;
+	 int Animation = 1;
+	 sf::Clock clock;
+	 sf::Time timepassado;
+	 bool personagenslibery = false;
 protected:
+	void Introduction(shared_ptr<sf::RenderWindow> window);
 	void events();
 	void draw();
 	void game();
+	void Menu();
 
 public:
 	DoomAdventure();
