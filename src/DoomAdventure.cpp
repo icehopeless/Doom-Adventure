@@ -178,7 +178,7 @@ void DoomAdventure::Introduction(shared_ptr<sf::RenderWindow> window){
 			frame++;
 		}
 
-		if (time > 13) {
+		if (time > 15) {
 			r1.setColor(sf::Color::Transparent);
 			KeyIntro = false;
 			KeyMenu = true;
@@ -231,7 +231,7 @@ void DoomAdventure::Menu(){
 	}
 
 	if(f < 255){
-		f = f + 1.5;
+		f = f + 1.8;
 		logo.setColor(sf::Color(255,255,255,f));
 		Persona.setColor(sf::Color(255,255,255,f));
 		background->setColor(sf::Color(255,255,255,f));
