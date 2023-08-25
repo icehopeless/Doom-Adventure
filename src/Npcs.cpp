@@ -73,7 +73,7 @@ if (referent == 2) {
 }
 
 void Npcs::npc1(){
-    if(attack == false){
+    if(attack == false and  dead == false){
 		timer++;
 		if (timer < 200) {
 			RightWalk();
@@ -84,7 +84,7 @@ void Npcs::npc1(){
 		if(timer == 600){
 			timer = 0;
         }
-	} else {
+	} else if(attack == true and  dead == false) {
         attack1();
     }
 }
@@ -93,7 +93,7 @@ void Npcs::npc1(){
 
 void Npcs::npc2(){
 	npc->setScale(2.f,2.f);
-	 if(attack == false){
+	 if(attack == false and  dead == false){
 		timer++;
 		if (timer < 200) {
 			RightWalk();
@@ -108,7 +108,7 @@ void Npcs::npc2(){
 }
 
 void Npcs::npc3(){
-if(attack == false){
+if(attack == false and  dead == false){
 		timer++;
 		if(timer == 100 or timer == 200 or timer == 0){
 			fireanimation = false;
@@ -124,14 +124,14 @@ if(attack == false){
 		if(timer == 300){
 			timer = 0;
 	}
-	}else{
+	}else if(attack == true and  dead == false){
 		fireanimation = false;
 		attack3();
 	}
 }
 
 void Npcs::npc4(){
-if(attack == false){
+if(attack == false and  dead == false){
 		timer++;
 		if(timer == 100 or timer == 200 or timer == 0){
 			fireanimation = false;
@@ -147,11 +147,12 @@ if(attack == false){
 		if(timer == 300){
 			timer = 0;
 	}
-	}else{
+	}else if(attack == true and dead == false){
 		fireanimation = false;
 		attack4();
 	}
 }
+
 
 void Npcs::RightWalk(){
 	if(referent == 1){
@@ -780,9 +781,9 @@ void Npcs::attack4(){
 
 			if (check == false) {
 				for (int j = 0; j < x; j++) {
-						shots[j].bullettexture[0]->loadFromFile("assets/Npcs/Death/Shot.png");
+						shots[j].bullettexture[0]->loadFromFile("assets/Shoots/2/2.png");
 						shots[j].attacksprite->setTexture(*shots[j].bullettexture[0]);
-						shots[j].attacksprite->setColor(sf::Color::Blue);
+						shots[j].attacksprite->setColor(sf::Color(0,0,58,255));
 
 				}
 				check = true;
@@ -977,7 +978,7 @@ void Npcs::testAproxim(Hero * herobobj){
         	}else{
             		attack = false;
         		}
-			cout << herobobj->hero->getPosition().x - npc->getPosition().x << endl;		
+			
 		}
 		
 

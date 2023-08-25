@@ -158,3 +158,14 @@ void Hero::pop_attack() {
 		shots.pop_back();
 	}
 }
+
+void Hero::colison(shared_ptr<sf::Sprite> atingido,bool * Keydead){
+    	int tam = shots.size();
+
+	for(int i  = 0; i < tam ; i++){
+		if(atingido->getGlobalBounds().intersects(shots[i].attacksprite->getGlobalBounds())){
+            *Keydead = true;
+			atingido->setColor(sf::Color::Transparent);
+        }
+	}	
+}

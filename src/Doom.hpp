@@ -34,6 +34,7 @@ public:
 	int vel;
 	bool attack;
 	vector<Bullet> shots;
+	 bool dead = false;
 
 protected: 
 	void animation();
@@ -51,6 +52,7 @@ public:
 
 public:
 	Hero();
+	void colison(shared_ptr<sf::Sprite> atingido, bool * Keydead);
 	void animation();
 	void attack();
 	void pop_attack();
@@ -109,6 +111,7 @@ public:
 	void npc2();
 	void npc3();
 	void npc4();
+	void Death();
 	void colison(Hero * heroobj, bool * GameOver);
 };
 
