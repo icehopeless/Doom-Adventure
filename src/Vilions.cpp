@@ -47,7 +47,7 @@ void Villain::Villan1() {
 			fireanimation = false;
 		}
 		if (timer < 100) {
-			Iddle();
+			Idle();
 		}
 		else if (timer > 100 and timer < 200) {
 			WalkLeft();
@@ -176,7 +176,7 @@ void Villain::pop_attack() {
 
 }
 
-void Villain::Iddle(){
+void Villain::Idle(){
 	textureVilionRight[0].loadFromFile("assets/Npcs/Death/Idle.png");
 			Vilion->setTexture(textureVilionRight[0]);
 			Vilion->setScale(2,2);

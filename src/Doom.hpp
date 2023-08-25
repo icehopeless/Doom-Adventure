@@ -53,7 +53,7 @@ public:
 
 public:
 	Hero();
-	void colison(shared_ptr<sf::Sprite> atingido,int * live);
+	void colision(shared_ptr<sf::Sprite> atingido,int * live);
 	void animation();
 	void attack();
 	void pop_attack();
@@ -83,7 +83,7 @@ public:
 	void testAproxim(Hero * heroobj);
 	void WalkRight(),
 		WalkLeft(),
-		Iddle();
+		Idle();
 };
 
 class Npcs : public Entity{
@@ -101,7 +101,7 @@ public:
 	void RightWalk(),
 		LeftWalk();
 	void animation();
-	void Iddle();
+	void Idle();
 	void attack1();
 	void attack3();
 	void attack4();
@@ -112,7 +112,7 @@ public:
 	void npc3();
 	void npc4();
 	void Death();
-	void colison(Hero * heroobj, bool * GameOver);
+	void colision(Hero * heroobj, bool * GameOver);
 };
 
 class DoomAdventure {

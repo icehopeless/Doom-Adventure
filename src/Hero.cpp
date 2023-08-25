@@ -159,7 +159,7 @@ void Hero::pop_attack() {
 	}
 }
 
-void Hero::colison(shared_ptr<sf::Sprite> atingido,int * live){
+void Hero::colision(shared_ptr<sf::Sprite> atingido,int * live){
     	int tam = shots.size();
 
 	for(int i  = 0; i < tam ; i++){

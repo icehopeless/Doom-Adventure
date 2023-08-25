@@ -25,6 +25,7 @@ Npcs::Npcs(int referent){
 	sf::Vector2i size(67, 60);
     npc->setTextureRect(sf::IntRect(position, size));
     npc->setScale(2.f,2.f);
+	npc->setPosition(1200, 500);
 	this->referent = referent;
     attack = false;
     framestop = 1;   
@@ -111,23 +112,23 @@ void Npcs::npc1(){
 
 
 void Npcs::npc2(){
-	npc->setScale(2.f,2.f);
-		if(live <= 0){
-		dead = true;
-		}
-
-	 if(attack == false and dead != true){
+	if(attack == false){
 		timer++;
-		if (timer < 200) {
+		if(timer == 100 or timer == 200 or timer == 0){
+			fireanimation = false;
+		}
+		if (timer < 100) {
+			Idle();
+		}
+		else if (timer > 100 and timer < 300) {
+			LeftWalk();
+		}else if(timer >= 300){
 			RightWalk();
 		}
-		else if (timer > 200 and timer <= 600) {
-			LeftWalk();
-		}
-		if(timer == 600){
+		if(timer == 500){
 			timer = 0;
-        }
-	}	
+		}
+	}
 }
 
 void Npcs::npc3(){
@@ -141,7 +142,7 @@ if(attack == false and dead != true){
 			fireanimation = false;
 		}
 		if (timer < 100) {
-			Iddle();
+			Idle();
 		}
 		else if (timer > 100 and timer < 200) {
 			LeftWalk();
@@ -172,7 +173,7 @@ if(attack == false and dead != true){
 			fireanimation = false;
 		}
 		if (timer < 100) {
-			Iddle();
+			Idle();
 		}
 		else if (timer > 100 and timer < 200) {
 			LeftWalk();
@@ -200,16 +201,16 @@ void Npcs::RightWalk(){
 	if(referent == 1){
         npc->setScale(2.f,2.f);
         if (frame >= 5) {
-                    frame = 0;
-                    if (framestop == 8) {
-                        framestop = 1;
+            frame = 0;
+        if (framestop == 8) {
+            framestop = 1;
 
-                    } else {
-                        framestop++;
-                    }
-                } else {
-                    frame++;
-                }
+        } else {
+            framestop++;
+        }
+        } else {
+            frame++;
+        }
 
         if(framestop == 1){
             sf::Vector2i position(13, 10);
@@ -266,26 +267,26 @@ void Npcs::RightWalk(){
         }
 		    if(framestop == 1){
             sf::Vector2i position(6, 1);
-            sf::Vector2i size(60, 34);
+            sf::Vector2i size(50, 34);
             npc->setTextureRect(sf::IntRect(position, size));
         }
         else if(framestop == 2){
             sf::Vector2i position(78, 1);
-            sf::Vector2i size(60, 34);
+            sf::Vector2i size(50, 34);
             npc->setTextureRect(sf::IntRect(position, size));
         }
         else if (framestop == 3){
             sf::Vector2i position(146, 1);
-            sf::Vector2i size(60, 34);
+            sf::Vector2i size(50, 34);
             npc->setTextureRect(sf::IntRect(position, size));
         }
         else if(framestop == 4){
             sf::Vector2i position(211, 1);
-            sf::Vector2i size(60, 34);
+            sf::Vector2i size(50, 34);
             npc->setTextureRect(sf::IntRect(position, size));
         }else if(framestop == 5){
             sf::Vector2i position(281, 1);
-            sf::Vector2i size(60, 34);
+            sf::Vector2i size(50, 34);
             npc->setTextureRect(sf::IntRect(position, size));
         }
 		npc->move(6,0);
@@ -432,26 +433,26 @@ void Npcs::LeftWalk(){
         }
 		    if(framestop == 1){
             sf::Vector2i position(6, 1);
-            sf::Vector2i size(60, 34);
+            sf::Vector2i size(50, 34);
             npc->setTextureRect(sf::IntRect(position, size));
         }
         else if(framestop == 2){
             sf::Vector2i position(78, 1);
-            sf::Vector2i size(60, 34);
+            sf::Vector2i size(50, 34);
             npc->setTextureRect(sf::IntRect(position, size));
         }
         else if (framestop == 3){
             sf::Vector2i position(146, 1);
-            sf::Vector2i size(60, 34);
+            sf::Vector2i size(50, 34);
             npc->setTextureRect(sf::IntRect(position, size));
         }
         else if(framestop == 4){
             sf::Vector2i position(211, 1);
-            sf::Vector2i size(60, 34);
+            sf::Vector2i size(50, 34);
             npc->setTextureRect(sf::IntRect(position, size));
         }else if(framestop == 5){
             sf::Vector2i position(281, 1);
-            sf::Vector2i size(60, 34);
+            sf::Vector2i size(50, 34);
             npc->setTextureRect(sf::IntRect(position, size));
         }
 		npc->move(-6,0);
@@ -795,9 +796,10 @@ void Npcs::attack4(){
 					sf::Vector2i position(399, 10);
 					sf::Vector2i size(33, 55);
 					npc->setTextureRect(sf::IntRect(position, size));
-				Bullet *bu = new Bullet();
-				bu->attacksprite->setScale(-1.3f, 1.3f);
-				bu->attacksprite->setPosition(npc->getPosition().x ,npc->getPosition().y + 45);
+					
+					Bullet *bu = new Bullet();
+					bu->attacksprite->setScale(-1.3f, 1.3f);
+					bu->attacksprite->setPosition(npc->getPosition().x ,npc->getPosition().y + 45);
 
 				
 				if(distance < 0){
@@ -840,7 +842,47 @@ void Npcs::attack4(){
 	
 
 
-void Npcs::Iddle(){
+void Npcs::Idle(){
+	if(referent == 2){
+		npcstexture.loadFromFile("assets/Npcs/Wolf/hell-hound-idle.png");
+		npc->setScale(2.f,2.f);
+        if (frame >= 5) {
+            frame = 0;
+        if (framestop == 8) {
+            framestop = 1;
+
+        } else {
+            framestop++;
+        }
+        } else {
+        	frame++;
+        }
+		    if(framestop == 1){
+            sf::Vector2i position(64, 1);
+            sf::Vector2i size(64, 34);
+            npc->setTextureRect(sf::IntRect(position, size));
+        }
+        else if(framestop == 2){
+            sf::Vector2i position(128, 1);
+            sf::Vector2i size(64, 34);
+            npc->setTextureRect(sf::IntRect(position, size));
+        }
+        else if (framestop == 3){
+            sf::Vector2i position(192, 1);
+            sf::Vector2i size(64, 34);
+            npc->setTextureRect(sf::IntRect(position, size));
+        }
+        else if(framestop == 4){
+            sf::Vector2i position(256, 1);
+            sf::Vector2i size(64, 34);
+            npc->setTextureRect(sf::IntRect(position, size));
+        }else if(framestop == 5){
+            sf::Vector2i position(320, 1);
+            sf::Vector2i size(64, 34);
+            npc->setTextureRect(sf::IntRect(position, size));
+        }
+	}	
+
 	if(referent == 3){
 	npcstexture.loadFromFile("assets/Npcs/Death/Idle.png");
 			npc->setTexture(npcstexture);
@@ -1034,14 +1076,32 @@ void Npcs::pop_attack() {
 }
 
 
-void Npcs::colison(Hero * heroobj, bool  * GameOver){
+void Npcs::colision(Hero * heroobj, bool  * GameOver){
     	int tam = shots.size();
 
 	for(int i  = 0; i < tam ; i++){
 		if(heroobj->hero->getGlobalBounds().intersects(shots[i].attacksprite->getGlobalBounds())){
             *GameOver = true;
         }
-	}	
+	}
+
+	if(referent == 2){
+		sf::FloatRect heroBound = heroobj->hero->getGlobalBounds();
+
+		if(npc->getScale().x < 0){
+		heroBound.left += 50.f;
+		if(heroBound.intersects(npc->getGlobalBounds())){
+            *GameOver = true;
+        }
+
+		}else{
+		
+		heroBound.left -= 50.f;
+		if(heroBound.intersects(npc->getGlobalBounds())){
+            *GameOver = true;
+        }
+		}
+	}
 }
 
 void Npcs::Death(){
@@ -1108,7 +1168,7 @@ void Npcs::Death(){
 
 	}
 
-	if(referent ==2 ){
+	if(referent == 2){
 
 	}
 
@@ -1125,9 +1185,10 @@ void Npcs::Death(){
 				}  else {
 					framestop++;
 				}
-			} else {
+				} else {
 				frame++;
-			}
+				}
+
 				if (framestop == 1) {
 					sf::Vector2i position(19, 8);
 					sf::Vector2i size(42, 63);
@@ -1186,10 +1247,11 @@ void Npcs::Death(){
 					npc->setColor(sf::Color::Transparent);
 				}
 
-	}if(referent == 4){
+			}if(referent == 4){
 			npcstexture.loadFromFile("assets/Npcs/Gh0$t/ghost-appears.png");
 			npc->setTexture(npcstexture);
 			npc->setScale(2,2);
+
 			if (frame >= 5) {
 				frame = 0;
 				if (framestop == 7) {
@@ -1241,8 +1303,7 @@ void Npcs::Death(){
 					stopFunction = true;
 					npc->setColor(sf::Color::Transparent);
 				}
-
-	}
+			}
 }
 
 
