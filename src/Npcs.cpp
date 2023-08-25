@@ -61,10 +61,17 @@ Npcs::Npcs(int referent){
 }
 
 void Npcs::animation(){
-if (referent == 1) {
+	if(stopFunction != true){
+		if(referent == 1){
+		npc->setColor(sf::Color::Cyan);
+		}else{
+		npc->setColor(sf::Color::White);
+		}
+	}
+	if (referent == 1) {
 		npc1();
 	}
-if (referent == 2) {
+	if (referent == 2) {
 		npc2();
 	}
     if (referent == 3) {
