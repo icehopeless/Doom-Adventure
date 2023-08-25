@@ -13,7 +13,6 @@ Hero::Hero() {
 			stringstream ss;
 			ss << "assets/Hero/Gunner/Gunner_Walk_" << i << ".png";
 			textureheroRight[i].loadFromFile(ss.str());
-			 
 		}
 	}
 
@@ -24,13 +23,12 @@ Hero::Hero() {
 	}
 
 	down.loadFromFile("assets/Hero/Gunner/Gunner_Crouch.png");
-
 	hero->setScale(2.f, 2.f);
 	hero->setTexture(herotexture[0]);
-	
 }
 
 //animando o hero
+
 void Hero::animation() {
 	if (frame >= 5) {
 		frame = 0;
@@ -137,11 +135,10 @@ void Hero::attack() {
 
 		if(check == false){
 			for(int j =0; j < x; j++){
-
 				for (int i =0; i < 4; i++){
-				stringstream ss;
-				ss << "assets/Shoots/Player-Shoot/player-shoot"<<i + 1<<".png";
-				shots[j].bullettexture[i]->loadFromFile(ss.str());
+					stringstream ss;
+					ss << "assets/Shoots/Player-Shoot/player-shoot"<<i + 1<<".png";
+					shots[j].bullettexture[i]->loadFromFile(ss.str());
 				}
 			}
 			check = true;
@@ -160,4 +157,15 @@ void Hero::pop_attack() {
 	for(int i  = 0; i < tam ; i++){
 		shots.pop_back();
 	}
+}
+
+void Hero::colision(shared_ptr<sf::Sprite> atingido,int * live){
+    	int tam = shots.size();
+
+	for(int i  = 0; i < tam ; i++){
+		if(atingido->getGlobalBounds().intersects(shots[i].attacksprite->getGlobalBounds())){
+			*live = *live - 1;
+			atingido->setColor(sf::Color::Black);
+        }
+	}	
 }

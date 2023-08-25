@@ -271,12 +271,6 @@ void DoomAdventure::events() {
 		if (event.type == sf::Event::Closed) {
 			window->close();
 		}
-		if(event.type == sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
-			KeyPause = true;
-		}
-		if(event.type == sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) and KeyPause == true){
-			KeyPause = false;
-		}
 	}
 }
 
@@ -359,18 +353,22 @@ void DoomAdventure::run() {
 			rain.stop();
 			musicGame.stop();
 			game();
+			heroobj->colision(npc1->npc,&npc1->live);
+			heroobj->colision(npc2->npc,&npc2->live);
+			heroobj->colision(npc3->npc,&npc3->live);
+			heroobj->colision(npc4->npc,&npc4->live);
 			npc1->colision(heroobj,&GameOver);
 			npc2->colision(heroobj, &GameOver);
 			npc3->colision(heroobj,&GameOver);
+			npc4->colision(heroobj,&GameOver);
 		}
 		
 	}
 }
 
 DoomAdventure::~DoomAdventure(){
-	 delete heroobj;
+	delete heroobj;
 	heroobj = NULL;
-
 
 }
 

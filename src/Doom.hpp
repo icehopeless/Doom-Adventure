@@ -34,7 +34,9 @@ public:
 	int vel;
 	bool attack;
 	vector<Bullet> shots;
-
+	bool stopFunction = false;
+ 	bool dead = false;
+	int live;
 protected: 
 	void animation();
 
@@ -51,6 +53,7 @@ public:
 
 public:
 	Hero();
+	void colision(shared_ptr<sf::Sprite> atingido,int * live);
 	void animation();
 	void attack();
 	void pop_attack();
@@ -88,8 +91,7 @@ public:
 bool fireanimation;
 	shared_ptr<sf::Sprite> npc;
 	sf::Texture npcstexture;
-	sf::Texture textureVilionRight[9];
-	sf::Texture textureVilionstop[4];
+	sf::Texture textureIdle[4];
 	sf::Texture downVilion;
 	int timer = 0;
 	int distance = 0;
@@ -109,6 +111,7 @@ public:
 	void npc2();
 	void npc3();
 	void npc4();
+	void Death();
 	void colision(Hero * heroobj, bool * GameOver);
 };
 
@@ -126,7 +129,6 @@ class DoomAdventure {
 	bool KeyIntro;
 	bool KeyMenu; 
 	bool KeyGame;
-	bool KeyPause;
 
 	 sf::Texture mYSt;
 	 sf::Texture mYSt2;
@@ -154,7 +156,6 @@ class DoomAdventure {
 	 sf::Clock clock;
 	 sf::Time timepassado;
 	 bool personagenslibery = false;
-
 protected:
 	void Introduction(shared_ptr<sf::RenderWindow> window);
 	void events();

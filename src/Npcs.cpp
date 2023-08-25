@@ -4,6 +4,7 @@ Npcs::Npcs(int referent){
     npc = make_shared<sf::Sprite>();
 
 	if(referent == 1){
+		live = 50;
     npcstexture.loadFromFile("assets/Npcs/MeioTermo/spritesheet.png");
     npc->setTexture(npcstexture);
     sf::Vector2i position(0, 180);
@@ -24,15 +25,16 @@ Npcs::Npcs(int referent){
 	sf::Vector2i size(67, 60);
     npc->setTextureRect(sf::IntRect(position, size));
     npc->setScale(2.f,2.f);
-	npc->setPosition(1200, 600);
+	npc->setPosition(1200, 500);
 	this->referent = referent;
     attack = false;
     framestop = 1;   
 	}
 	
     if(referent == 3){
-		textureVilionRight[0].loadFromFile("assets/Npcs/Death/Idle.png");
-		npc->setTexture(textureVilionRight[0]);
+		live = 50;
+		npcstexture.loadFromFile("assets/Npcs/Death/Idle.png");
+		npc->setTexture(npcstexture);
 		sf::Vector2i position(19, 8);
 		sf::Vector2i size(42, 63);
 		npc->setTextureRect(sf::IntRect(position, size));
@@ -44,6 +46,7 @@ Npcs::Npcs(int referent){
 
 
 	if(referent == 4){
+		live = 50;
 	npcstexture.loadFromFile("assets/Npcs/Gh0$t/ghost-idle.png");
     npc->setTexture(npcstexture);
     sf::Vector2i position(12, 10);
@@ -59,10 +62,17 @@ Npcs::Npcs(int referent){
 }
 
 void Npcs::animation(){
-if (referent == 1) {
+	if(stopFunction != true){
+		if(referent == 1){
+		npc->setColor(sf::Color::Cyan);
+		}else{
+		npc->setColor(sf::Color::White);
+		}
+	}
+	if (referent == 1) {
 		npc1();
 	}
-if (referent == 2) {
+	if (referent == 2) {
 		npc2();
 	}
     if (referent == 3) {
@@ -74,7 +84,11 @@ if (referent == 2) {
 }
 
 void Npcs::npc1(){
-    if(attack == false){
+	if(live <= 0){
+		dead = true;
+	}
+	
+    if(attack == false and dead != true){
 		timer++;
 		if (timer < 200) {
 			RightWalk();
@@ -85,13 +99,20 @@ void Npcs::npc1(){
 		if(timer == 600){
 			timer = 0;
         }
-	} else {
+	} else if(attack == true and  dead != true) {
         attack1();
-    }
+    }else if(dead == true and stopFunction == false){
+		Death();
+	}else{
+
+	}
+
 }
 
+
+
 void Npcs::npc2(){
-	 if(attack == false){
+	if(attack == false){
 		timer++;
 		if(timer == 100 or timer == 200 or timer == 0){
 			fireanimation = false;
@@ -111,7 +132,11 @@ void Npcs::npc2(){
 }
 
 void Npcs::npc3(){
-if(attack == false){
+	if(live <= 0){
+		dead = true;
+	}
+
+if(attack == false and dead != true){
 		timer++;
 		if(timer == 100 or timer == 200 or timer == 0){
 			fireanimation = false;
@@ -127,14 +152,22 @@ if(attack == false){
 		if(timer == 300){
 			timer = 0;
 	}
-	}else{
+	}else if(attack == true and dead != true){
 		fireanimation = false;
 		attack3();
+	}else if(dead == true and stopFunction == false){
+		Death();
+	}else{
+
 	}
+
 }
 
 void Npcs::npc4(){
-if(attack == false){
+		if(live <= 0){
+		dead = true;
+	}
+if(attack == false and dead != true){
 		timer++;
 		if(timer == 100 or timer == 200 or timer == 0){
 			fireanimation = false;
@@ -150,11 +183,19 @@ if(attack == false){
 		if(timer == 300){
 			timer = 0;
 	}
-	}else{
+	}else if(attack == true and dead != true){
 		fireanimation = false;
 		attack4();
+	}else if(dead == true and stopFunction == false){
+		Death();
+		
+	}else{
+
 	}
+	
+
 }
+
 
 void Npcs::RightWalk(){
 	if(referent == 1){
@@ -251,8 +292,8 @@ void Npcs::RightWalk(){
 		npc->move(6,0);
 	}	
     if(referent == 3){
-		textureVilionRight[0].loadFromFile("assets/Npcs/Death/fly_Left.png");
-			npc->setTexture(textureVilionRight[0]);
+		npcstexture.loadFromFile("assets/Npcs/Death/fly_Left.png");
+			npc->setTexture(npcstexture);
 			npc->setScale(-2,2);
 			if (frame >= 5) {
 				frame = 0;
@@ -311,8 +352,8 @@ void Npcs::RightWalk(){
     }
 		if(referent == 4){
         npc->setScale(-2,2);
-			textureVilionRight[0].loadFromFile("assets/Npcs/Gh0$t/ghost-shriek.png");
-			npc->setTexture(textureVilionRight[0]);
+			npcstexture.loadFromFile("assets/Npcs/Gh0$t/ghost-shriek.png");
+			npc->setTexture(npcstexture);
 			sf::Vector2i position(17, 10);
 			sf::Vector2i size(36, 51);
 			npc->setTextureRect(sf::IntRect(position, size));
@@ -419,8 +460,8 @@ void Npcs::LeftWalk(){
 
     if(referent == 3){
         npc->setScale(2,2);
-			textureVilionRight[0].loadFromFile("assets/Npcs/Death/fly_Left.png");
-			npc->setTexture(textureVilionRight[0]);
+			npcstexture.loadFromFile("assets/Npcs/Death/fly_Left.png");
+			npc->setTexture(npcstexture);
 
 			if (frame >= 5) {
 				frame = 0;
@@ -480,8 +521,8 @@ void Npcs::LeftWalk(){
  
 	if(referent == 4){
         npc->setScale(2,2);
-			textureVilionRight[0].loadFromFile("assets/Npcs/Gh0$t/ghost-shriek.png");
-			npc->setTexture(textureVilionRight[0]);
+			npcstexture.loadFromFile("assets/Npcs/Gh0$t/ghost-shriek.png");
+			npc->setTexture(npcstexture);
 			sf::Vector2i position(17, 10);
 			sf::Vector2i size(36, 51);
 			npc->setTextureRect(sf::IntRect(position, size));
@@ -592,8 +633,8 @@ void Npcs::attack3(){
 		npc->setScale(-1, 1);
 	}
 
-	textureVilionRight[0].loadFromFile("assets/Npcs/Death/Attack.png");
-		npc->setTexture(textureVilionRight[0]);
+	npcstexture.loadFromFile("assets/Npcs/Death/Attack.png");
+		npc->setTexture(npcstexture);
 
 
 		if (frame >= 5) {
@@ -689,8 +730,8 @@ void Npcs::attack4(){
 		npc->setScale(-1, 1);
 	}
 
-	textureVilionRight[0].loadFromFile("assets/Npcs/Death/Attack.png");
-		npc->setTexture(textureVilionRight[0]);
+	npcstexture.loadFromFile("assets/Npcs/Death/Attack.png");
+		npc->setTexture(npcstexture);
 
 
 		if (frame >= 5) {
@@ -704,8 +745,8 @@ void Npcs::attack4(){
 		} else {
 			frame++;
 		}
-		textureVilionRight[0].loadFromFile("assets/Npcs/Gh0$t/ghost-idle.png");
-			npc->setTexture(textureVilionRight[0]);
+		npcstexture.loadFromFile("assets/Npcs/Gh0$t/ghost-idle.png");
+			npc->setTexture(npcstexture);
 			npc->setScale(2,2);
 			if (frame >= 5) {
 				frame = 0;
@@ -755,6 +796,7 @@ void Npcs::attack4(){
 					sf::Vector2i position(399, 10);
 					sf::Vector2i size(33, 55);
 					npc->setTextureRect(sf::IntRect(position, size));
+					
 					Bullet *bu = new Bullet();
 					bu->attacksprite->setScale(-1.3f, 1.3f);
 					bu->attacksprite->setPosition(npc->getPosition().x ,npc->getPosition().y + 45);
@@ -783,9 +825,9 @@ void Npcs::attack4(){
 
 			if (check == false) {
 				for (int j = 0; j < x; j++) {
-					shots[j].bullettexture[0]->loadFromFile("assets/Npcs/Death/Shot.png");
-					shots[j].attacksprite->setTexture(*shots[j].bullettexture[0]);
-					shots[j].attacksprite->setColor(sf::Color::Blue);
+						shots[j].bullettexture[0]->loadFromFile("assets/Shoots/2/2.png");
+						shots[j].attacksprite->setTexture(*shots[j].bullettexture[0]);
+						shots[j].attacksprite->setColor(sf::Color(0,0,58,255));
 
 				}
 				check = true;
@@ -842,8 +884,8 @@ void Npcs::Idle(){
 	}	
 
 	if(referent == 3){
-	textureVilionRight[0].loadFromFile("assets/Npcs/Death/Idle.png");
-			npc->setTexture(textureVilionRight[0]);
+	npcstexture.loadFromFile("assets/Npcs/Death/Idle.png");
+			npc->setTexture(npcstexture);
 			npc->setScale(2,2);
 			if (frame >= 5) {
 				frame = 0;
@@ -920,9 +962,9 @@ void Npcs::Idle(){
 			}
 	}
 
-	if(referent == 4){
-		textureVilionRight[0].loadFromFile("assets/Npcs/Gh0$t/ghost-idle.png");
-			npc->setTexture(textureVilionRight[0]);
+	if(referent ==4){
+		npcstexture.loadFromFile("assets/Npcs/Gh0$t/ghost-idle.png");
+			npc->setTexture(npcstexture);
 			npc->setScale(2,2);
 			if (frame >= 5) {
 				frame = 0;
@@ -1020,7 +1062,7 @@ void Npcs::testAproxim(Hero * herobobj){
         	}else{
             		attack = false;
         		}
-			cout << herobobj->hero->getPosition().x - npc->getPosition().x << endl;		
+			
 		}
 		
 
@@ -1034,7 +1076,7 @@ void Npcs::pop_attack() {
 }
 
 
-void Npcs::colision(Hero *heroobj, bool *GameOver){
+void Npcs::colision(Hero * heroobj, bool  * GameOver){
     	int tam = shots.size();
 
 	for(int i  = 0; i < tam ; i++){
@@ -1060,6 +1102,208 @@ void Npcs::colision(Hero *heroobj, bool *GameOver){
         }
 		}
 	}
+}
+
+void Npcs::Death(){
+	if(referent == 1){
+
+		static sf::Clock clock;
+		static sf::Time timepassado;
+		static int time;
+		timepassado = clock.getElapsedTime();
+		time = timepassado.asSeconds();
+
+ 		if (frame >= 15) {
+                    frame = 0;
+                    if (framestop == 8) {
+                        framestop = 1;
+
+                    } else {
+                        framestop++;
+                    }
+                } else {
+                    frame++;
+                }
+
+        if(framestop == 1){
+            sf::Vector2i position(13, 74);
+            sf::Vector2i size(38, 49);
+            npc->setTextureRect(sf::IntRect(position, size));
+        }
+        else if(framestop == 2){
+            sf::Vector2i position(85, 74);
+            sf::Vector2i size(38, 49);
+            npc->setTextureRect(sf::IntRect(position, size));
+        }
+        else if (framestop == 3){
+            sf::Vector2i position(144, 74);
+            sf::Vector2i size(38, 49);
+            npc->setTextureRect(sf::IntRect(position, size));
+        }
+        else if(framestop == 4){
+            sf::Vector2i position(209, 74);
+            sf::Vector2i size(38, 49);
+            npc->setTextureRect(sf::IntRect(position, size));
+        }else if(framestop == 5){
+            sf::Vector2i position(261, 74);
+            sf::Vector2i size(38, 49);
+            npc->setTextureRect(sf::IntRect(position, size));
+        }else if(framestop == 6){
+            sf::Vector2i position(333, 74);
+            sf::Vector2i size(38, 49);
+            npc->setTextureRect(sf::IntRect(position, size));
+        }else if(framestop == 7){
+            sf::Vector2i position(405, 74);
+            sf::Vector2i size(38, 49);
+            npc->setTextureRect(sf::IntRect(position, size));
+        }else if(framestop == 8){
+            sf::Vector2i position(466, 74);
+            sf::Vector2i size(38, 49);
+            npc->setTextureRect(sf::IntRect(position, size));
+			stopFunction = true;
+			npc->setColor(sf::Color::Transparent);
+        }
+
+		
+
+	}
+
+	if(referent == 2){
+
+	}
+
+	if(referent == 3){
+		static int framestop = 0;
+		npcstexture.loadFromFile("assets/Npcs/Death/dead.png");
+			npc->setTexture(npcstexture);
+			npc->setScale(2,2);
+			if (frame >= 5) {
+				frame = 0;
+				if (framestop == 10) {
+					framestop = 1;
+
+				}  else {
+					framestop++;
+				}
+				} else {
+				frame++;
+				}
+
+				if (framestop == 1) {
+					sf::Vector2i position(19, 8);
+					sf::Vector2i size(42, 63);
+					npc->setTextureRect(sf::IntRect(position, size));
+				}
+
+				if (framestop == 2) {
+					sf::Vector2i position(94, 10);
+					sf::Vector2i size(42, 63);
+					npc->setTextureRect(sf::IntRect(position, size));
+				}
+				if (framestop == 3) {
+					sf::Vector2i position(174, 7);
+					sf::Vector2i size(42, 63);
+					npc->setTextureRect(sf::IntRect(position, size));
+				}
+				if (framestop == 4) {
+					sf::Vector2i position(255, 10);
+					sf::Vector2i size(42, 63);
+					npc->setTextureRect(sf::IntRect(position, size));
+				}
+				if (framestop == 5) {
+					sf::Vector2i position(332, 10);
+					sf::Vector2i size(42, 63);
+					npc->setTextureRect(sf::IntRect(position, size));
+				}
+				if (framestop == 6) {
+					sf::Vector2i position(414, 10);
+					sf::Vector2i size(42, 63);
+					npc->setTextureRect(sf::IntRect(position, size));
+					
+				}
+
+				if (framestop == 7) {
+					sf::Vector2i position(494, 10);
+					sf::Vector2i size(42, 63);
+					npc->setTextureRect(sf::IntRect(position, size));
+
+				}
+
+				if (framestop == 8) {
+					sf::Vector2i position(571, 10);
+					sf::Vector2i size(42, 63);
+					npc->setTextureRect(sf::IntRect(position, size));
+				}
+				if (framestop == 9) {
+					sf::Vector2i position(571, 10);
+					sf::Vector2i size(42, 63);
+					npc->setTextureRect(sf::IntRect(position, size));
+				}
+				if (framestop == 10) {
+					sf::Vector2i position(732, 10);
+					sf::Vector2i size(42, 63);
+					npc->setTextureRect(sf::IntRect(position, size));
+					stopFunction = true;
+					npc->setColor(sf::Color::Transparent);
+				}
+
+			}if(referent == 4){
+			npcstexture.loadFromFile("assets/Npcs/Gh0$t/ghost-appears.png");
+			npc->setTexture(npcstexture);
+			npc->setScale(2,2);
+
+			if (frame >= 5) {
+				frame = 0;
+				if (framestop == 7) {
+					framestop = 1;
+
+				} else {
+					framestop++;
+				}
+			} else {
+				frame++;
+			}
+			
+				if (framestop == 1) {
+					sf::Vector2i position(335, 2);
+					sf::Vector2i size(36, 46);
+					npc->setTextureRect(sf::IntRect(position, size));
+				}
+
+				if (framestop == 2) {
+					sf::Vector2i position(84, 2);
+					sf::Vector2i size(36,46);
+					npc->setTextureRect(sf::IntRect(position, size));
+				}
+
+				if (framestop == 3) {
+					sf::Vector2i position(269, 2);
+					sf::Vector2i size(36,46);
+					npc->setTextureRect(sf::IntRect(position, size));
+				}
+				if (framestop == 4) {
+					sf::Vector2i position(206, 2);
+					sf::Vector2i size(36,46);
+					npc->setTextureRect(sf::IntRect(position, size));
+				}
+				if (framestop == 5) {
+					sf::Vector2i position(141, 2);
+					sf::Vector2i size(36,46);
+					npc->setTextureRect(sf::IntRect(position, size));
+				}
+				if (framestop == 6) {
+					sf::Vector2i position(86, 2);
+					sf::Vector2i size(36,46);
+					npc->setTextureRect(sf::IntRect(position, size));
+				}
+				if (framestop ==7) {
+					sf::Vector2i position(22, 2);
+					sf::Vector2i size(36,46);
+					npc->setTextureRect(sf::IntRect(position, size));
+					stopFunction = true;
+					npc->setColor(sf::Color::Transparent);
+				}
+			}
 }
 
 
