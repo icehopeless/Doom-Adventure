@@ -34,8 +34,9 @@ public:
 	int vel;
 	bool attack;
 	vector<Bullet> shots;
-	 bool dead = false;
-
+	bool stopFunction = false;
+ 	bool dead = false;
+	int live;
 protected: 
 	void animation();
 
@@ -52,7 +53,7 @@ public:
 
 public:
 	Hero();
-	void colison(shared_ptr<sf::Sprite> atingido, bool * Keydead);
+	void colison(shared_ptr<sf::Sprite> atingido,int * live);
 	void animation();
 	void attack();
 	void pop_attack();
@@ -90,8 +91,7 @@ public:
 bool fireanimation;
 	shared_ptr<sf::Sprite> npc;
 	sf::Texture npcstexture;
-	sf::Texture textureVilionRight[9];
-	sf::Texture textureVilionstop[4];
+	sf::Texture textureIdle[4];
 	sf::Texture downVilion;
 	int timer = 0;
 	int distance = 0;

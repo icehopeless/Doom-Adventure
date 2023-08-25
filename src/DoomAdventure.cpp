@@ -353,10 +353,10 @@ void DoomAdventure::run() {
 			rain.stop();
 			musicGame.stop();
 			game();
-			heroobj->colison(npc1->npc,&npc1->dead);
-			heroobj->colison(npc2->npc,&npc2->dead);
-			heroobj->colison(npc3->npc,&npc3->dead);
-			heroobj->colison(npc4->npc,&npc4->dead);
+			heroobj->colison(npc1->npc,&npc1->live);
+			heroobj->colison(npc2->npc,&npc2->live);
+			heroobj->colison(npc3->npc,&npc3->live);
+			heroobj->colison(npc4->npc,&npc4->live);
 			npc1->colison(heroobj,&GameOver);
 			npc3->colison(heroobj,&GameOver);
 			npc4->colison(heroobj,&GameOver);
