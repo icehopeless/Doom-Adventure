@@ -4,6 +4,7 @@
 #include <memory>
 #include <cstdlib>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <vector>
 #include <sstream>
 using namespace std;
@@ -31,11 +32,12 @@ public:
 	int frame = 0;
 	int countattacks;
 	int vel;
-	shared_ptr<sf::Sprite> entitysprite;
+	bool attack;
 	vector<Bullet> shots;
 
 protected: 
 	void animation();
+
 };
 
 class Hero: public Entity {
@@ -61,7 +63,6 @@ public:
 	int timer = 0;
 	int distance = 0;
 	bool fireanimation;
-	bool attack;
 	sf::Texture textureVilionRight[9];
 	sf::Texture textureVilionstop[4];
 	sf::Texture downVilion;
@@ -77,35 +78,89 @@ public:
 	void pop_attack();
 	void Villan1();
 	void testAproxim(Hero * heroobj);
-	void transition1(),
-		transition2(),
-		transition3();
+	void WalkRight(),
+		WalkLeft(),
+		Idle();
 };
 
 class Npcs : public Entity{
 public:
+bool fireanimation;
 	shared_ptr<sf::Sprite> npc;
 	sf::Texture npcstexture;
-
+	sf::Texture textureVilionRight[9];
+	sf::Texture textureVilionstop[4];
+	sf::Texture downVilion;
+	int timer = 0;
+	int distance = 0;
 public:
 	Npcs(int referent);
 	~Npcs();
+	void RightWalk(),
+		LeftWalk();
 	void animation();
+	void Idle();
+	void attack1();
+	void attack3();
+	void attack4();
+	void testAproxim(Hero * heroobj);
+	void pop_attack();
 	void npc1();
+	void npc2();
+	void npc3();
+	void npc4();
+	void colision(Hero * heroobj, bool * GameOver);
 };
 
 class DoomAdventure {
+
 	shared_ptr<sf::RenderWindow> window; //ponteiro inteligente para a janela
 	shared_ptr<sf::Sprite> background;
 	sf::Texture bgtexutre;
 	Hero *heroobj = new Hero();
-	Villain *villian = new Villain(1);
+	bool GameOver;
 	Npcs *npc1 = new Npcs(1);
+	Npcs *npc2 = new Npcs(2);
+	Npcs *npc3 = new Npcs(3);
+	Npcs *npc4 = new Npcs(4);
+	bool KeyIntro;
+	bool KeyMenu; 
+	bool KeyGame;
+	bool KeyPause;
+
+	 sf::Texture mYSt;
+	 sf::Texture mYSt2;
+	 sf::Texture mYSt3;
+	 sf::Sprite r1;
+	 sf::Sprite r2;
+	 sf::Sprite r3;
+
+	 sf::Texture name;
+	 sf::Texture name2;
+	 sf::Texture name3;
+	 sf::Music rain;
+	sf::Music musicGame;
+	bool chekedaudio = false;
+	 sf::Sprite n1;
+	 sf::Sprite n2;
+	 sf::Sprite n3;
+	 sf::Sprite Persona;
+	 sf::Texture texturePersona[4];
+	 sf::Sprite logo;
+	 sf::Texture logotexture;
+	 int time;
+	 int frame = 0;
+	 int Animation = 1;
+	 sf::Clock clock;
+	 sf::Time timepassado;
+	 bool personagenslibery = false;
 
 protected:
+	void Introduction(shared_ptr<sf::RenderWindow> window);
 	void events();
 	void draw();
 	void game();
+	void Menu();
 
 public:
 	DoomAdventure();

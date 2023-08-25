@@ -2,7 +2,7 @@
 
 Hero::Hero() {
 	hero = make_shared<sf::Sprite>();
-
+	hero->setPosition(0,0);
 	herotexture[0].loadFromFile("assets/Hero/Gunner/Gunner_Idle_1.png");
 
 	for (int i = 0; i < 9; i++) {
@@ -13,6 +13,7 @@ Hero::Hero() {
 			stringstream ss;
 			ss << "assets/Hero/Gunner/Gunner_Walk_" << i << ".png";
 			textureheroRight[i].loadFromFile(ss.str());
+			 
 		}
 	}
 
@@ -23,12 +24,13 @@ Hero::Hero() {
 	}
 
 	down.loadFromFile("assets/Hero/Gunner/Gunner_Crouch.png");
+
 	hero->setScale(2.f, 2.f);
 	hero->setTexture(herotexture[0]);
+	
 }
 
 //animando o hero
-
 void Hero::animation() {
 	if (frame >= 5) {
 		frame = 0;
@@ -135,10 +137,11 @@ void Hero::attack() {
 
 		if(check == false){
 			for(int j =0; j < x; j++){
+
 				for (int i =0; i < 4; i++){
-					stringstream ss;
-					ss << "assets/Shoots/Player-Shoot/player-shoot"<<i + 1<<".png";
-					shots[j].bullettexture[i]->loadFromFile(ss.str());
+				stringstream ss;
+				ss << "assets/Shoots/Player-Shoot/player-shoot"<<i + 1<<".png";
+				shots[j].bullettexture[i]->loadFromFile(ss.str());
 				}
 			}
 			check = true;
