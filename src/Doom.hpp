@@ -156,6 +156,10 @@ class DoomAdventure {
 	 sf::Clock clock;
 	 sf::Time timepassado;
 	 bool personagenslibery = false;
+
+	bool KeyDown;
+	bool KeyUp;
+
 protected:
 	void Introduction(shared_ptr<sf::RenderWindow> window);
 	void events();

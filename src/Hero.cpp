@@ -166,6 +166,7 @@ void Hero::colision(shared_ptr<sf::Sprite> atingido,int * live){
 		if(atingido->getGlobalBounds().intersects(shots[i].attacksprite->getGlobalBounds())){
 			*live = *live - 1;
 			atingido->setColor(sf::Color::Black);
+			shots[i].attacksprite->setColor(sf::Color::Transparent);
         }
 	}	
 }

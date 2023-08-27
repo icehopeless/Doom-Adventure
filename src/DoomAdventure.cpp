@@ -6,9 +6,11 @@ DoomAdventure::DoomAdventure() {
 			sf::VideoMode(1280, 720), "Doom Adventure",
 			sf::Style::Titlebar | sf::Style::Close);
 	GameOver = false;
-	KeyIntro = false;
-	KeyGame = true;
+	KeyIntro = true;
+	KeyGame = false;
 	KeyMenu = false;
+	KeyDown = false;
+ 	KeyUp = false;
 	heroobj = new Hero();
 	npc1 = new Npcs(1);
 	npc3 = new Npcs(3);
@@ -205,8 +207,9 @@ void DoomAdventure::Menu(){
 	logo.setColor(sf::Color::White);
 	static float f =0;
 	static int framestop = 0;
+	static int i = 0;
 
-		if (frame >= 2) {
+	if (frame >= 2) {
 		frame = 0;
 		if (framestop == 3) {
 
@@ -225,19 +228,84 @@ void DoomAdventure::Menu(){
 	Persona.setTexture(texturePersona[framestop], true);
 	Persona.setScale(-10,10);
 	Persona.setPosition(1360,0);
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
-		KeyGame = true;
-		KeyMenu = false;
-		chekedaudio = false;
-	}
+
+
+	mYSt2.loadFromFile("assets/Menu/buttons/Buttons.png");
+	r2.setTexture(mYSt2);
+	sf::Vector2i size1(149,73);
+	sf::Vector2i position1(189,129);	
+	r2.setTextureRect(sf::IntRect(position1,size1));
+
+
+	mYSt3.loadFromFile("assets/Menu/buttons/Buttons.png");
+	r3.setTexture(mYSt3);
+	sf::Vector2i size2(149,73);
+	sf::Vector2i position2(349,129);	
+	r3.setTextureRect(sf::IntRect(position2,size2));
+
+	r2.setScale(3,3);
+	r3.setScale(3,3);
+
+	r2.setPosition(100,300);
+	r3.setPosition(100,450);
+
+
 
 	if(f < 255){
 		f = f + 1.8;
 		logo.setColor(sf::Color(255,255,255,f));
 		Persona.setColor(sf::Color(255,255,255,f));
 		background->setColor(sf::Color(255,255,255,f));
-		
+
 	}
+
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
+			KeyDown = true;
+		}
+
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
+			KeyUp = true;
+		}
+
+	if(KeyDown == true){
+		i++;
+		if(i >= 3){
+			i = 2;
+		}
+		KeyDown = false;
+	}
+
+	if(KeyUp == true){
+		i--;
+		if(i < 1){
+			i = 1;
+		}
+		KeyUp = false;
+	}
+
+	if(i == 1){
+			r2.setColor(sf::Color(0,255,0,f));
+			r3.setColor(sf::Color(255,255,255,f));
+		}
+		else if(i == 2){
+			r3.setColor(sf::Color(0,255,0,f));
+			r2.setColor(sf::Color(255,255,255,f));
+		}else{
+			r2.setColor(sf::Color(255,255,255,f));
+			r3.setColor(sf::Color(255,255,255,f));
+	}
+
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return)){
+		if(i == 1){
+			KeyMenu= false;
+			KeyGame = true;
+		}
+		if(i == 2){
+			window->close();
+		}
+	}
+
+
 }
 Bullet::Bullet() {
 	frame = 0;
@@ -271,6 +339,7 @@ void DoomAdventure::events() {
 		if (event.type == sf::Event::Closed) {
 			window->close();
 		}
+
 	}
 }
 
@@ -286,6 +355,8 @@ void DoomAdventure::draw() {
 		window->draw(*background);
 		window->draw(Persona);
 		window->draw(logo);
+		window->draw(r2);
+		window->draw(r3);
 	}
 	if(KeyGame == true){
 		window->draw(*heroobj->hero);
