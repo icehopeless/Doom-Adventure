@@ -2,7 +2,7 @@
 
 Npcs::Npcs(int referent){
     npc = make_shared<sf::Sprite>();
-
+    fireanimation = false;
 	if(referent == 1){
 		live = 50;
 		npcstexture.loadFromFile("assets/Npcs/MeioTermo/spritesheet.png");
@@ -15,7 +15,14 @@ Npcs::Npcs(int referent){
 		this->referent = referent;
 		attack = false;
 		npc->setColor(sf::Color::Cyan);
+		npc->setPosition(496, 200);
 		framestop = 1;    
+		Npcatack.loadFromFile("assets/attacks_sounds/arrow.wav");
+		atack.setBuffer(Npcatack);
+		atack.setVolume(100);
+		NpcDead.loadFromFile("assets/attacks_sounds/Ghost.wav");
+		deadSound.setBuffer(NpcDead);
+		deadSound.setVolume(100);
 	}
 
 	if(referent == 2){
@@ -26,7 +33,7 @@ Npcs::Npcs(int referent){
 		sf::Vector2i size(67, 60);
 		npc->setTextureRect(sf::IntRect(position, size));
 		npc->setScale(2.f,2.f);
-		npc->setPosition(1200, 500);
+		npc->setPosition(800, 540);
 		this->referent = referent;
 		attack = false;
 		framestop = 1;   
@@ -41,8 +48,14 @@ Npcs::Npcs(int referent){
 		npc->setTextureRect(sf::IntRect(position, size));
 		framestop = 1;
 		frameOrientationX = 1;
-		npc->setPosition(1200, 300);
+		npc->setPosition(2208, 255);
         this->referent = referent;
+		Npcatack.loadFromFile("assets/attacks_sounds/deadRED.wav");
+		atack.setBuffer(Npcatack);
+		atack.setVolume(100);
+		NpcDead.loadFromFile("assets/attacks_sounds/Ghost.wav");
+		deadSound.setBuffer(NpcDead);
+		deadSound.setVolume(100);
 	}
 
 
@@ -54,10 +67,16 @@ Npcs::Npcs(int referent){
 	sf::Vector2i size(33, 55);
     npc->setTextureRect(sf::IntRect(position, size));
     npc->setScale(2.f,2.f);
-	npc->setPosition(1200, 400);
+	npc->setPosition(2032, 495);
 	this->referent = referent;
     attack = false;
     framestop = 1;   
+	Npcatack.loadFromFile("assets/attacks_sounds/deadRED.wav");
+	atack.setBuffer(Npcatack);
+	atack.setVolume(100);
+		NpcDead.loadFromFile("assets/attacks_sounds/Ghost.wav");
+		deadSound.setBuffer(NpcDead);
+		deadSound.setVolume(100);
 	}
 
 }
@@ -82,6 +101,9 @@ void Npcs::animation(){
 	   if (referent == 4) {
 		npc4();
 	}
+	 if(live == 10){
+		 deadSound.play();
+	 }
 }
 
 void Npcs::npc1(){
@@ -94,10 +116,10 @@ void Npcs::npc1(){
 		if (timer < 200) {
 			RightWalk();
 		}
-		else if (timer > 100 and timer <= 600) {
+		else if (timer > 200 and timer <= 400) {
 			LeftWalk();
 		}
-		if(timer == 600){
+		if(timer == 400){
 			timer = 0;
         }
 	} else if(attack == true and  dead != true) {
@@ -201,7 +223,7 @@ if(attack == false and dead != true){
 void Npcs::RightWalk(){
 	if(referent == 1){
         npc->setScale(2.f,2.f);
-        if (frame >= 5) {
+        if (frame >= 2) {
             frame = 0;
         if (framestop == 8) {
             framestop = 1;
@@ -367,7 +389,7 @@ void Npcs::RightWalk(){
 void Npcs::LeftWalk(){
     if(referent == 1){
         npc->setScale(-2.f,2.f);
-        if (frame >= 5) {
+        if (frame >= 2) {
                     frame = 0;
                     if (framestop == 8) {
                         framestop = 1;
@@ -542,7 +564,7 @@ void Npcs::attack1(){
 		npc->setScale(-2.f,2.f);
 	}
 
-  if (frame >= 5) {
+  if (frame >= 2) {
 				frame = 0;
 				if (framestop == 8) {
 					framestop = 1;
@@ -589,7 +611,8 @@ void Npcs::attack1(){
         npc->setTextureRect(sf::IntRect(position, size));
     }
     if(framestop == 8){
-    Bullet *bu = new Bullet();
+    	atack.play();
+    	Bullet *bu = new Bullet();
 				bu->attacksprite->setScale(-1.3f, 1.3f);
 				bu->attacksprite->setPosition(npc->getPosition().x + 35,npc->getPosition().y + 33);
 
@@ -622,6 +645,8 @@ void Npcs::attack1(){
 				if(tam >= 20){
 					pop_attack();
 				}
+
+
 
 }
 
@@ -686,6 +711,7 @@ void Npcs::attack3(){
 				sf::Vector2i position(123, 130);
 				sf::Vector2i size(95, 107);
 				npc->setTextureRect(sf::IntRect(position, size));
+				atack.play();
 				Bullet *bu = new Bullet();
 				bu->attacksprite->setScale(-1.3f, 1.3f);
 				bu->attacksprite->setPosition(npc->getPosition().x ,npc->getPosition().y + 45);
@@ -794,10 +820,10 @@ void Npcs::attack4(){
 					npc->setTextureRect(sf::IntRect(position, size));
 				}
 				if (framestop ==7) {
+					atack.play();
 					sf::Vector2i position(399, 10);
 					sf::Vector2i size(33, 55);
 					npc->setTextureRect(sf::IntRect(position, size));
-					
 					Bullet *bu = new Bullet();
 					bu->attacksprite->setScale(-1.3f, 1.3f);
 					bu->attacksprite->setPosition(npc->getPosition().x ,npc->getPosition().y + 45);
@@ -1056,6 +1082,7 @@ void Npcs::testAproxim(Hero * herobobj){
 				if(herobobj->hero->getPosition().y - npc->getPosition().y <= 60 and herobobj->hero->getPosition().y - npc->getPosition().y > -90 ){
 					distance = herobobj->hero->getPosition().x - npc->getPosition().x;
 					attack = true;
+
 				}
 				else{
 					attack = false;
@@ -1081,39 +1108,50 @@ void Npcs::colision(Hero * heroobj, bool  * GameOver){
     	int tam = shots.size();
 
 	for(int i  = 0; i < tam ; i++){
-		if(heroobj->hero->getGlobalBounds().intersects(shots[i].attacksprite->getGlobalBounds())){
-            *GameOver = true;
-        }
-	}
+		if(referent == 3){
 
+			if(heroobj->hero->getGlobalBounds().intersects(shots[i].attacksprite->getGlobalBounds())){
+	            heroobj->live -= 50;
+	        }
+		}else{
+
+			if(heroobj->hero->getGlobalBounds().intersects(shots[i].attacksprite->getGlobalBounds())){
+	            heroobj->live -= 5;
+	        }
+		}
+	}
+	
 	if(referent == 2){
+		//heroboud para ajustar a colisao com as dimensoes do sprite
 		sf::FloatRect heroBound = heroobj->hero->getGlobalBounds();
+		heroBound.height -= 20.f;
+		heroBound.width -=50.f;
 
 		if(npc->getScale().x < 0){
 			heroBound.left += 50.f;
 		
 		if(heroBound.intersects(npc->getGlobalBounds())){
-            *GameOver = true;
+			heroobj->live -= 2;
         }
 
 		}else{
-
-			heroBound.left -= 50.f;
-			if(heroBound.intersects(npc->getGlobalBounds())){
-				*GameOver = true;
-			}
+			//heroBound.left -= 50.f;
+		if(heroBound.intersects(npc->getGlobalBounds())){
+			heroobj->live -= 2;
+		}
 		}
 	}
 }
 
 void Npcs::Death(){
+
 	if(referent == 1){
 
 		static sf::Clock clock;
 		static sf::Time timepassado;
-		static int time;
+
 		timepassado = clock.getElapsedTime();
-		time = timepassado.asSeconds();
+
 
  		if (frame >= 15) {
                     frame = 0;
@@ -1158,6 +1196,7 @@ void Npcs::Death(){
             sf::Vector2i position(405, 74);
             sf::Vector2i size(38, 49);
             npc->setTextureRect(sf::IntRect(position, size));
+
         }else if(framestop == 8){
             sf::Vector2i position(466, 74);
             sf::Vector2i size(38, 49);
@@ -1171,6 +1210,7 @@ void Npcs::Death(){
 	}
 
 	if(referent == 2){
+
 			stopFunction = true;
 			npc->setColor(sf::Color::Transparent);
 	}
@@ -1180,7 +1220,7 @@ void Npcs::Death(){
 		npcstexture.loadFromFile("assets/Npcs/Death/dead.png");
 			npc->setTexture(npcstexture);
 			npc->setScale(2,2);
-			if (frame >= 5) {
+			if (frame >= 2) {
 				frame = 0;
 				if (framestop == 10) {
 					framestop = 1;
@@ -1226,6 +1266,7 @@ void Npcs::Death(){
 				}
 
 				if (framestop == 7) {
+
 					sf::Vector2i position(494, 10);
 					sf::Vector2i size(42, 63);
 					npc->setTextureRect(sf::IntRect(position, size));
@@ -1290,6 +1331,7 @@ void Npcs::Death(){
 					npc->setTextureRect(sf::IntRect(position, size));
 				}
 				if (framestop == 5) {
+
 					sf::Vector2i position(141, 2);
 					sf::Vector2i size(36,46);
 					npc->setTextureRect(sf::IntRect(position, size));
@@ -1300,6 +1342,7 @@ void Npcs::Death(){
 					npc->setTextureRect(sf::IntRect(position, size));
 				}
 				if (framestop ==7) {
+
 					sf::Vector2i position(22, 2);
 					sf::Vector2i size(36,46);
 					npc->setTextureRect(sf::IntRect(position, size));

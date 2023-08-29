@@ -7,7 +7,10 @@
 #include <SFML/Audio.hpp>
 #include <vector>
 #include <sstream>
+#include "tinyxml2.h"
 using namespace std;
+#include <tmxlite/Map.hpp>
+#include "SFMLOrthogonalLayer.hpp"
 
 class Bullet {
 private:
@@ -37,6 +40,8 @@ public:
 	bool stopFunction = false;
  	bool dead = false;
 	int live;
+	sf::Sound atack;
+	sf::Sound deadSound;
 protected: 
 	void animation();
 
@@ -44,6 +49,7 @@ protected:
 
 class Hero: public Entity {
 public:
+	sf::SoundBuffer Heroatack;
 	int shotstimer = 0;
 	sf::Texture textureheroRight[9];
 	sf::Texture textureherostop[4];
@@ -70,7 +76,7 @@ public:
 	sf::Texture textureVilionstop[4];
 	sf::Texture downVilion;
 	shared_ptr<sf::Sprite> Vilion;
-
+	sf::SoundBuffer Villainatack;
 
 public:
 	Villain(int referent);
@@ -88,6 +94,8 @@ public:
 
 class Npcs : public Entity{
 public:
+	sf::SoundBuffer Npcatack;
+	sf::SoundBuffer NpcDead;
 bool fireanimation;
 	shared_ptr<sf::Sprite> npc;
 	sf::Texture npcstexture;
@@ -126,6 +134,7 @@ class DoomAdventure {
 	Npcs *npc2 = new Npcs(2);
 	Npcs *npc3 = new Npcs(3);
 	Npcs *npc4 = new Npcs(4);
+	Villain *villain = new Villain(1);
 	bool KeyIntro;
 	bool KeyMenu; 
 	bool KeyGame;
@@ -156,9 +165,15 @@ class DoomAdventure {
 	 sf::Clock clock;
 	 sf::Time timepassado;
 	 bool personagenslibery = false;
-
+	 sf::View *view;
+	 tmx::Map map;
 	bool KeyDown;
 	bool KeyUp;
+	MapLayer * layerZero;
+	sf::Font font;
+	int i = 0;
+	sf::Text textGm;
+	sf::Text returnKey;
 
 protected:
 	void Introduction(shared_ptr<sf::RenderWindow> window);
@@ -166,6 +181,10 @@ protected:
 	void draw();
 	void game();
 	void Menu();
+	void Restart();
+	void GameOverX();
+	void update();
+	void Interface();
 
 public:
 	DoomAdventure();

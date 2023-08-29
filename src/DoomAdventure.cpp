@@ -5,18 +5,26 @@ DoomAdventure::DoomAdventure() {
 			//criando a janela com ponteiro inteligente
 			sf::VideoMode(1280, 720), "Doom Adventure",
 			sf::Style::Titlebar | sf::Style::Close);
+
+
 	GameOver = false;
-	KeyIntro = true;
+	KeyIntro =	true;
 	KeyGame = false;
 	KeyMenu = false;
 	KeyDown = false;
  	KeyUp = false;
 	heroobj = new Hero();
 	npc1 = new Npcs(1);
+	npc2 = new Npcs(2);
 	npc3 = new Npcs(3);
 	npc4 = new Npcs(4);
+	villain = new Villain(1);
 	time = 0;
+
+	view = new sf::View(sf::FloatRect(0,0,window->getSize().x / 2, window->getSize().y  / 2));
+
 	background = make_shared<sf::Sprite>();
+
 	window->setFramerateLimit(60);
 
 	rain.openFromFile("assets/sound/rain.wav");
@@ -27,13 +35,17 @@ DoomAdventure::DoomAdventure() {
 		test = true;
 	}
 
-		if(chekedaudio == false){
-		musicGame.openFromFile("assets/sound/bit.wav");
+	if(chekedaudio == false){
+		musicGame.openFromFile("assets/sound/menu.wav");
 		musicGame.setLoop(true);
-		musicGame.setVolume(100);
+		musicGame.setVolume(1000);
 		musicGame.play();
 		chekedaudio = true;
 	}
+
+		if (map.load("maps/map1.tmx")) {
+			layerZero = new MapLayer(map, 0);
+		}
 
 }
 
@@ -198,6 +210,9 @@ void DoomAdventure::Introduction(shared_ptr<sf::RenderWindow> window){
 }
 
 void DoomAdventure::Menu(){
+	view->setSize(window->getSize().x, window->getSize().y);
+	view->setCenter(window->getSize().x /2, window->getSize().y /2);
+	window->setView(*view);
 	bgtexutre.loadFromFile("assets/Background/back.jpg");
 	background->setTexture(bgtexutre);
 	logotexture.loadFromFile("assets/Background/Doom.png");
@@ -207,7 +222,7 @@ void DoomAdventure::Menu(){
 	logo.setColor(sf::Color::White);
 	static float f =0;
 	static int framestop = 0;
-	static int i = 0;
+
 
 	if (frame >= 2) {
 		frame = 0;
@@ -252,59 +267,72 @@ void DoomAdventure::Menu(){
 
 
 	if(f < 255){
-		f = f + 1.8;
-		logo.setColor(sf::Color(255,255,255,f));
-		Persona.setColor(sf::Color(255,255,255,f));
-		background->setColor(sf::Color(255,255,255,f));
+	f = f + 1.8;
+	logo.setColor(sf::Color(255,255,255,f));
+	Persona.setColor(sf::Color(255,255,255,f));
+	background->setColor(sf::Color(255,255,255,f));
 
 	}
 
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
-			KeyDown = true;
-		}
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
+		KeyDown = true;
+	}
 
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
-			KeyUp = true;
-		}
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
+		KeyUp = true;
+	}
 
 	if(KeyDown == true){
-		i++;
-		if(i >= 3){
-			i = 2;
-		}
-		KeyDown = false;
+	i++;
+
+	if(i >= 3){
+	i = 2;
+	}
+	KeyDown = false;
 	}
 
 	if(KeyUp == true){
 		i--;
-		if(i < 1){
-			i = 1;
-		}
-		KeyUp = false;
+
+	if(i < 1){
+	i = 1;
+	}
+	KeyUp = false;
 	}
 
 	if(i == 1){
-			r2.setColor(sf::Color(0,255,0,f));
-			r3.setColor(sf::Color(255,255,255,f));
-		}
-		else if(i == 2){
-			r3.setColor(sf::Color(0,255,0,f));
-			r2.setColor(sf::Color(255,255,255,f));
-		}else{
-			r2.setColor(sf::Color(255,255,255,f));
-			r3.setColor(sf::Color(255,255,255,f));
+		r2.setColor(sf::Color(0,255,0,f));
+		r3.setColor(sf::Color(255,255,255,f));
+	}
+	else if(i == 2){
+		r3.setColor(sf::Color(0,255,0,f));
+		r2.setColor(sf::Color(255,255,255,f));
+	}else{
+		r2.setColor(sf::Color(255,255,255,f));
+		r3.setColor(sf::Color(255,255,255,f));
 	}
 
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return)){
 		if(i == 1){
 			KeyMenu= false;
 			KeyGame = true;
+			musicGame.stop();
+			rain.stop();
+
 		}
 		if(i == 2){
 			window->close();
 		}
 	}
 
+
+	if(chekedaudio == false){
+		musicGame.openFromFile("assets/sound/menu.wav");
+		musicGame.setLoop(true);
+		musicGame.setVolume(1000);
+		musicGame.play();
+		chekedaudio = true;
+	}
 
 }
 Bullet::Bullet() {
@@ -359,22 +387,25 @@ void DoomAdventure::draw() {
 		window->draw(r3);
 	}
 	if(KeyGame == true){
+		window->draw(r2);
+		window->draw(*layerZero);
 		window->draw(*heroobj->hero);
 		window->draw(*npc1->npc);
 		window->draw(*npc2->npc);
 		window->draw(*npc3->npc);
 		window->draw(*npc4->npc);
+		window->draw(*villain->Vilion);
 		int x = heroobj->shots.size();
 
 		for(int i = 0; i < x; i++){
-			heroobj->shots[i].Orientation(30);
+			heroobj->shots[i].Orientation(60);
 			window->draw(*heroobj->shots[i].attacksprite);
 		}
 
 		int y = npc3->shots.size();
 
 			for(int i = 0; i < y; i++){
-				npc3->shots[i].Orientation(10);
+				npc3->shots[i].Orientation(70);
 				window->draw(*npc3->shots[i].attacksprite);
 			}
 
@@ -382,22 +413,89 @@ void DoomAdventure::draw() {
 		int r = npc4->shots.size();
 
 		for(int i = 0; i < r; i++){
-			npc4->shots[i].Orientation(10);
+			npc4->shots[i].Orientation(90);
 			window->draw(*npc4->shots[i].attacksprite);
 		}
 
 		int z = npc1->shots.size();
 
 		for(int i = 0; i < z; i++){
-				npc1->shots[i].Orientation(30);
+				npc1->shots[i].Orientation(50);
 				window->draw(*npc1->shots[i].attacksprite);
 			}
+		window->draw(r1);
+
+	}
+	if(GameOver == true){
+		window->draw(r1);
+		window->draw(textGm);
+		window->draw(returnKey);
 	}
 	window->display();
 
 }
 
+void DoomAdventure::Interface(){
+	mYSt.loadFromFile("assets/Menu/06.png");
+	
+	r1.setScale(5,5);
+	r1.setPosition(900,0);
+	r1.setColor(sf::Color::Red);
+
+	if(heroobj->live > 1500){
+		sf::Vector2i size(51,20);
+		sf::Vector2i position(2,77);
+		r1.setTexture(mYSt,true);
+		r1.setTextureRect(sf::IntRect(position,size));
+	}
+
+	if(heroobj->live < 1000){
+		sf::Vector2i size(51,20);
+		sf::Vector2i position(49,77);
+		r1.setTexture(mYSt,true);
+		r1.setTextureRect(sf::IntRect(position,size));
+	}
+
+	if(heroobj->live < 500){
+		sf::Vector2i size(51,20);
+		sf::Vector2i position(97,77);
+		r1.setTexture(mYSt,true);
+		r1.setTextureRect(sf::IntRect(position,size));
+	}
+
+	if(heroobj->live < 100){
+		sf::Vector2i size(51,20);
+		sf::Vector2i position(144,77);
+		r1.setTexture(mYSt,true);
+		r1.setTextureRect(sf::IntRect(position,size));
+	}
+
+	if(heroobj->live < 0){
+		sf::Vector2i size(51,20);
+		sf::Vector2i position(193,77);
+		r1.setTexture(mYSt,true);
+		r1.setTextureRect(sf::IntRect(position,size));
+	}
+
+	if(heroobj->live < -100){
+		KeyGame = false;
+		GameOver = true;
+	}
+
+}
+
 void DoomAdventure::game() {
+
+	if(chekedaudio == true){
+		musicGame.openFromFile("assets/sound/map1.wav");
+		musicGame.setLoop(true);
+		musicGame.setVolume(50);
+		musicGame.play();
+		chekedaudio = false;
+	}
+
+	Interface();
+	update();
 	npc3->animation();
 	npc3->testAproxim(heroobj);
 	npc4->animation();
@@ -408,8 +506,9 @@ void DoomAdventure::game() {
 	heroobj->attack();
 	heroobj->shotstimer++;
 	heroobj->animation();
-	
-	
+	villain->animation();
+	villain->testAproxim(heroobj);
+
 }
 
 void DoomAdventure::run() {
@@ -421,8 +520,7 @@ void DoomAdventure::run() {
 			Menu();
 		}
 		if(GameOver == false and KeyGame == true){
-			rain.stop();
-			musicGame.stop();
+
 			game();
 			heroobj->colision(npc1->npc,&npc1->live);
 			heroobj->colision(npc2->npc,&npc2->live);
@@ -433,10 +531,96 @@ void DoomAdventure::run() {
 			npc3->colision(heroobj,&GameOver);
 			npc4->colision(heroobj,&GameOver);
 		}
+		if(GameOver == true){
+			GameOverX();
+		}
 		
 	}
 }
 
+void DoomAdventure::GameOverX(){
+	view->setSize(window->getSize().x, window->getSize().y);
+	view->setCenter(window->getSize().x /2, window->getSize().y /2);
+	mYSt.loadFromFile("assets/Shoots/fire/fire-skull-no-fire.png");
+	r1.setTexture(mYSt);
+	view->setCenter(r1.getPosition());
+	static int framSkull =0;
+	r1.setColor(sf::Color::White);
+	font.loadFromFile("assets/Background/Pixelmania.ttf");
+	textGm.setFont(font);
+	textGm.setString("GAME OVER");
+	textGm.setCharacterSize(30);
+	textGm.setPosition(r1.getPosition().x - 400, r1.getPosition().y+100);
+
+	returnKey.setFont(font);
+	returnKey.setString("PRES ENTER...");
+	returnKey.setCharacterSize(30);
+	returnKey.setPosition(r1.getPosition().x - 400, r1.getPosition().y+300);
+
+	if (frame >= 30) {
+		frame = 0;
+		if (framSkull >= 4) {
+			framSkull = 1;
+		} else {
+			framSkull++;
+		}
+	}else{
+		frame++;
+	}
+
+	if(framSkull == 1){
+		sf::Vector2i postion(3,2);
+		sf::Vector2i size(55,71);
+		r1.setTextureRect(sf::IntRect(postion,size));
+	}
+	if(framSkull == 2){
+		sf::Vector2i postion(51,2);
+		sf::Vector2i size(55,71);
+		r1.setTextureRect(sf::IntRect(postion,size));
+	}
+	if(framSkull == 3){
+		sf::Vector2i postion(108,2);
+		sf::Vector2i size(55,71);
+		r1.setTextureRect(sf::IntRect(postion,size));
+	}
+	if(framSkull == 4){
+		sf::Vector2i postion(162,2);
+		sf::Vector2i size(55,71);
+		r1.setTextureRect(sf::IntRect(postion,size));
+	}
+
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return)){
+		Restart();
+
+	}
+
+}
+
+void DoomAdventure::Restart(){
+	GameOver= false;
+	KeyMenu = true;
+	heroobj->live = 2000;
+	i =0;
+	npc1->live = 50;
+	npc2->live = 50;
+	npc3->live = 50;
+	npc4->live = 50;
+	chekedaudio = false;
+	npc1->npc->setPosition(800,45);
+	npc2->npc->setPosition(800, 540);
+	npc3->npc->setPosition(2208, 255);
+	npc4->npc->setPosition(2032, 495);
+	heroobj->hero->setPosition(0,480);
+	npc1->dead = false;
+	npc2->dead = false;
+	npc3->dead = false;
+	npc4->dead = false;
+	npc1->stopFunction = false;
+	npc2->stopFunction = false;
+	npc3->stopFunction = false;
+	npc4->stopFunction = false;
+
+}
 DoomAdventure::~DoomAdventure(){
 	delete heroobj;
 	heroobj = NULL;

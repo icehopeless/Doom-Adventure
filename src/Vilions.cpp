@@ -5,16 +5,22 @@ Villain::Villain(int referent) {
 	fireanimation = false;
 	this->referent = referent;
 	Vilion = make_shared<sf::Sprite>();
-	
+
 	if (referent == 1) {
-		textureVilionRight[0].loadFromFile("assets/Npcs/Death/Idle.png");
+		textureVilionRight[0].loadFromFile(
+				"assets/Villain/Dragon/demon-idle.png");
 		Vilion->setTexture(textureVilionRight[0]);
-		sf::Vector2i position(19, 8);
-		sf::Vector2i size(42, 63);
+		sf::Vector2i position(0, 5);
+		sf::Vector2i size(154, 144);
 		Vilion->setTextureRect(sf::IntRect(position, size));
 		framestop = 1;
 		frameOrientationX = 1;
-		Vilion->setPosition(1200, 300);
+		Vilion->setScale(2.2f, 2.2f);
+		//Vilion->setOrigin(Vilion->getPosition().x / 2 ,Vilion->getPosition().y / 2 );
+		Vilion->setPosition(1000, 80);
+		Villainatack.loadFromFile("assets/attacks_sounds/Dragon.wav");
+		atack.setBuffer(Villainatack);
+		atack.setVolume(100);
 	}
 }
 
@@ -24,357 +30,294 @@ void Villain::animation() {
 	}
 }
 
-void Villain::testAproxim(Hero * herobobj){
-	if(herobobj->hero->getPosition().x - Vilion->getPosition().x <= 20 and herobobj->hero->getPosition().x - Vilion->getPosition().x > -200 ){
-            if(herobobj->hero->getPosition().y - Vilion->getPosition().y <= 60 and herobobj->hero->getPosition().y - Vilion->getPosition().y > -90 ){
-                distance = herobobj->hero->getPosition().x - Vilion->getPosition().x;
-                attack = true;
-            }
-            else{
-                attack = false;
-            }
-        }
-        else{
-            attack = false;
-        }
+void Villain::testAproxim(Hero *herobobj) {
+	if (herobobj->hero->getGlobalBounds().intersects(Vilion->getGlobalBounds())) {
+		attack = true;
+		herobobj->live-=10;
+
+	} else {
+		attack = false;
+	}
+	distance =   Vilion->getPosition().x - herobobj->hero->getPosition().x;
 
 }
 void Villain::Villan1() {
-
-	if(attack == false){
+	if (attack == false) {
 		timer++;
-		if(timer == 100 or timer == 200 or timer == 0){
+		if (timer == 100 or timer == 200 or timer == 0) {
 			fireanimation = false;
 		}
 		if (timer < 100) {
 			Idle();
-		}
-		else if (timer > 100 and timer < 200) {
+		} else if (timer > 100 and timer < 300) {
 			WalkLeft();
-		}else if(timer >= 200){
+		} else if (timer >= 300) {
 			WalkRight();
 		}
-		if(timer == 300){
+		if (timer == 500) {
 			timer = 0;
-	}
-	}else{
-		fireanimation = false;
+		}
+	} else {
 		attacks();
 	}
 
 }
 
-void Villain::attacks(){
-	if(referent == 1){
+void Villain::attacks() {
+	if (referent == 1) {
 		attack1();
 	}
 
 }
-void Villain::attack1(){
+void Villain::attack1() {
 
-	if(distance < 0){
-		Vilion->setScale(1, 1);
+	if (distance < 0) {
+		Vilion->setScale(2.2f, 2.2f);
 	}
-	if(distance > 0){
-		Vilion->setScale(-1, 1);
+	if (distance > 0) {
+		Vilion->setScale(-2.2f, 2.2f);
 	}
 
-	textureVilionRight[0].loadFromFile("assets/Npcs/Death/Attack.png");
-		Vilion->setTexture(textureVilionRight[0]);
 
 
-		if (frame >= 5) {
-			frame = 0;
-			if (framestop >= 8 and fireanimation == false) {
-				framestop = 1;
 
-			} else {
-				framestop++;
-			}
+	textureVilionRight[0].loadFromFile(
+			"assets/Villain/Dragon/demon-attack.png");
+	Vilion->setTexture(textureVilionRight[0]);
+
+	if (frame >= 2) {
+		frame = 0;
+
+		if (framestop >= 11 and fireanimation == false) {
+			framestop = 1;
+
 		} else {
-			frame++;
-		}
-
-		if (fireanimation == false) {
-			if (framestop == 1) {
-				sf::Vector2i position(31, 14);
-				sf::Vector2i size(56, 103);
-				Vilion->setTextureRect(sf::IntRect(position, size));
-			}
-
-			if (framestop == 2) {
-				sf::Vector2i position(153, 14);
-				sf::Vector2i size(56, 103);
-				Vilion->setTextureRect(sf::IntRect(position, size));
-			}
-			if (framestop == 3) {
-				sf::Vector2i position(280, 14);
-				sf::Vector2i size(56, 103);
-				Vilion->setTextureRect(sf::IntRect(position, size));
-			}
-			if (framestop == 4) {
-				sf::Vector2i position(398, 14);
-				sf::Vector2i size(56, 103);
-				Vilion->setTextureRect(sf::IntRect(position, size));
-			}
-			if (framestop == 5) {
-				sf::Vector2i position(533, 14);
-				sf::Vector2i size(56, 103);
-				Vilion->setTextureRect(sf::IntRect(position, size));
-			}
-			if (framestop == 6) {
-				sf::Vector2i position(6, 130);
-				sf::Vector2i size(95, 107);
-				Vilion->setTextureRect(sf::IntRect(position, size));
-			}
-			if (framestop == 7) {
-				sf::Vector2i position(123, 130);
-				sf::Vector2i size(95, 107);
-				Vilion->setTextureRect(sf::IntRect(position, size));
-				Bullet *bu = new Bullet();
-				bu->attacksprite->setScale(-1.3f, 1.3f);
-				bu->attacksprite->setPosition(Vilion->getPosition().x ,Vilion->getPosition().y + 45);
-
-				if(distance < 0){
-					bu->orientation = true;
-				}
-				if(distance > 0){
-					bu->orientation = false;
-				}
-
-				shots.push_back(*bu);
-			}
-
-			int x = shots.size();
-
-			bool check = false;
-
-			if (check == false) {
-				for (int j = 0; j < x; j++) {
-						shots[j].bullettexture[0]->loadFromFile("assets/Npcs/Death/Shot.png");
-						shots[j].attacksprite->setTexture(*shots[j].bullettexture[0]);
-						
-
-				}
-				check = true;
-			}
-
-			int tam = shots.size();
-
-				if(tam >= 20){
-					pop_attack();
-				}
+			framestop++;
 
 		}
+	} else {
+		frame++;
+	}
+
+	if (fireanimation == false) {
+		if (framestop == 1) {
+			sf::Vector2i position(0, 10);
+			sf::Vector2i size(250, 180);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+		}
+
+		if (framestop == 2) {
+			sf::Vector2i position(250, 10);
+			sf::Vector2i size(250, 180);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+
+		}
+		if (framestop == 3) {
+			sf::Vector2i position(500, 10);
+			sf::Vector2i size(250, 180);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+		}
+		if (framestop == 4) {
+			sf::Vector2i position(750, 10);
+			sf::Vector2i size(250, 180);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+		}
+		if (framestop == 5) {
+			sf::Vector2i position(1000, 10);
+			sf::Vector2i size(250, 180);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+		}
+		if (framestop == 6) {
+			sf::Vector2i position(1250, 10);
+			sf::Vector2i size(250, 180);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+		}
+		if (framestop == 7) {
+			sf::Vector2i position(1500, 10);
+			sf::Vector2i size(250, 180);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+		}
+		if (framestop == 8) {
+			sf::Vector2i position(1670, 10);
+			sf::Vector2i size(250, 180);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+		}
+		if (framestop == 9) {
+			sf::Vector2i position(1900, 10);
+			sf::Vector2i size(250, 180);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+		}
+		if (framestop == 10) {
+			sf::Vector2i position(2150, 10);
+			sf::Vector2i size(250, 180);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+		}
+		if (framestop == 11) {
+			sf::Vector2i position(2400, 10);
+			sf::Vector2i size(250, 180);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+		}
+
+	}
+	attack = false;
 }
+
 void Villain::pop_attack() {
 	int tam = shots.size();
 
-	for(int i  = 0; i < tam ; i++){
+	for (int i = 0; i < tam; i++) {
 		shots.pop_back();
 	}
 
 }
 
-void Villain::Idle(){
-	textureVilionRight[0].loadFromFile("assets/Npcs/Death/Idle.png");
-			Vilion->setTexture(textureVilionRight[0]);
-			Vilion->setScale(2,2);
-			if (frame >= 5) {
-				frame = 0;
-				if (framestop == 10 and fireanimation == false) {
-					framestop = 1;
+void Villain::Idle() {
+	textureVilionRight[0].loadFromFile("assets/Villain/Dragon/demon-idle.png");
+	Vilion->setTexture(textureVilionRight[0]);
+	Vilion->setScale(2.2f, 2.2f);
+	if (frame >= 2) {
+		frame = 0;
+		if (framestop == 7 and fireanimation == false) {
+			framestop = 1;
+		} else {
+			framestop++;
+		}
+	} else {
+		frame++;
+	}
+	if (fireanimation == false) {
+		if (framestop == 1) {
+			sf::Vector2i position(0, 5);
+			sf::Vector2i size(155, 144);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+		}
+		if (framestop == 2) {
+			sf::Vector2i position(155, 5);
+			sf::Vector2i size(155, 144);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+		}
+		if (framestop == 3) {
+			sf::Vector2i position(325, 5);
+			sf::Vector2i size(154, 144);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+		}
+		if (framestop == 4) {
+			sf::Vector2i position(480, 5);
+			sf::Vector2i size(154, 144);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+		}
+		if (framestop == 5) {
+			sf::Vector2i position(620, 5);
+			sf::Vector2i size(154, 144);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+		}
+		if (framestop == 6) {
+			sf::Vector2i position(795, 5);
+			sf::Vector2i size(154, 144);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+		}
+	}
+}
 
-				} else if (framestop == 10 and fireanimation == true) {
-					framestop = 7;
+void Villain::WalkLeft() {
+	Vilion->setScale(2.f, 2.f);
+	textureVilionRight[0].loadFromFile("assets/Villain/Dragon/demon-idle.png");
+	Vilion->setTexture(textureVilionRight[0]);
 
-				} else {
-					framestop++;
-				}
-			} else {
-				frame++;
-			}
-			if (fireanimation == false) {
-				if (framestop == 1) {
-					sf::Vector2i position(19, 8);
-					sf::Vector2i size(42, 63);
-					Vilion->setTextureRect(sf::IntRect(position, size));
-				}
-
-				if (framestop == 2) {
-					sf::Vector2i position(94, 10);
-					sf::Vector2i size(42, 63);
-					Vilion->setTextureRect(sf::IntRect(position, size));
-				}
-				if (framestop == 3) {
-					sf::Vector2i position(174, 7);
-					sf::Vector2i size(42, 63);
-					Vilion->setTextureRect(sf::IntRect(position, size));
-				}
-				if (framestop == 4) {
-					sf::Vector2i position(255, 10);
-					sf::Vector2i size(42, 63);
-					Vilion->setTextureRect(sf::IntRect(position, size));
-				}
-				if (framestop == 5) {
-					sf::Vector2i position(332, 10);
-					sf::Vector2i size(42, 63);
-					Vilion->setTextureRect(sf::IntRect(position, size));
-				}
-				if (framestop == 6) {
-					sf::Vector2i position(414, 10);
-					sf::Vector2i size(42, 63);
-					Vilion->setTextureRect(sf::IntRect(position, size));
-					fireanimation = true;
-				}
-
-			} else {
-
-				if (framestop == 7) {
-					sf::Vector2i position(494, 10);
-					sf::Vector2i size(42, 63);
-					Vilion->setTextureRect(sf::IntRect(position, size));
-
-				}
-
-				if (framestop == 8) {
-					sf::Vector2i position(571, 10);
-					sf::Vector2i size(42, 63);
-					Vilion->setTextureRect(sf::IntRect(position, size));
-				}
-				if (framestop == 9) {
-					sf::Vector2i position(571, 10);
-					sf::Vector2i size(42, 63);
-					Vilion->setTextureRect(sf::IntRect(position, size));
-				}
-				if (framestop == 10) {
-					sf::Vector2i position(732, 10);
-					sf::Vector2i size(42, 63);
-					Vilion->setTextureRect(sf::IntRect(position, size));
-				}
-			}
+	if (frame >= 2) {
+		frame = 0;
+		if (framestop == 7 and fireanimation == false) {
+			framestop = 1;
+		} else {
+			framestop++;
+		}
+	} else {
+		frame++;
+	}
+	if (fireanimation == false) {
+		if (framestop == 1) {
+			sf::Vector2i position(0, 5);
+			sf::Vector2i size(155, 144);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+		}
+		if (framestop == 2) {
+			sf::Vector2i position(155, 5);
+			sf::Vector2i size(155, 144);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+		}
+		if (framestop == 3) {
+			sf::Vector2i position(325, 5);
+			sf::Vector2i size(154, 144);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+		}
+		if (framestop == 4) {
+			sf::Vector2i position(480, 5);
+			sf::Vector2i size(154, 144);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+		}
+		if (framestop == 5) {
+			sf::Vector2i position(620, 5);
+			sf::Vector2i size(154, 144);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+		}
+		if (framestop == 6) {
+			sf::Vector2i position(795, 5);
+			sf::Vector2i size(154, 144);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+		}
+	}
+	Vilion->move(-10, 0);
 }
 //andar para a esquerda
-void Villain::WalkLeft(){
-	Vilion->setScale(2,2);
-			textureVilionRight[0].loadFromFile("assets/Npcs/Death/fly_Left.png");
-			Vilion->setTexture(textureVilionRight[0]);
+void Villain::WalkRight() {
 
-			if (frame >= 5) {
-				frame = 0;
-				if (frameOrientationX == 6 and fireanimation == false) {
-					frameOrientationX = 1;
+	Vilion->setScale(-2, 2);
+	textureVilionRight[0].loadFromFile("assets/Villain/Dragon/demon-idle.png");
+	Vilion->setTexture(textureVilionRight[0]);
 
-				} else if (frameOrientationX == 6 and fireanimation == true) {
-					frameOrientationX = 3;
-
-				} else {
-					frameOrientationX++;
-				}
-			} else {
-				frame++;
-			}
-
-			if (fireanimation == false) {
-				if (frameOrientationX == 1) {
-					sf::Vector2i position(21, 10);
-					sf::Vector2i size(42, 63);
-					Vilion->setTextureRect(sf::IntRect(position, size));
-				}
-
-				if (frameOrientationX == 2) {
-					sf::Vector2i position(99, 10);
-					sf::Vector2i size(42, 63);
-					Vilion->setTextureRect(sf::IntRect(position, size));
-				}
-
-				if (frameOrientationX == 3) {
-					sf::Vector2i position(170, 10);
-					sf::Vector2i size(42, 63);
-					Vilion->setTextureRect(sf::IntRect(position, size));
-					fireanimation = true;
-				}
-			} else {
-				if (frameOrientationX == 4) {
-					sf::Vector2i position(237, 10);
-					sf::Vector2i size(76, 58);
-					Vilion->setTextureRect(sf::IntRect(position, size));
-				}
-
-				if (frameOrientationX == 5) {
-					sf::Vector2i position(323, 10);
-					sf::Vector2i size(76, 58);
-					Vilion->setTextureRect(sf::IntRect(position, size));
-				}
-				if (frameOrientationX == 5) {
-						sf::Vector2i position(403, 10);
-						sf::Vector2i size(76, 58);
-						Vilion->setTextureRect(sf::IntRect(position, size));
-					}
-			}
-
-			Vilion->move(-10,0);
-}
-//andar para a esquerda
-void Villain::WalkRight(){
-
-	textureVilionRight[0].loadFromFile("assets/Npcs/Death/fly_Left.png");
-			Vilion->setTexture(textureVilionRight[0]);
-			Vilion->setScale(-2,2);
-			if (frame >= 5) {
-				frame = 0;
-				if (frameOrientationX == 6 and fireanimation == false) {
-					frameOrientationX = 1;
-
-				} else if (frameOrientationX == 6 and fireanimation == true) {
-					frameOrientationX = 3;
-
-				} else {
-					frameOrientationX++;
-				}
-			} else {
-				frame++;
-			}
-
-			if (fireanimation == false) {
-				if (frameOrientationX == 1) {
-					sf::Vector2i position(21, 10);
-					sf::Vector2i size(42, 63);
-					Vilion->setTextureRect(sf::IntRect(position, size));
-				}
-
-				if (frameOrientationX == 2) {
-					sf::Vector2i position(99, 10);
-					sf::Vector2i size(42, 63);
-					Vilion->setTextureRect(sf::IntRect(position, size));
-				}
-
-				if (frameOrientationX == 3) {
-					sf::Vector2i position(170, 10);
-					sf::Vector2i size(42, 63);
-					Vilion->setTextureRect(sf::IntRect(position, size));
-					fireanimation = true;
-				}
-			} else {
-				if (frameOrientationX == 4) {
-					sf::Vector2i position(237, 10);
-					sf::Vector2i size(76, 58);
-					Vilion->setTextureRect(sf::IntRect(position, size));
-				}
-
-				if (frameOrientationX == 5) {
-					sf::Vector2i position(323, 10);
-					sf::Vector2i size(76, 58);
-					Vilion->setTextureRect(sf::IntRect(position, size));
-				}
-				if (frameOrientationX == 5) {
-						sf::Vector2i position(403, 10);
-						sf::Vector2i size(76, 58);
-						Vilion->setTextureRect(sf::IntRect(position, size));
-					}
-			}
-
-			Vilion->move(10,0);
+	if (frame >= 2) {
+		frame = 0;
+		if (framestop == 7 and fireanimation == false) {
+			framestop = 1;
+		} else {
+			framestop++;
+		}
+	} else {
+		frame++;
+	}
+	if (fireanimation == false) {
+		if (framestop == 1) {
+			sf::Vector2i position(0, 5);
+			sf::Vector2i size(155, 144);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+		}
+		if (framestop == 2) {
+			sf::Vector2i position(155, 5);
+			sf::Vector2i size(155, 144);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+		}
+		if (framestop == 3) {
+			sf::Vector2i position(325, 5);
+			sf::Vector2i size(154, 144);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+		}
+		if (framestop == 4) {
+			sf::Vector2i position(480, 5);
+			sf::Vector2i size(154, 144);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+		}
+		if (framestop == 5) {
+			sf::Vector2i position(620, 5);
+			sf::Vector2i size(154, 144);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+		}
+		if (framestop == 6) {
+			sf::Vector2i position(795, 5);
+			sf::Vector2i size(154, 144);
+			Vilion->setTextureRect(sf::IntRect(position, size));
+		}
+	}
+	Vilion->move(10, 0);
 
 }
 Villain::~Villain() {

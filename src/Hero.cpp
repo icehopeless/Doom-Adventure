@@ -1,8 +1,9 @@
 #include "Doom.hpp"
 
 Hero::Hero() {
+	live = 2000;
 	hero = make_shared<sf::Sprite>();
-	hero->setPosition(0,0);
+	hero->setPosition(0,480);
 	herotexture[0].loadFromFile("assets/Hero/Gunner/Gunner_Idle_1.png");
 
 	for (int i = 0; i < 9; i++) {
@@ -23,8 +24,11 @@ Hero::Hero() {
 	}
 
 	down.loadFromFile("assets/Hero/Gunner/Gunner_Crouch.png");
-	hero->setScale(2.f, 2.f);
+	hero->setScale(1.5f, 1.5f);
 	hero->setTexture(herotexture[0]);
+	Heroatack.loadFromFile("assets/attacks_sounds/lazer.wav");
+	atack.setBuffer(Heroatack);
+	atack.setVolume(100);
 }
 
 //animando o hero
@@ -57,7 +61,7 @@ void Hero::animation() {
 		frame++;
 		hero->setTexture(textureheroRight[frameOrientationX], true);
 		hero->move(8, 0);
-		hero->setScale(2.f, 2.f);
+		hero->setScale(1.5f, 1.5f);
 
 	}
 
@@ -73,7 +77,7 @@ void Hero::animation() {
 		frame++;
 		hero->setTexture(textureheroRight[frameOrientationX], true);
 		hero->move(-8, 0);
-		hero->setScale(-2.f, 2.f);
+		hero->setScale(-1.5f, 1.5f);
 
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
@@ -96,24 +100,27 @@ void Hero::attack() {
 	}
 
 	if(tam < 20){
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) and hero->getScale().x == -2) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) and hero->getScale().x == -1.5) {
+			atack.play();
 			Bullet *bu = new Bullet();
 			bu->attacksprite->setScale(-1.3f, 1.3f);
-			bu->attacksprite->setPosition(hero->getPosition().x - 77,hero->getPosition().y + 77);
+			bu->attacksprite->setPosition(hero->getPosition().x - 37,hero->getPosition().y + 53);
 			bu->orientation = true;
 			shots.push_back(*bu);
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)and hero->getScale().x == 2) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)and hero->getScale().x == 1.5) {
+			atack.play();
 			Bullet *bu = new Bullet();
 			bu->attacksprite->setScale(1.3f, 1.3f);
-			bu->attacksprite->setPosition(hero->getPosition().x + 75,hero->getPosition().y + 77);
+			bu->attacksprite->setPosition(hero->getPosition().x + 37,hero->getPosition().y + 53);
 			bu->orientation = false;
 			shots.push_back(*bu);
 		}
 
 		//agachando
-		if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Space)and hero->getScale().x == -2 and sf::Keyboard::isKeyPressed(sf::Keyboard::Down))) {
+		if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Space)and hero->getScale().x == -1.5 and sf::Keyboard::isKeyPressed(sf::Keyboard::Down))) {
+			atack.play();
 			Bullet *bu = new Bullet();
 			bu->attacksprite->setScale(-1.3f, 1.3f);
 			bu->attacksprite->setPosition(hero->getPosition().x - 77,hero->getPosition().y + 88);
@@ -121,7 +128,8 @@ void Hero::attack() {
 			shots.push_back(*bu);
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) and hero->getScale().x == 2 and sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) and hero->getScale().x == 1.5 and sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+			atack.play();
 			Bullet *bu = new Bullet();
 			bu->attacksprite->setScale(1.3f, 1.3f);
 			bu->attacksprite->setPosition(hero->getPosition().x + 75,hero->getPosition().y + 88);
@@ -148,6 +156,9 @@ void Hero::attack() {
 			shots[j].animation();
 		}
 
+
+
+
 	}
 }
 
@@ -164,9 +175,13 @@ void Hero::colision(shared_ptr<sf::Sprite> atingido,int * live){
 
 	for(int i  = 0; i < tam ; i++){
 		if(atingido->getGlobalBounds().intersects(shots[i].attacksprite->getGlobalBounds())){
-			*live = *live - 1;
-			atingido->setColor(sf::Color::Black);
-			shots[i].attacksprite->setColor(sf::Color::Transparent);
+			if(atingido->getColor() != sf::Color::Transparent){
+				*live = *live - 1;
+				atingido->setColor(sf::Color::Black);
+			}
+
         }
 	}	
+
+
 }
