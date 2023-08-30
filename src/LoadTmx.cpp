@@ -32,11 +32,6 @@ void DoomAdventure::update(){
 		r2.setPosition(0,0);
 	}
 
-	if(heroobj->hero->getGlobalBounds().intersects(layerZero->getGlobalBounds())){
-		heroobj->hero->setColor(sf::Color::Red);
-	}else{
-		heroobj->hero->setColor(sf::Color::White);
-	}
 
 	if(heroobj->hero->getPosition().x < 0){
 		heroobj->hero->setPosition(0,heroobj->hero->getPosition().y);

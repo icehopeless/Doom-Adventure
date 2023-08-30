@@ -42,21 +42,20 @@ public:
 	int live;
 	sf::Sound atack;
 	sf::Sound deadSound;
-protected: 
-	void animation();
+
 
 };
 
 class Hero: public Entity {
-public:
+private:
 	sf::SoundBuffer Heroatack;
-	int shotstimer = 0;
 	sf::Texture textureheroRight[9];
 	sf::Texture textureherostop[4];
 	sf::Texture down;
-	shared_ptr<sf::Sprite> hero;
 	sf::Texture herotexture[3];
-
+public:
+	int shotstimer = 0;
+	shared_ptr<sf::Sprite> hero;
 public:
 	Hero();
 	void colision(shared_ptr<sf::Sprite> atingido,int * live);
@@ -67,7 +66,7 @@ public:
 };
 
 class Villain: public Entity {
-public:
+private:
 	//variavel de id dos viloes
 	int timer = 0;
 	int distance = 0;
@@ -75,8 +74,11 @@ public:
 	sf::Texture textureVilionRight[9];
 	sf::Texture textureVilionstop[4];
 	sf::Texture downVilion;
-	shared_ptr<sf::Sprite> Vilion;
 	sf::SoundBuffer Villainatack;
+
+public:
+	shared_ptr<sf::Sprite> Vilion;
+
 
 public:
 	Villain(int referent);
@@ -93,16 +95,18 @@ public:
 };
 
 class Npcs : public Entity{
-public:
+private:
 	sf::SoundBuffer Npcatack;
 	sf::SoundBuffer NpcDead;
-bool fireanimation;
-	shared_ptr<sf::Sprite> npc;
+	bool fireanimation;
 	sf::Texture npcstexture;
 	sf::Texture textureIdle[4];
 	sf::Texture downVilion;
 	int timer = 0;
 	int distance = 0;
+
+public:
+	shared_ptr<sf::Sprite> npc;
 public:
 	Npcs(int referent);
 	~Npcs();
@@ -117,7 +121,7 @@ public:
 	void pop_attack();
 	void npc1();
 	void npc2();
-	void npc3();
+	void npc3(); // d
 	void npc4();
 	void Death();
 	void colision(Hero * heroobj, bool * GameOver);
