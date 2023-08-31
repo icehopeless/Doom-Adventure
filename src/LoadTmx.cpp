@@ -40,7 +40,22 @@ void DoomAdventure::update(){
 		heroobj->hero->setPosition(2472,heroobj->hero->getPosition().y);
 	}
 
+	rt->setPosition(0,0);
+	rt->setSize(sf::Vector2f(500, 500));
+	rt->setFillColor(sf::Color::Blue);
 
+	if(heroobj->hero->getPosition().y > 0){
+	if (layerZero->getTile((int)(heroobj->hero->getPosition().x + heroobj->hero->getGlobalBounds().width / 2) / 32,
+		(int)(heroobj->hero->getPosition().y + heroobj->hero->getGlobalBounds().height) / 32).ID) {
+			// Colidiu / Aplica gravidade
+	}
+
+	p = layerZero->getTile((int)(heroobj->hero->getPosition().x + heroobj->hero->getGlobalBounds().width) / 32,
+		(int)(heroobj->hero->getPosition().y + heroobj->hero->getGlobalBounds().height - 40) / 32).ID;
+		
+
+	}
 	window->setView(*view);
-
 }
+
+

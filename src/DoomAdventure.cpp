@@ -8,8 +8,8 @@ DoomAdventure::DoomAdventure() {
 
 
 	GameOver = false;
-	KeyIntro =	true;
-	KeyGame = false;
+	KeyIntro = false;
+	KeyGame = true;
 	KeyMenu = false;
 	KeyDown = false;
  	KeyUp = false;
@@ -22,7 +22,7 @@ DoomAdventure::DoomAdventure() {
 	time = 0;
 
 	view = new sf::View(sf::FloatRect(0,0,window->getSize().x / 2, window->getSize().y  / 2));
-
+	rt = make_shared<sf::RectangleShape>();
 	background = make_shared<sf::Sprite>();
 
 	window->setFramerateLimit(60);
@@ -50,7 +50,7 @@ DoomAdventure::DoomAdventure() {
 }
 
 void DoomAdventure::Introduction(shared_ptr<sf::RenderWindow> window){
-	static 	float i = 0;
+	static float i = 0;
 	static float j = 0;
 
 	timepassado = clock.getElapsedTime();
@@ -395,6 +395,7 @@ void DoomAdventure::draw() {
 		window->draw(*npc3->npc);
 		window->draw(*npc4->npc);
 		window->draw(*villain->Vilion);
+	
 		int x = heroobj->shots.size();
 
 		for(int i = 0; i < x; i++){
@@ -493,7 +494,7 @@ void DoomAdventure::game() {
 		musicGame.play();
 		chekedaudio = false;
 	}
-
+	gravityGame();
 	Interface();
 	update();
 	npc3->animation();
@@ -520,7 +521,6 @@ void DoomAdventure::run() {
 			Menu();
 		}
 		if(GameOver == false and KeyGame == true){
-
 			game();
 			heroobj->colision(npc1->npc,&npc1->live);
 			heroobj->colision(npc2->npc,&npc2->live);
@@ -628,3 +628,20 @@ DoomAdventure::~DoomAdventure(){
 }
 
 
+void DoomAdventure::gravityGame(){
+
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+		gravity = -7.f;
+		heroobj->hero->move(0,gravity);
+	}
+	
+	if(p != 115 and p != 2147483812 or heroobj->hero->getPosition().y < 0){
+			gravity += 0.4f;
+	
+	
+		heroobj->hero->move(0,gravity);
+	}
+		cout << p << endl;
+
+}

@@ -54,6 +54,7 @@ private:
 	sf::Texture down;
 	sf::Texture herotexture[3];
 public:
+
 	int shotstimer = 0;
 	shared_ptr<sf::Sprite> hero;
 public:
@@ -176,8 +177,11 @@ class DoomAdventure {
 	MapLayer * layerZero;
 	sf::Font font;
 	int i = 0;
+	int p = 0;
+	float gravity;
 	sf::Text textGm;
 	sf::Text returnKey;
+	shared_ptr<sf::RectangleShape> rt;
 
 protected:
 	void Introduction(shared_ptr<sf::RenderWindow> window);
@@ -189,7 +193,7 @@ protected:
 	void GameOverX();
 	void update();
 	void Interface();
-
+	void gravityGame();
 public:
 	DoomAdventure();
 	~DoomAdventure();

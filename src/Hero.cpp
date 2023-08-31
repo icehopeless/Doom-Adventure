@@ -3,6 +3,8 @@
 Hero::Hero() {
 	live = 2000;
 	hero = make_shared<sf::Sprite>();
+	
+
 	hero->setPosition(0,480);
 	herotexture[0].loadFromFile("assets/Hero/Gunner/Gunner_Idle_1.png");
 
@@ -34,6 +36,7 @@ Hero::Hero() {
 //animando o hero
 
 void Hero::animation() {
+
 	if (frame >= 5) {
 		frame = 0;
 		if (framestop == 3) {
@@ -84,9 +87,7 @@ void Hero::animation() {
 		hero->setTexture(down, true);
 		hero->move(0, 15);
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-		hero->move(0, -15);
-	}
+
 
 }
 
@@ -156,10 +157,11 @@ void Hero::attack() {
 			shots[j].animation();
 		}
 
-
+	
 
 
 	}
+	
 }
 
 void Hero::pop_attack() {
