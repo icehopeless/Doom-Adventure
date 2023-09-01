@@ -63,6 +63,7 @@ void Hero::animation() {
 		}
 		frame++;
 		hero->setTexture(textureheroRight[frameOrientationX], true);
+		hero->setOrigin((hero->getLocalBounds().width / 2 ) -  30,hero->getOrigin().y);
 		hero->move(8, 0);
 		hero->setScale(1.5f, 1.5f);
 
@@ -80,14 +81,14 @@ void Hero::animation() {
 		frame++;
 		hero->setTexture(textureheroRight[frameOrientationX], true);
 		hero->move(-8, 0);
-		hero->setScale(-1.5f, 1.5f);
-
+		hero->setOrigin((hero->getLocalBounds().width / 2 ) +  30,hero->getOrigin().y);
+		hero->setScale(-1.5,1.5);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 		hero->setTexture(down, true);
-		hero->move(0, 15);
+		
 	}
-
+	
 
 }
 

@@ -22,7 +22,6 @@ DoomAdventure::DoomAdventure() {
 	time = 0;
 
 	view = new sf::View(sf::FloatRect(0,0,window->getSize().x / 2, window->getSize().y  / 2));
-	rt = make_shared<sf::RectangleShape>();
 	background = make_shared<sf::Sprite>();
 
 	window->setFramerateLimit(60);
@@ -43,8 +42,9 @@ DoomAdventure::DoomAdventure() {
 		chekedaudio = true;
 	}
 
-		if (map.load("maps/map1.tmx")) {
-			layerZero = new MapLayer(map, 0);
+		if (map.load("maps/map.tmx")) {
+			layerZero = new MapLayer(map, 1);
+			layerUm = new MapLayer(map, 0);
 		}
 
 }
@@ -425,7 +425,7 @@ void DoomAdventure::draw() {
 				window->draw(*npc1->shots[i].attacksprite);
 			}
 		window->draw(r1);
-
+		window->draw(r3);
 	}
 	if(GameOver == true){
 		window->draw(r1);
@@ -636,12 +636,15 @@ void DoomAdventure::gravityGame(){
 		heroobj->hero->move(0,gravity);
 	}
 	
-	if(p != 115 and p != 2147483812 or heroobj->hero->getPosition().y < 0){
-			gravity += 0.4f;
-	
+	if(p != 367 and p != 399 and p != 416 and p != 405 or heroobj->hero->getPosition().y < 0){
+			gravity += 0.7f;
 	
 		heroobj->hero->move(0,gravity);
 	}
-		cout << p << endl;
 
+	if(p == 399){
+		heroobj->hero->setPosition(heroobj->hero->getPosition().x,heroobj->hero->getPosition().y - 1);
+	}
+		cout << p << endl;
+	
 }

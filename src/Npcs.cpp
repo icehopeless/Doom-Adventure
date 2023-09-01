@@ -135,7 +135,11 @@ void Npcs::npc1(){
 
 
 void Npcs::npc2(){
-	if(attack == false){
+	if(live <= 0){
+		dead = true;
+	}
+
+	if(dead == false){
 		timer++;
 		if(timer == 100 or timer == 200 or timer == 0){
 			fireanimation = false;
@@ -151,6 +155,8 @@ void Npcs::npc2(){
 		if(timer == 500){
 			timer = 0;
 		}
+	}else if(dead == true and stopFunction == false){
+		Death();
 	}
 }
 
@@ -1210,7 +1216,6 @@ void Npcs::Death(){
 	}
 
 	if(referent == 2){
-
 			stopFunction = true;
 			npc->setColor(sf::Color::Transparent);
 	}

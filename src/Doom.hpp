@@ -175,13 +175,14 @@ class DoomAdventure {
 	bool KeyDown;
 	bool KeyUp;
 	MapLayer * layerZero;
+	MapLayer * layerUm;
 	sf::Font font;
 	int i = 0;
 	int p = 0;
 	float gravity;
 	sf::Text textGm;
 	sf::Text returnKey;
-	shared_ptr<sf::RectangleShape> rt;
+	
 
 protected:
 	void Introduction(shared_ptr<sf::RenderWindow> window);
