@@ -191,7 +191,5 @@ void Hero::colision(shared_ptr<sf::Sprite> atingido,int * live){
 			}
 
         }
-	}	
-
-
+	}
 }

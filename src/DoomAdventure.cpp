@@ -403,9 +403,6 @@ void DoomAdventure::events() {
 		if (event.type == sf::Event::Closed) {
 			window->close();
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-				heroobj->ControlSkip++;
-		}
 	}
 }
 void DoomAdventure::drawGame() {
@@ -816,15 +813,16 @@ void DoomAdventure::gravityAndColision(){
 }
 
 void DoomAdventure::map1(){
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) and heroobj->ControlSkip%2 == 0) {
-		gravity = -7.f;
+
+	if(heroobj->DownCountColison != 115 and heroobj->DownCountColison != 153 and heroobj->DownCountColison != 147 and heroobj->DownCountColison != 164 and heroobj->DownCountColison != 58 or heroobj->hero->getPosition().y < 0){
+		heroobj->ControlSkip == false;
+		gravity += 0.7f;
+		heroobj->hero->move(0,gravity);
+	}else{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+		gravity = -8.f;
 		heroobj->hero->move(0,gravity);
 	}
-	
-	if(heroobj->DownCountColison != 115 and heroobj->DownCountColison != 153 and heroobj->DownCountColison != 147 and heroobj->DownCountColison != 164 and heroobj->DownCountColison != 58 or heroobj->hero->getPosition().y < 0){
-			gravity += 0.7f;
-	
-		heroobj->hero->move(0,gravity);
 	}
 
 	if(heroobj->DownCountColison == 399){

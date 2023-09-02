@@ -1141,13 +1141,13 @@ void Npcs::colision(Hero * heroobj, bool  * GameOver,int  level){
 			if(npc->getScale().x < 0){
 				heroBound.left += 50.f;
 			
-			if(heroBound.intersects(npc->getGlobalBounds())){
+			if(heroBound.intersects(npc->getGlobalBounds()) and npc->getColor() != sf::Color::Transparent){
 				heroobj->live -= 20;
 			}
 
 			}else{
 				//heroBound.left -= 50.f;
-			if(heroBound.intersects(npc->getGlobalBounds())){
+			if(heroBound.intersects(npc->getGlobalBounds()) and npc->getColor() != sf::Color::Transparent){
 				heroobj->live -= 20;
 			}
 			}
@@ -1180,13 +1180,13 @@ void Npcs::colision(Hero * heroobj, bool  * GameOver,int  level){
 			if(npc->getScale().x < 0){
 				heroBound.left += 50.f;
 			
-			if(heroBound.intersects(npc->getGlobalBounds())){
+			if(heroBound.intersects(npc->getGlobalBounds()) and npc->getColor() != sf::Color::Transparent){
 				heroobj->live -= 40;
 			}
 
 			}else{
 				//heroBound.left -= 50.f;
-			if(heroBound.intersects(npc->getGlobalBounds())){
+			if(heroBound.intersects(npc->getGlobalBounds()) and npc->getColor() != sf::Color::Transparent){
 				heroobj->live -= 40;
 			}
 			}

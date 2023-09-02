@@ -58,7 +58,6 @@ private:
 	sf::Texture down;
 	sf::Texture herotexture[3];
 public:
-	int ControlSkip = 2;
 	int shotstimer = 0;
 	shared_ptr<sf::Sprite> hero;
 public:
