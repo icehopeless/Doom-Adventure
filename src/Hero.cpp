@@ -81,7 +81,7 @@ void Hero::animation() {
 		frame++;
 		hero->setTexture(textureheroRight[frameOrientationX], true);
 		hero->move(-8, 0);
-		hero->setOrigin((hero->getLocalBounds().width / 2 ) +  30,hero->getOrigin().y);
+		hero->setOrigin((hero->getLocalBounds().width / 2 ) +  30,(hero->getLocalBounds().height / 2 ) -  30);
 		hero->setScale(-1.5,1.5);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
@@ -89,6 +89,14 @@ void Hero::animation() {
 		
 	}
 	
+	if(ControlSkip <= -2){
+		count++;
+
+		if(count == 1){
+			count = 0;
+			ControlSkip = 4;
+		}
+	}
 
 }
 

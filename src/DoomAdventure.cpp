@@ -8,26 +8,47 @@ DoomAdventure::DoomAdventure() {
 
 
 	GameOver = false;
-	KeyIntro = false;
-	KeyGame = true;
+	KeyIntro = true;
+	KeyGame = false;
 	KeyMenu = false;
 	KeyDown = false;
  	KeyUp = false;
+	level1 = false;
+	level2 = false;
+	level3 = false;
 	heroobj = new Hero();
-	npc1 = new Npcs(1);
-	npc2 = new Npcs(2);
-	npc3 = new Npcs(3);
-	npc4 = new Npcs(4);
+	npcA1 = new Npcs(1);
+	npcA2 = new Npcs(1);
+	npcB1 = new Npcs(2);
+	npcB2 = new Npcs(2);
+	npcC1 = new Npcs(4);
+	npcC2 = new Npcs(4);
+	npcC3 = new Npcs(4);
 	villain = new Villain(1);
 	time = 0;
-
+	level = 1;
 	view = new sf::View(sf::FloatRect(0,0,window->getSize().x / 2, window->getSize().y  / 2));
 	background = make_shared<sf::Sprite>();
-
+	map_2 = make_shared<tmx::Map>();
+	villain->live = -1;
 	window->setFramerateLimit(60);
-
+	npcC1->live = -1;
+	npcC2->live = -1;
+	npcC3->live = -1;
 	rain.openFromFile("assets/sound/rain.wav");
 	static bool test = false;
+	npcA1->npc->setPosition(450, 595);
+	npcA2->npc->setPosition(1648, 340);
+	npcA2->orientation = false;
+	npcB1->npc->setPosition(1000, 475);
+	npcB2->npc->setPosition(344, 228);
+	checkpoint.setSize(sf::Vector2f(60,100));
+	checkpoint.setPosition(2504,290);
+	skiplevel = false;
+	transitionTexture.loadFromFile("assets/Background/transition.png");
+	transition.setTexture(transitionTexture);
+	transition.setColor(sf::Color::Transparent);
+	
 	if(test == false){
 		rain.play();
 		rain.setVolume(50);
@@ -42,11 +63,22 @@ DoomAdventure::DoomAdventure() {
 		chekedaudio = true;
 	}
 
-		if (map.load("maps/map.tmx")) {
-			layerZero = new MapLayer(map, 1);
-			layerUm = new MapLayer(map, 0);
-		}
+	if (map.load("maps/map.tmx")) {
+		layerDraw = new MapLayer(map, 0);
+		layerLeft = new MapLayer(map, 3);
+		layerRight = new MapLayer(map, 1);
+		layerUp = new MapLayer(map, 2);
+		layerDown = new MapLayer(map, 4);
+	}
 
+	if(map_2->load("maps/map2.tmx")){
+			layerDraw_2 = new MapLayer(*map_2, 0);
+			layerLeft_2 = new MapLayer(*map_2, 3);
+			layerRight_2 = new MapLayer(*map_2, 2);
+			layerUp_2 = new MapLayer(*map_2, 4);
+			layerDown_2 = new MapLayer(*map_2, 1);
+	}
+	
 }
 
 void DoomAdventure::Introduction(shared_ptr<sf::RenderWindow> window){
@@ -141,6 +173,7 @@ void DoomAdventure::Introduction(shared_ptr<sf::RenderWindow> window){
 		}
 
 		if (time == 10) {
+			r1.setPosition(0,500);
 			r1.setColor(sf::Color::Transparent);
 			r2.setColor(sf::Color::Transparent);
 			r3.setColor(sf::Color::Transparent);
@@ -210,6 +243,7 @@ void DoomAdventure::Introduction(shared_ptr<sf::RenderWindow> window){
 }
 
 void DoomAdventure::Menu(){
+	transition.setColor(sf::Color::Transparent);
 	view->setSize(window->getSize().x, window->getSize().y);
 	view->setCenter(window->getSize().x /2, window->getSize().y /2);
 	window->setView(*view);
@@ -314,6 +348,8 @@ void DoomAdventure::Menu(){
 
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return)){
 		if(i == 1){
+			level = 1;
+			Restart();
 			KeyMenu= false;
 			KeyGame = true;
 			musicGame.stop();
@@ -367,10 +403,110 @@ void DoomAdventure::events() {
 		if (event.type == sf::Event::Closed) {
 			window->close();
 		}
-
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+				heroobj->ControlSkip--;
+		}
 	}
 }
+void DoomAdventure::drawGame() {
+	
+	window->draw(r2);
 
+
+	if(level1 == true){
+		window->draw(*layerDraw);
+		window->draw(*heroobj->hero);
+		window->draw(*npcA1->npc);
+		window->draw(*npcA2->npc);
+		window->draw(*npcB1->npc);
+		window->draw(*npcB2->npc);
+	
+		int x = heroobj->shots.size();
+
+		for(int i = 0; i < x; i++){
+			heroobj->shots[i].Orientation(60);
+			window->draw(*heroobj->shots[i].attacksprite);
+		}
+
+		int z = npcA1->shots.size();
+
+		for(int i = 0; i < z; i++){
+				npcA1->shots[i].Orientation(50);
+				window->draw(*npcA1->shots[i].attacksprite);
+			}
+
+		int r = npcA2->shots.size();
+
+		for(int i = 0; i < r; i++){
+			npcA2->shots[i].Orientation(90);
+			window->draw(*npcA2->shots[i].attacksprite);
+		}
+
+	}
+
+	if(level2 == true){
+		window->draw(*layerDraw_2);
+		window->draw(*layerDown_2);
+		window->draw(*heroobj->hero);
+		window->draw(*npcA1->npc);
+		window->draw(*npcA2->npc);
+		window->draw(*npcB1->npc);
+		window->draw(*npcB2->npc);
+		window->draw(*npcC1->npc);
+		window->draw(*npcC2->npc);
+		window->draw(*npcC3->npc);
+
+		
+		int x = heroobj->shots.size();
+
+		for(int i = 0; i < x; i++){
+			heroobj->shots[i].Orientation(60);
+			window->draw(*heroobj->shots[i].attacksprite);
+		}
+
+
+	int z = npcA1->shots.size();
+
+		for(int i = 0; i < z; i++){
+				npcA1->shots[i].Orientation(50);
+				window->draw(*npcA1->shots[i].attacksprite);
+			}
+
+		int r = npcA2->shots.size();
+
+		for(int i = 0; i < r; i++){
+			npcA2->shots[i].Orientation(90);
+			window->draw(*npcA2->shots[i].attacksprite);
+		}
+
+		int a = npcC1->shots.size();
+
+		for(int i = 0; i < a; i++){
+			npcC1->shots[i].Orientation(90);
+			window->draw(*npcC1->shots[i].attacksprite);
+		}
+
+		int u = npcC2->shots.size();
+
+		for(int i = 0; i < u; i++){
+			npcC2->shots[i].Orientation(90);
+			window->draw(*npcC2->shots[i].attacksprite);
+		}
+
+		int v = npcC3->shots.size();
+
+		for(int i = 0; i < v; i++){
+			npcC3->shots[i].Orientation(90);
+			window->draw(*npcC3->shots[i].attacksprite);
+		}
+
+	}
+
+	window->draw(r3);
+	window->draw(n1);
+	window->draw(r1);
+
+}
 
 void DoomAdventure::draw() {
 
@@ -387,51 +523,14 @@ void DoomAdventure::draw() {
 		window->draw(r3);
 	}
 	if(KeyGame == true){
-		window->draw(r2);
-		window->draw(*layerZero);
-		window->draw(*heroobj->hero);
-		window->draw(*npc1->npc);
-		window->draw(*npc2->npc);
-		window->draw(*npc3->npc);
-		window->draw(*npc4->npc);
-		window->draw(*villain->Vilion);
-	
-		int x = heroobj->shots.size();
-
-		for(int i = 0; i < x; i++){
-			heroobj->shots[i].Orientation(60);
-			window->draw(*heroobj->shots[i].attacksprite);
-		}
-
-		int y = npc3->shots.size();
-
-			for(int i = 0; i < y; i++){
-				npc3->shots[i].Orientation(70);
-				window->draw(*npc3->shots[i].attacksprite);
-			}
-
-			
-		int r = npc4->shots.size();
-
-		for(int i = 0; i < r; i++){
-			npc4->shots[i].Orientation(90);
-			window->draw(*npc4->shots[i].attacksprite);
-		}
-
-		int z = npc1->shots.size();
-
-		for(int i = 0; i < z; i++){
-				npc1->shots[i].Orientation(50);
-				window->draw(*npc1->shots[i].attacksprite);
-			}
-		window->draw(r1);
-		window->draw(r3);
+		drawGame();
 	}
 	if(GameOver == true){
 		window->draw(r1);
 		window->draw(textGm);
 		window->draw(returnKey);
 	}
+	window->draw(transition);
 	window->display();
 
 }
@@ -444,35 +543,35 @@ void DoomAdventure::Interface(){
 	r1.setColor(sf::Color::Red);
 
 	if(heroobj->live > 1500){
-		sf::Vector2i size(51,20);
+		sf::Vector2i size(45,20);
 		sf::Vector2i position(2,77);
 		r1.setTexture(mYSt,true);
 		r1.setTextureRect(sf::IntRect(position,size));
 	}
 
 	if(heroobj->live < 1000){
-		sf::Vector2i size(51,20);
+		sf::Vector2i size(45,20);
 		sf::Vector2i position(49,77);
 		r1.setTexture(mYSt,true);
 		r1.setTextureRect(sf::IntRect(position,size));
 	}
 
 	if(heroobj->live < 500){
-		sf::Vector2i size(51,20);
+		sf::Vector2i size(45,20);
 		sf::Vector2i position(97,77);
 		r1.setTexture(mYSt,true);
 		r1.setTextureRect(sf::IntRect(position,size));
 	}
 
 	if(heroobj->live < 100){
-		sf::Vector2i size(51,20);
+		sf::Vector2i size(45,20);
 		sf::Vector2i position(144,77);
 		r1.setTexture(mYSt,true);
 		r1.setTextureRect(sf::IntRect(position,size));
 	}
 
 	if(heroobj->live < 0){
-		sf::Vector2i size(51,20);
+		sf::Vector2i size(45,20);
 		sf::Vector2i position(193,77);
 		r1.setTexture(mYSt,true);
 		r1.setTextureRect(sf::IntRect(position,size));
@@ -482,7 +581,6 @@ void DoomAdventure::Interface(){
 		KeyGame = false;
 		GameOver = true;
 	}
-
 }
 
 void DoomAdventure::game() {
@@ -494,21 +592,37 @@ void DoomAdventure::game() {
 		musicGame.play();
 		chekedaudio = false;
 	}
-	gravityGame();
+	gravityAndColision();
 	Interface();
 	update();
-	npc3->animation();
-	npc3->testAproxim(heroobj);
-	npc4->animation();
-	npc4->testAproxim(heroobj);
-	npc1->animation();
-	npc1->testAproxim(heroobj);
-	npc2->animation();
+
+
+	npcB1->animation();
+	npcB1->testAproxim(heroobj);
+	npcB2->animation();
+	npcB2->testAproxim(heroobj);
+	npcA1->animation();
+	npcA1->testAproxim(heroobj);
+	npcA2->animation();
+	npcA2->testAproxim(heroobj);
+	
+	if(level2 == true or level3 == true){
+		npcC1->animation();
+		npcC1->testAproxim(heroobj);
+		npcC2->animation();
+		npcC2->testAproxim(heroobj);
+		npcC3->animation();
+		npcC3->testAproxim(heroobj);
+	}
+
 	heroobj->attack();
 	heroobj->shotstimer++;
 	heroobj->animation();
-	villain->animation();
-	villain->testAproxim(heroobj);
+	if(level3 == 3){
+		villain->animation();
+		villain->testAproxim(heroobj);
+	}
+	
 
 }
 
@@ -522,14 +636,17 @@ void DoomAdventure::run() {
 		}
 		if(GameOver == false and KeyGame == true){
 			game();
-			heroobj->colision(npc1->npc,&npc1->live);
-			heroobj->colision(npc2->npc,&npc2->live);
-			heroobj->colision(npc3->npc,&npc3->live);
-			heroobj->colision(npc4->npc,&npc4->live);
-			npc1->colision(heroobj,&GameOver);
-			npc2->colision(heroobj, &GameOver);
-			npc3->colision(heroobj,&GameOver);
-			npc4->colision(heroobj,&GameOver);
+			heroobj->colision(npcA1->npc,&npcA1->live);
+			heroobj->colision(npcA2->npc,&npcA2->live);
+			heroobj->colision(npcB1->npc,&npcB1->live);
+			heroobj->colision(npcB2->npc,&npcB2->live);
+			npcA1->colision(heroobj,&GameOver,level);
+			npcA2->colision(heroobj, &GameOver,level);
+			npcB1->colision(heroobj,&GameOver,level);
+			npcB2->colision(heroobj,&GameOver,level);
+			npcC1->colision(heroobj, &GameOver,level);
+			npcC2->colision(heroobj,&GameOver,level);
+			npcC3->colision(heroobj,&GameOver,level);
 		}
 		if(GameOver == true){
 			GameOverX();
@@ -539,11 +656,31 @@ void DoomAdventure::run() {
 }
 
 void DoomAdventure::GameOverX(){
-	view->setSize(window->getSize().x, window->getSize().y);
-	view->setCenter(window->getSize().x /2, window->getSize().y /2);
-	mYSt.loadFromFile("assets/Shoots/fire/fire-skull-no-fire.png");
-	r1.setTexture(mYSt);
-	view->setCenter(r1.getPosition());
+
+	if(level == 1){
+		mYSt.loadFromFile("assets/Shoots/fire/fire-skull-no-fire.png");
+		r1.setTexture(mYSt);
+		int static teste = 0;
+		if(teste == 0){
+			r1.setPosition(view->getCenter().x + 90,view->getCenter().y - 200);
+		}
+		teste = 1;
+		view->setCenter(r1.getPosition());
+		
+	}
+
+	if(level == 2){
+	
+		mYSt.loadFromFile("assets/Shoots/fire/fire-skull-no-fire.png");
+		r1.setTexture(mYSt);
+		int static teste = 0;
+		if(teste == 0){
+			r1.setPosition(view->getCenter().x + 90,view->getCenter().y - 200);
+		}
+		teste = 1;
+		view->setCenter(r1.getPosition());
+	}
+
 	static int framSkull =0;
 	r1.setColor(sf::Color::White);
 	font.loadFromFile("assets/Background/Pixelmania.ttf");
@@ -590,36 +727,65 @@ void DoomAdventure::GameOverX(){
 	}
 
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return)){
-		Restart();
+		KeyGame = false;
+		GameOver = false;
+		KeyMenu = true;
 
 	}
 
 }
 
 void DoomAdventure::Restart(){
-	GameOver= false;
-	KeyMenu = true;
-	heroobj->live = 2000;
-	i =0;
-	npc1->live = 50;
-	npc2->live = 50;
-	npc3->live = 50;
-	npc4->live = 50;
-	chekedaudio = false;
-	npc1->npc->setPosition(800,45);
-	npc2->npc->setPosition(800, 540);
-	npc3->npc->setPosition(2208, 255);
-	npc4->npc->setPosition(2032, 495);
-	heroobj->hero->setPosition(0,480);
-	npc1->dead = false;
-	npc2->dead = false;
-	npc3->dead = false;
-	npc4->dead = false;
-	npc1->stopFunction = false;
-	npc2->stopFunction = false;
-	npc3->stopFunction = false;
-	npc4->stopFunction = false;
 
+	if(level == 1){
+		GameOver= false;
+		KeyMenu = true;
+		heroobj->live = 2000;
+		i =0;
+		npcA1->live = 50;
+		npcA2->live = 50;
+		npcB1->live = 50;
+		npcB2->live = 50;
+		chekedaudio = false;
+		npcA1->npc->setPosition(800,45);
+		npcA2->npc->setPosition(800, 540);
+		npcB1->npc->setPosition(2208, 255);
+		npcB2->npc->setPosition(2032, 495);
+		heroobj->hero->setPosition(0,480);
+		npcA1->dead = false;
+		npcA2->dead = false;
+		npcB1->dead = false;
+		npcB2->dead = false;
+		npcA1->stopFunction = false;
+		npcA2->stopFunction = false;
+		npcB1->stopFunction = false;
+		npcB2->stopFunction = false;
+		checkpoint.setSize(sf::Vector2f(60,100));
+		checkpoint.setPosition(2504,290);
+
+		npcC1->live = -1;
+		npcC2->live = -1;
+		npcC3->live = -1;
+	}
+
+	if(level == 2){
+		heroobj->hero->setPosition(0,441);
+		npcA1->npc->setPosition(1250, 430);
+		npcA2->npc->setPosition(1640, 357);
+		npcA2->orientation = false;
+		npcB1->npc->setPosition(844, 477);
+		npcB2->npc->setPosition(2280, 223);
+		npcC1->npc->setPosition(1890,600);
+		npcC2->npc->setPosition(800,heroobj->hero->getPosition().y);
+		npcC3->npc->setPosition(1000,400);
+		npcA1->live = 200;
+		npcA2->live = 200;
+		npcB1->live = 200;
+		npcB1->live = 200;
+		npcC1->live = 200;
+		npcC2->live = 200;
+		npcC3->live = 200;
+	}
 }
 DoomAdventure::~DoomAdventure(){
 	delete heroobj;
@@ -628,23 +794,174 @@ DoomAdventure::~DoomAdventure(){
 }
 
 
-void DoomAdventure::gravityGame(){
+void DoomAdventure::gravityAndColision(){
+	if(level1 == true){
+		map1();
+	}
+	if(level2 == true){
+		map2();
+	}
+	if(level3 == true){
+		map3();
+	}
 
+	// switch (level)
+	// {
+	// case 1:
+	// 	map1();
+	// case 2:
+	// 	map2();
+	// case 3:
+	// 	map3();
+	// 	break;
+	// }
+}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+void DoomAdventure::map1(){
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) and heroobj->ControlSkip >= 0) {
 		gravity = -7.f;
 		heroobj->hero->move(0,gravity);
 	}
 	
-	if(p != 367 and p != 399 and p != 416 and p != 405 or heroobj->hero->getPosition().y < 0){
+	if(heroobj->DownCountColison != 115 and heroobj->DownCountColison != 153 and heroobj->DownCountColison != 147 and heroobj->DownCountColison != 164 and heroobj->DownCountColison != 58 or heroobj->hero->getPosition().y < 0){
 			gravity += 0.7f;
 	
 		heroobj->hero->move(0,gravity);
 	}
 
-	if(p == 399){
+	if(heroobj->DownCountColison == 399){
 		heroobj->hero->setPosition(heroobj->hero->getPosition().x,heroobj->hero->getPosition().y - 1);
 	}
-		cout << p << endl;
+
+	if(heroobj->LeftCountColison == 58 or heroobj->LeftCountColison == 153){
+			heroobj->hero->setPosition(heroobj->hero->getPosition().x + 8,heroobj->hero->getPosition().y);
+	}
+
+	if(heroobj->RightCountColison == 58 or heroobj->RightCountColison == 147 or heroobj->RightCountColison == 164){
+			heroobj->hero->setPosition(heroobj->hero->getPosition().x - 8,heroobj->hero->getPosition().y);
+	}
+
+	if(heroobj->UpCountColison == 58 or heroobj->UpCountColison == 147 or heroobj->UpCountColison == 167){
+		gravity += 4.7f;
+			heroobj->hero->move(0,gravity);
+	}
+
+
+
+	if(npcA1->DownCountColison != 115 and npcA1->DownCountColison != 153 and npcA1->DownCountColison != 147 and npcA1->DownCountColison != 164 and npcA1->DownCountColison != 58 or npcA1->npc->getPosition().y < 0){
+			gravity += 0.7f;
 	
+		npcA1->npc->move(0,gravity);
+	}
+
+	if(npcA1->DownCountColison == 399){
+		npcA1->npc->setPosition(npcA1->npc->getPosition().x,npcA1->npc->getPosition().y - 1);
+	}
+
+	if(npcA1->LeftCountColison == 58 or npcA1->LeftCountColison == 153){
+			npcA1->orientation = false;
+	}
+	if(npcA1->RightCountColison == 58 or npcA1->RightCountColison == 147 or npcA1->RightCountColison == 164){
+			npcA1->orientation = true;
+	}
+	if(npcA1->UpCountColison == 58 or npcA1->UpCountColison == 147 or npcA1->UpCountColison == 167){
+		gravity += 4.7f;
+			npcA1->npc->move(0,gravity);
+	}
+
+
+
+	if(npcA2->DownCountColison != 115 and npcA2->DownCountColison != 153 and npcA2->DownCountColison != 147 and npcA2->DownCountColison != 164 and npcA2->DownCountColison != 58 or npcA2->npc->getPosition().y < 0){
+			gravity += 0.7f;
+	
+		npcA2->npc->move(0,gravity);
+	}
+	if(npcA2->LeftCountColison == 58 or npcA2->LeftCountColison == 153){
+			npcA2->orientation = false;
+	}
+	if(npcA2->RightCountColison == 58 or npcA2->RightCountColison == 147 or npcA2->RightCountColison == 164 or npcA2->npc->getPosition().x > 2335 ){
+			npcA2->orientation = true;
+	}
+	if(npcA2->UpCountColison == 58 or npcA2->UpCountColison == 147 or npcA2->UpCountColison == 167){
+		gravity += 4.7f;
+			npcA2->npc->move(0,gravity);
+	}
+
+	if(npcB1->npc->getPosition().x < 476){
+		npcB1->orientation = true;
+	}
+	if(npcB1->npc->getPosition().x > 1000){
+		npcB1->orientation = false;
+	}
+
+	if(npcB2->npc->getPosition().x < 344){
+		npcB2->orientation = true;
+	}
+	if(npcB2->npc->getPosition().x > 928){
+		npcB2->orientation = false;
+	}
+}
+
+void DoomAdventure::map2(){
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) and heroobj->ControlSkip >= 0) {
+		gravity = -7.f;
+		heroobj->hero->move(0,gravity);
+	}
+
+
+	if(heroobj->DownCountColison != 121 or heroobj->hero->getPosition().y < 0){
+			gravity += 0.7f;
+	
+		heroobj->hero->move(0,gravity);
+	}
+
+	
+
+	if(heroobj->LeftCountColison == 58 ){
+			heroobj->hero->setPosition(heroobj->hero->getPosition().x + 8,heroobj->hero->getPosition().y);
+	}
+
+	if(heroobj->RightCountColison == 58 ){
+			heroobj->hero->setPosition(heroobj->hero->getPosition().x - 8,heroobj->hero->getPosition().y);
+	}
+
+	if(heroobj->UpCountColison == 58){
+		gravity += 4.7f;
+			heroobj->hero->move(0,gravity);
+	}
+
+
+	if(npcB1->npc->getPosition().x < 540){
+		npcB1->orientation = true;
+	}
+	if(npcB1->npc->getPosition().x > 884){
+		npcB1->orientation = false;
+	}
+
+	if(npcB2->npc->getPosition().x < 1920){
+		npcB2->orientation = true;
+	}
+	if(npcB2->npc->getPosition().x > 2280){
+		npcB2->orientation = false;
+	}
+
+	if(npcA1->npc->getPosition().x < 1316){
+		npcA1->orientation = false;
+	}
+	if(npcA1->npc->getPosition().x > 1464){
+		npcA1->orientation = true;
+	}
+
+	if(npcA2->npc->getPosition().x < 1590){
+		npcA2->orientation = false;
+	}
+	if(npcA2->npc->getPosition().x > 1700){
+		npcA2->orientation = true;
+	}
+
+}
+
+void DoomAdventure::map3(){
+
 }

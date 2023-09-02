@@ -3,6 +3,7 @@
 Npcs::Npcs(int referent){
     npc = make_shared<sf::Sprite>();
     fireanimation = false;
+	orientation =false;
 	if(referent == 1){
 		live = 50;
 		npcstexture.loadFromFile("assets/Npcs/MeioTermo/spritesheet.png");
@@ -15,7 +16,6 @@ Npcs::Npcs(int referent){
 		this->referent = referent;
 		attack = false;
 		npc->setColor(sf::Color::Cyan);
-		npc->setPosition(496, 200);
 		framestop = 1;    
 		Npcatack.loadFromFile("assets/attacks_sounds/arrow.wav");
 		atack.setBuffer(Npcatack);
@@ -110,18 +110,16 @@ void Npcs::npc1(){
 	if(live <= 0){
 		dead = true;
 	}
-	
+	timer =0 ;
     if(attack == false and dead != true){
-		timer++;
-		if (timer < 200) {
+	
+		if (orientation == false) {
 			RightWalk();
 		}
-		else if (timer > 200 and timer <= 400) {
+		else if (orientation == true) {
 			LeftWalk();
 		}
-		if(timer == 400){
-			timer = 0;
-        }
+
 	} else if(attack == true and  dead != true) {
         attack1();
     }else if(dead == true and stopFunction == false){
@@ -147,9 +145,9 @@ void Npcs::npc2(){
 		if (timer < 100) {
 			Idle();
 		}
-		else if (timer > 100 and timer < 300) {
+		else if (orientation == false) {
 			LeftWalk();
-		}else if(timer >= 300){
+		}else if(orientation == true){
 			RightWalk();
 		}
 		if(timer == 500){
@@ -277,13 +275,14 @@ void Npcs::RightWalk(){
             sf::Vector2i size(38, 49);
             npc->setTextureRect(sf::IntRect(position, size));
         }
+		npc->setOrigin((npc->getLocalBounds().width / 2 ) -  10,npc->getOrigin().y);
         npc->move(3,0);
 	}
 	if(referent == 2){
 		npcstexture.loadFromFile("assets/Npcs/Wolf/hell-hound-run.png");
 		npc->setTexture(npcstexture);
 		npc->setScale(-2.f,2.f);
-        if (frame >= 5) {
+        if (frame >= 2) {
             frame = 0;
         if (framestop == 8) {
             framestop = 1;
@@ -318,7 +317,7 @@ void Npcs::RightWalk(){
             sf::Vector2i size(50, 34);
             npc->setTextureRect(sf::IntRect(position, size));
         }
-		npc->move(6,0);
+		npc->move(16,0);
 	}	
     if(referent == 3){
 		npcstexture.loadFromFile("assets/Npcs/Death/fly_Left.png");
@@ -443,13 +442,14 @@ void Npcs::LeftWalk(){
             sf::Vector2i size(38, 49);
             npc->setTextureRect(sf::IntRect(position, size));
         }
+		npc->setOrigin((npc->getLocalBounds().width / 2 ) +  30,npc->getOrigin().y);
         npc->move(-3,0);
     }
 
 	if(referent == 2){
 		npcstexture.loadFromFile("assets/Npcs/Wolf/hell-hound-run.png");
 		npc->setScale(2.f,2.f);
-        if (frame >= 5) {
+        if (frame >= 2) {
             frame = 0;
         if (framestop == 8) {
             framestop = 1;
@@ -484,7 +484,7 @@ void Npcs::LeftWalk(){
             sf::Vector2i size(50, 34);
             npc->setTextureRect(sf::IntRect(position, size));
         }
-		npc->move(-6,0);
+		npc->move(-16,0);
 	}	
 
     if(referent == 3){
@@ -627,6 +627,7 @@ void Npcs::attack1(){
 				}
 				if(distance > 0){
 					bu->orientation = false;
+					bu->attacksprite->setScale(bu->attacksprite->getScale().x * -1,bu->attacksprite->getScale().y);
 				}
 
 				shots.push_back(*bu);
@@ -879,7 +880,7 @@ void Npcs::Idle(){
 	if(referent == 2){
 		npcstexture.loadFromFile("assets/Npcs/Wolf/hell-hound-idle.png");
 		npc->setScale(2.f,2.f);
-        if (frame >= 5) {
+        if (frame >= 2) {
             frame = 0;
         if (framestop == 8) {
             framestop = 1;
@@ -1110,42 +1111,87 @@ void Npcs::pop_attack() {
 }
 
 
-void Npcs::colision(Hero * heroobj, bool  * GameOver){
-    	int tam = shots.size();
+void Npcs::colision(Hero * heroobj, bool  * GameOver,int  level){
 
-	for(int i  = 0; i < tam ; i++){
-		if(referent == 3){
+	if(level == 1){
+		int tam = shots.size();
 
-			if(heroobj->hero->getGlobalBounds().intersects(shots[i].attacksprite->getGlobalBounds())){
-	            heroobj->live -= 50;
-	        }
-		}else{
+		for(int i  = 0; i < tam ; i++){
+			if(referent == 3){
 
-			if(heroobj->hero->getGlobalBounds().intersects(shots[i].attacksprite->getGlobalBounds())){
-	            heroobj->live -= 5;
-	        }
+				if(heroobj->hero->getGlobalBounds().intersects(shots[i].attacksprite->getGlobalBounds())){
+					heroobj->live -= 50;
+					shots[i].attacksprite->setColor(sf::Color::Transparent);
+				}
+			}else{
+
+				if(heroobj->hero->getGlobalBounds().intersects(shots[i].attacksprite->getGlobalBounds())){
+					heroobj->live -= 20;
+					shots[i].attacksprite->setColor(sf::Color::Transparent);
+				}
+			}
 		}
-	}
-	
-	if(referent == 2){
-		//heroboud para ajustar a colisao com as dimensoes do sprite
-		sf::FloatRect heroBound = heroobj->hero->getGlobalBounds();
-		heroBound.height -= 20.f;
-		heroBound.width -=50.f;
-
-		if(npc->getScale().x < 0){
-			heroBound.left += 50.f;
 		
-		if(heroBound.intersects(npc->getGlobalBounds())){
-			heroobj->live -= 2;
-        }
+		if(referent == 2){
+			//heroboud para ajustar a colisao com as dimensoes do sprite
+			sf::FloatRect heroBound = heroobj->hero->getGlobalBounds();
+			heroBound.height -= 20.f;
+			heroBound.width -=50.f;
 
-		}else{
-			//heroBound.left -= 50.f;
-		if(heroBound.intersects(npc->getGlobalBounds())){
-			heroobj->live -= 2;
+			if(npc->getScale().x < 0){
+				heroBound.left += 50.f;
+			
+			if(heroBound.intersects(npc->getGlobalBounds())){
+				heroobj->live -= 20;
+			}
+
+			}else{
+				//heroBound.left -= 50.f;
+			if(heroBound.intersects(npc->getGlobalBounds())){
+				heroobj->live -= 20;
+			}
+			}
 		}
+	}else if(level == 2){
+				int tam = shots.size();
+
+		for(int i  = 0; i < tam ; i++){
+			if(referent == 3){
+
+				if(heroobj->hero->getGlobalBounds().intersects(shots[i].attacksprite->getGlobalBounds())){
+					heroobj->live -= 70;
+					shots[i].attacksprite->setColor(sf::Color::Transparent);
+				}
+			}else{
+
+				if(heroobj->hero->getGlobalBounds().intersects(shots[i].attacksprite->getGlobalBounds())){
+					heroobj->live -= 40;
+					shots[i].attacksprite->setColor(sf::Color::Transparent);
+				}
+			}
 		}
+		
+		if(referent == 2){
+			//heroboud para ajustar a colisao com as dimensoes do sprite
+			sf::FloatRect heroBound = heroobj->hero->getGlobalBounds();
+			heroBound.height -= 20.f;
+			heroBound.width -=50.f;
+
+			if(npc->getScale().x < 0){
+				heroBound.left += 50.f;
+			
+			if(heroBound.intersects(npc->getGlobalBounds())){
+				heroobj->live -= 40;
+			}
+
+			}else{
+				//heroBound.left -= 50.f;
+			if(heroBound.intersects(npc->getGlobalBounds())){
+				heroobj->live -= 40;
+			}
+			}
+		}
+
 	}
 }
 

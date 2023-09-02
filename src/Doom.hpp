@@ -42,19 +42,23 @@ public:
 	int live;
 	sf::Sound atack;
 	sf::Sound deadSound;
-
+	int LeftCountColison = 0;
+	int RightCountColison = 0;
+	int UpCountColison = 0;
+	int DownCountColison = 0;
 
 };
 
 class Hero: public Entity {
 private:
+	int count;
 	sf::SoundBuffer Heroatack;
 	sf::Texture textureheroRight[9];
 	sf::Texture textureherostop[4];
 	sf::Texture down;
 	sf::Texture herotexture[3];
 public:
-
+	int ControlSkip = 2;
 	int shotstimer = 0;
 	shared_ptr<sf::Sprite> hero;
 public:
@@ -107,6 +111,7 @@ private:
 	int distance = 0;
 
 public:
+	bool orientation;
 	shared_ptr<sf::Sprite> npc;
 public:
 	Npcs(int referent);
@@ -125,7 +130,7 @@ public:
 	void npc3(); // d
 	void npc4();
 	void Death();
-	void colision(Hero * heroobj, bool * GameOver);
+	void colision(Hero * heroobj, bool * GameOver, int level);
 };
 
 class DoomAdventure {
@@ -135,10 +140,14 @@ class DoomAdventure {
 	sf::Texture bgtexutre;
 	Hero *heroobj = new Hero();
 	bool GameOver;
-	Npcs *npc1 = new Npcs(1);
-	Npcs *npc2 = new Npcs(2);
-	Npcs *npc3 = new Npcs(3);
-	Npcs *npc4 = new Npcs(4);
+
+	Npcs *npcA1 = new Npcs(1);
+	Npcs *npcA2 = new Npcs(1);
+	Npcs *npcB1 = new Npcs(2);
+	Npcs *npcB2 = new Npcs(2);
+	Npcs *npcC1 = new Npcs(4);
+	Npcs *npcC2 = new Npcs(4);
+	Npcs *npcC3 = new Npcs(4);
 	Villain *villain = new Villain(1);
 	bool KeyIntro;
 	bool KeyMenu; 
@@ -150,7 +159,7 @@ class DoomAdventure {
 	 sf::Sprite r1;
 	 sf::Sprite r2;
 	 sf::Sprite r3;
-
+	 sf:: RectangleShape checkpoint;
 	 sf::Texture name;
 	 sf::Texture name2;
 	 sf::Texture name3;
@@ -172,29 +181,48 @@ class DoomAdventure {
 	 bool personagenslibery = false;
 	 sf::View *view;
 	 tmx::Map map;
+	shared_ptr<tmx::Map>  map_2;
 	bool KeyDown;
 	bool KeyUp;
-	MapLayer * layerZero;
-	MapLayer * layerUm;
+	bool skiplevel;
+	bool level1;
+	bool level2;
+	bool level3;
+	MapLayer * layerDraw;
+	MapLayer * layerDown;
+	MapLayer * layerLeft;
+	MapLayer * layerRight;
+	MapLayer * layerUp;
+
+	MapLayer * layerDraw_2;
+	MapLayer * layerDown_2;
+	MapLayer * layerLeft_2;
+	MapLayer * layerRight_2;
+	MapLayer * layerUp_2;
 	sf::Font font;
+	sf::Sprite transition;
+	sf::Texture transitionTexture;
 	int i = 0;
-	int p = 0;
 	float gravity;
 	sf::Text textGm;
 	sf::Text returnKey;
-	
+	int level;
 
 protected:
 	void Introduction(shared_ptr<sf::RenderWindow> window);
 	void events();
 	void draw();
+	void drawGame();
 	void game();
 	void Menu();
 	void Restart();
 	void GameOverX();
 	void update();
 	void Interface();
-	void gravityGame();
+	void map1();
+	void map2();
+	void map3();
+	void gravityAndColision();
 public:
 	DoomAdventure();
 	~DoomAdventure();

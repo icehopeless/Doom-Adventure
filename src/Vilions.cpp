@@ -25,8 +25,10 @@ Villain::Villain(int referent) {
 }
 
 void Villain::animation() {
-	if (referent == 1) {
-		Villan1();
+	if(live > 0){
+		if (referent == 1) {
+			Villan1();
+		}
 	}
 }
 
