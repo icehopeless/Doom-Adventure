@@ -404,7 +404,7 @@ void DoomAdventure::events() {
 			window->close();
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-				heroobj->ControlSkip--;
+				heroobj->ControlSkip++;
 		}
 	}
 }
@@ -816,7 +816,7 @@ void DoomAdventure::gravityAndColision(){
 }
 
 void DoomAdventure::map1(){
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) and heroobj->ControlSkip >= 0) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) and heroobj->ControlSkip%2 == 0) {
 		gravity = -7.f;
 		heroobj->hero->move(0,gravity);
 	}
