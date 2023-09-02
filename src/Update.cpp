@@ -148,10 +148,6 @@ void DoomAdventure::update(){
 		}
 	}
 
-
-
-
-
 	if(level == 1 ){
 		level1 = true;
 		level2 = false;
@@ -174,7 +170,6 @@ void DoomAdventure::update(){
 	if(level == 3 and heroobj->hero->getGlobalBounds().intersects(checkpoint.getGlobalBounds()) and skiplevel == false){
 		
 	}
-
 
 	cout << heroobj->hero->getPosition().x << " | " << heroobj->hero->getPosition().y << endl;
 }

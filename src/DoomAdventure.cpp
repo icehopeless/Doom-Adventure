@@ -8,8 +8,8 @@ DoomAdventure::DoomAdventure() {
 
 
 	GameOver = false;
-	KeyIntro = true;
-	KeyGame = false;
+	KeyIntro = false;
+	KeyGame = true;
 	KeyMenu = false;
 	KeyDown = false;
  	KeyUp = false;
@@ -45,8 +45,8 @@ DoomAdventure::DoomAdventure() {
 	checkpoint.setSize(sf::Vector2f(60,100));
 	checkpoint.setPosition(2504,290);
 	skiplevel = false;
-	transitionTexture.loadFromFile("assets/Background/transition.png");
-	transition.setTexture(transitionTexture);
+	//transitionTexture.loadFromFile("assets/Background/transition.png");
+	//transition.setTexture(transitionTexture);
 	transition.setColor(sf::Color::Transparent);
 	
 	if(test == false){
@@ -409,10 +409,8 @@ void DoomAdventure::events() {
 	}
 }
 void DoomAdventure::drawGame() {
-	
+
 	window->draw(r2);
-
-
 	if(level1 == true){
 		window->draw(*layerDraw);
 		window->draw(*heroobj->hero);

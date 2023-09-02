@@ -110,11 +110,12 @@ void Hero::attack() {
 	}
 
 	if(tam < 20){
+		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) and hero->getScale().x == -1.5) {
 			atack.play();
 			Bullet *bu = new Bullet();
 			bu->attacksprite->setScale(-1.3f, 1.3f);
-			bu->attacksprite->setPosition(hero->getPosition().x - 37,hero->getPosition().y + 53);
+			bu->attacksprite->setPosition(hero->getPosition().x + 90,hero->getPosition().y + 50);
 			bu->orientation = true;
 			shots.push_back(*bu);
 		}
@@ -123,9 +124,10 @@ void Hero::attack() {
 			atack.play();
 			Bullet *bu = new Bullet();
 			bu->attacksprite->setScale(1.3f, 1.3f);
-			bu->attacksprite->setPosition(hero->getPosition().x + 37,hero->getPosition().y + 53);
+			bu->attacksprite->setPosition(hero->getPosition().x ,hero->getPosition().y + 50);
 			bu->orientation = false;
 			shots.push_back(*bu);
+		}
 		}
 
 		//agachando
@@ -133,7 +135,7 @@ void Hero::attack() {
 			atack.play();
 			Bullet *bu = new Bullet();
 			bu->attacksprite->setScale(-1.3f, 1.3f);
-			bu->attacksprite->setPosition(hero->getPosition().x - 77,hero->getPosition().y + 88);
+			bu->attacksprite->setPosition(hero->getPosition().x + 90,hero->getPosition().y+63);
 			bu->orientation = true;
 			shots.push_back(*bu);
 		}
@@ -142,7 +144,7 @@ void Hero::attack() {
 			atack.play();
 			Bullet *bu = new Bullet();
 			bu->attacksprite->setScale(1.3f, 1.3f);
-			bu->attacksprite->setPosition(hero->getPosition().x + 75,hero->getPosition().y + 88);
+			bu->attacksprite->setPosition(hero->getPosition().x,hero->getPosition().y+63);
 			bu->orientation = false;
 			shots.push_back(*bu);
 		}
@@ -165,9 +167,6 @@ void Hero::attack() {
 		for(int j =0; j < x; j++){
 			shots[j].animation();
 		}
-
-	
-
 
 	}
 	
