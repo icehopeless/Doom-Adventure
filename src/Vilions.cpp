@@ -20,9 +20,7 @@ Villain::Villain(int referent)
 		Vilion->setScale(2.2f, 2.2f);
 		// Vilion->setOrigin(Vilion->getPosition().x / 2 ,Vilion->getPosition().y / 2 );
 		Vilion->setPosition(1000, 80);
-		Villainatack.loadFromFile("assets/attacks_sounds/Dragon.wav");
-		atack.setBuffer(Villainatack);
-		atack.setVolume(100);
+
 	}
 }
 
@@ -422,7 +420,7 @@ void Villain::persegui(Hero * heroobj){
 	static int distanceY;
 
 	distanceY =  heroobj->hero->getPosition().y - Vilion->getPosition().y;
-	cout << distanceY << endl;
+
 	if(distance < -8 and distance >  -400){
 		Vilion->move(-11,0);
 	}

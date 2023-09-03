@@ -8,48 +8,29 @@ DoomAdventure::DoomAdventure()
 		sf::Style::Titlebar | sf::Style::Close);
 
 	GameOver = false;
-	KeyIntro = false;
-	KeyGame = true;
+	KeyIntro = true;
+	KeyGame = false;
 	KeyMenu = false;
 	KeyDown = false;
 	KeyUp = false;
 	level1 = false;
 	level2 = false;
 	level3 = false;
-	heroobj = new Hero();
-	npcA1 = new Npcs(1);
-	npcA2 = new Npcs(1);
-	npcB1 = new Npcs(2);
-	npcB2 = new Npcs(2);
-	npcC1 = new Npcs(4);
-	npcC2 = new Npcs(4);
-	npcC3 = new Npcs(4);
-	npcD1 = new Npcs(3);
-	npcD2 = new Npcs(3);
 	GameWin = false;
-	villain = new Villain(1);
 	time = 0;
-	level = 1;
+
 	view = new sf::View(sf::FloatRect(0, 0, window->getSize().x / 2, window->getSize().y / 2));
 	background = make_shared<sf::Sprite>();
 	map_2 = make_shared<tmx::Map>();
 	map_3 = make_shared<tmx::Map>();
 	villain->live = -1;
 	window->setFramerateLimit(30);
-	npcC1->live = -1;
-	npcC2->live = -1;
-	npcC3->live = -1;
-	npcD1->live = -1;
-	npcD2->live = -1;
+
 
 	rain.openFromFile("assets/sound/rain.wav");
 	static bool test = false;
 
-	npcA1->npc->setPosition(1744, 128);
-	npcA2->npc->setPosition(800, 540);
-	npcB1->npc->setPosition(2208, 225);
-	npcB2->npc->setPosition(2032, 475);
-	heroobj->hero->setPosition(0, 480);
+
 	PowerUp *p1 = new PowerUp(752, 441, 1);
 	PowerUp *p2 = new PowerUp(496, 230, 2);
 	PowerUp *p3 = new PowerUp(1184, 85, 2);
@@ -61,13 +42,13 @@ DoomAdventure::DoomAdventure()
 	Plusbullet.push_back(*p3);
 	Plusbullet.push_back(*p4);
 	Plusbullet.push_back(*p5);
-	checkpoint.setSize(sf::Vector2f(60, 100));
-	checkpoint.setPosition(2504, 290);
+
+
 	skiplevel = false;
 	transitionTexture.loadFromFile("assets/Background/transition.png");
 	transition.setTexture(transitionTexture);
 	transition.setColor(sf::Color::Transparent);
-
+	clock.restart();
 	if (test == false)
 	{
 		rain.play();
@@ -1085,21 +1066,22 @@ void DoomAdventure::GameOverX()
 
 void DoomAdventure::Restart()
 {
-
+	
 	if (level == 1)
 	{
+		npcA1->countKill = npcA2->countKill = npcB1->countKill = npcB2->countKill = npcC1->countKill = npcC2->countKill = npcC3->countKill = npcD1->countKill = npcD2->countKill = heroobj->countKill = 0;
 		Plusbullet.clear();
 		PowerUp *p1 = new PowerUp(752, 441, 1);
 		PowerUp *p2 = new PowerUp(496, 230, 2);
 		PowerUp *p3 = new PowerUp(1184, 85, 2);
-		PowerUp *p4 = new PowerUp(125, 410, 1);
-		PowerUp *p5 = new PowerUp(1720, 162, 1);
 
+		PowerUp *p5 = new PowerUp(1720, 162, 1);
+		heroobj->quantbullet = 0;
 		Plusbullet.push_back(*p1);
 		Plusbullet.push_back(*p2);
 		Plusbullet.push_back(*p3);
-		Plusbullet.push_back(*p4);
 		Plusbullet.push_back(*p5);
+
 
 		GameOver = false;
 		KeyMenu = true;
@@ -1114,7 +1096,7 @@ void DoomAdventure::Restart()
 		npcA2->npc->setPosition(800, 540);
 		npcB1->npc->setPosition(2208, 225);
 		npcB2->npc->setPosition(2032, 475);
-		heroobj->hero->setPosition(0, 480);
+		heroobj->hero->setPosition(0, 440);
 		npcA1->dead = false;
 		npcA2->dead = false;
 		npcB1->dead = false;
@@ -1125,10 +1107,13 @@ void DoomAdventure::Restart()
 		npcB2->stopFunction = true;
 		checkpoint.setSize(sf::Vector2f(60, 100));
 		checkpoint.setPosition(2504, 290);
-
+		clock.restart();
 		npcC1->live = -1;
 		npcC2->live = -1;
 		npcC3->live = -1;
+		npcD1->live = -1;
+		npcD2->live = -1;
+		villain-> live = -1;
 
 		if (npcC1->live == 0)
 		{
@@ -1154,16 +1139,41 @@ void DoomAdventure::Restart()
 		{
 			npcC3->countKill--;
 		}
+		if (npcD1->live == 0)
+		{
+			npcD1->countKill = 0;
+		}
+		else
+		{
+			npcD1->countKill--;
+		}
+
+		if (npcD2->live == 0)
+		{
+			npcD2->countKill = 0;
+		}
+		else
+		{
+			npcD2->countKill--;
+		}
+
+		if (villain->live == 0)
+		{
+			villain->countKill = 0;
+		}
+		else
+		{
+			villain->countKill--;
+		}
 	}
 
 	if (level == 2)
 	{
 		Plusbullet.clear();
-		PowerUp *p1 = new PowerUp(752, 441, 1);
+		
 		PowerUp *p2 = new PowerUp(1112, 444, 2);
 		PowerUp *p5 = new PowerUp(1720, 162, 1);
 
-		Plusbullet.push_back(*p1);
 		Plusbullet.push_back(*p2);
 		Plusbullet.push_back(*p5);
 
@@ -1197,13 +1207,13 @@ void DoomAdventure::Restart()
 	if (level == 3)
 	{
 		Plusbullet.clear();
-		PowerUp *p1 = new PowerUp(752, 441, 1);
+	
 		PowerUp *p2 = new PowerUp(496, 222, 2);
 		PowerUp *p3 = new PowerUp(1284, 185, 2);
 		PowerUp *p4 = new PowerUp(125, 410, 1);
 		PowerUp *p5 = new PowerUp(1720, 162, 1);
 
-		Plusbullet.push_back(*p1);
+
 		Plusbullet.push_back(*p2);
 		Plusbullet.push_back(*p3);
 		Plusbullet.push_back(*p4);
@@ -1227,7 +1237,7 @@ void DoomAdventure::Restart()
 		npcC3->live = -1;
 		npcD1->live = 300;
 		npcD2->live = 300;
-		villain->live = 2000;
+		villain->live = 500;
 		npcC1->npc->setColor(sf::Color::White);
 		npcC2->npc->setColor(sf::Color::White);
 		npcC3->npc->setColor(sf::Color::White);
@@ -1258,6 +1268,14 @@ void DoomAdventure::Restart()
 		else
 		{
 			npcB2->countKill--;
+		}
+		if (npcC3->live == 0)
+		{
+			npcC3->countKill = 0;
+		}
+		else
+		{
+			npcC3->countKill--;
 		}
 	}
 }
