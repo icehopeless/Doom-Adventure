@@ -579,6 +579,7 @@ void DoomAdventure::drawGame()
 		window->draw(*npcD1->npc);
 		window->draw(*npcD2->npc);
 		window->draw(*villain->Vilion);
+		window->draw(villain->lifebar);
 
 		int x = heroobj->shots.size();
 
@@ -1610,6 +1611,57 @@ void DoomAdventure::LastMatch()
 			musicGame.setVolume(1000);
 			musicGame.play();
 			Finalgame = true;
+
+			villain->lifebarTexture.loadFromFile("assets/Menu/06.png");
+			villain->lifebar.setScale(3, 3);
+			villain->lifebar.setPosition(200, 500);
+
+			if(villain->live == 500){
+				sf::Vector2i size(47, 12);
+				sf::Vector2i position(0, 15);
+				villain->lifebar.setTexture(villain->lifebarTexture, true);
+				villain->lifebar.setTextureRect(sf::IntRect(position, size));
+				
+			}
+
+			if(villain->live == 400){
+				sf::Vector2i size(47, 12);
+				sf::Vector2i position(47, 15);
+				villain->lifebar.setTexture(villain->lifebarTexture, true);
+				villain->lifebar.setTextureRect(sf::IntRect(position, size));
+				
+			}
+			if(villain->live == 300){
+				sf::Vector2i size(47, 12);
+				sf::Vector2i position(97, 15);
+				villain->lifebar.setTexture(villain->lifebarTexture, true);
+				villain->lifebar.setTextureRect(sf::IntRect(position, size));
+				
+			}
+			if(villain->live == 200){
+				sf::Vector2i size(47, 12);
+				sf::Vector2i position(145, 15);
+				villain->lifebar.setTexture(villain->lifebarTexture, true);
+				villain->lifebar.setTextureRect(sf::IntRect(position, size));
+				
+			}
+			if(villain->live == 100){
+				sf::Vector2i size(47, 12);
+				sf::Vector2i position(192, 15);
+				villain->lifebar.setTexture(villain->lifebarTexture, true);
+				villain->lifebar.setTextureRect(sf::IntRect(position, size));
+				
+			}
+			if(villain->live == 0){
+				sf::Vector2i size(47, 12);
+				sf::Vector2i position(192, 15);
+				villain->lifebar.setTexture(villain->lifebarTexture, true);
+				villain->lifebar.setTextureRect(sf::IntRect(position, size));
+				
+			}
+
+
 		}
+
 	}
 }

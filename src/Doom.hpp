@@ -115,6 +115,8 @@ private:
 
 public:
 	shared_ptr<sf::Sprite> Vilion;
+	sf::Sprite lifebar;
+	sf::Texture lifebarTexture;
 	bool visible = true;
 
 private:

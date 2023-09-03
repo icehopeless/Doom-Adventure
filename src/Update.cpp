@@ -37,7 +37,7 @@ void DoomAdventure::update()
 	n1.setTextureRect(sf::IntRect(13, 29, 26, 24));
 	n1.setScale(2, 2);
 	n1.setColor(sf::Color::White);
-	view->setSize(window->getSize().x / 2, window->getSize().y / 2);
+	view->setSize(window->getSize().x * 2, window->getSize().y * 2);
 
 	if (view->getCenter().x == window->getSize().x / 2)
 	{
