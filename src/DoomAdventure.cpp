@@ -770,7 +770,7 @@ void DoomAdventure::Interface()
 	if (heroobj->quantbullet == 1)
 	{
 		sf::Vector2i size(32, 14);
-		sf::Vector2i position(64, 4);
+		sf::Vector2i position(32, 4);
 		bulletmenuSprite.setScale(3, 3);
 		bulletmenuSprite.setPosition(200, 500);
 		bulletmenuSprite.setTexture(bulletmenu, true);
@@ -779,7 +779,7 @@ void DoomAdventure::Interface()
 	if (heroobj->quantbullet == 2)
 	{
 		sf::Vector2i size(32, 14);
-		sf::Vector2i position(94, 4);
+		sf::Vector2i position(64, 4);
 		bulletmenuSprite.setScale(3, 3);
 		bulletmenuSprite.setPosition(200, 500);
 		bulletmenuSprite.setTexture(bulletmenu, true);
@@ -788,7 +788,7 @@ void DoomAdventure::Interface()
 	if (heroobj->quantbullet == 3)
 	{
 		sf::Vector2i size(32, 14);
-		sf::Vector2i position(128, 4);
+		sf::Vector2i position(94, 4);
 		bulletmenuSprite.setScale(3, 3);
 		bulletmenuSprite.setPosition(200, 500);
 		bulletmenuSprite.setTexture(bulletmenu, true);
@@ -797,7 +797,7 @@ void DoomAdventure::Interface()
 	if (heroobj->quantbullet == 4)
 	{
 		sf::Vector2i size(32, 14);
-		sf::Vector2i position(160, 4);
+		sf::Vector2i position(128, 4);
 		bulletmenuSprite.setScale(3, 3);
 		bulletmenuSprite.setPosition(200, 500);
 		bulletmenuSprite.setTexture(bulletmenu, true);
@@ -806,7 +806,7 @@ void DoomAdventure::Interface()
 	if (heroobj->quantbullet == 5)
 	{
 		sf::Vector2i size(32, 14);
-		sf::Vector2i position(192, 4);
+		sf::Vector2i position(160, 4);
 		bulletmenuSprite.setScale(3, 3);
 		bulletmenuSprite.setPosition(200, 500);
 		bulletmenuSprite.setTexture(bulletmenu, true);
