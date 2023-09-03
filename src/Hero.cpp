@@ -244,8 +244,6 @@ void Hero::colision(shared_ptr<sf::Sprite> atingido, int *live)
 			{
 				*live = *live - 1;
 				atingido->setColor(sf::Color::Black);
-			}else{
-				atingido->setColor(sf::Color::White);
 			}
 		}
 	}

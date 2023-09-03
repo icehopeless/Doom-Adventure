@@ -30,6 +30,7 @@ Npcs::Npcs(int referent)
 	if (referent == 2)
 	{
 		live = 50;
+		stopFunction = true;
 		npcstexture.loadFromFile("assets/Npcs/Wolf/hell-hound-idle.png");
 		npc->setTexture(npcstexture);
 		sf::Vector2i position(0, 180);
@@ -88,15 +89,25 @@ void Npcs::animation()
 {
 	if (stopFunction != true)
 	{
+
 		if (referent == 1)
 		{
 			npc->setColor(sf::Color::Cyan);
 		}
-		else
-		{
-			npc->setColor(sf::Color::White);
-		}
 	}
+	if (referent == 4 and stopFunction == true)
+	{
+		npc->setColor(sf::Color::White);
+	}
+		if (referent == 3 and stopFunction == true)
+	{
+		npc->setColor(sf::Color::White);
+	}
+		if (referent == 2 and stopFunction == true)
+	{
+		npc->setColor(sf::Color::White);
+	}
+
 	if (referent == 1)
 	{
 		npc1();
@@ -182,7 +193,7 @@ void Npcs::npc2()
 			timer = 0;
 		}
 	}
-	else if (dead == true and stopFunction == false)
+	else if (dead == true and stopFunction == true)
 	{
 		Death();
 	}
@@ -224,7 +235,7 @@ void Npcs::npc3()
 		fireanimation = false;
 		attack3();
 	}
-	else if (dead == true and stopFunction == false)
+	else if (dead == true and stopFunction == true)
 	{
 		Death();
 	}
@@ -268,7 +279,7 @@ void Npcs::npc4()
 		fireanimation = false;
 		attack4();
 	}
-	else if (dead == true and stopFunction == false)
+	else if (dead == true and stopFunction == true)
 	{
 		Death();
 	}
@@ -1584,7 +1595,7 @@ void Npcs::Death()
 			npc->setTextureRect(sf::IntRect(position, size));
 		}
 		else if (framestop == 8)
-		{	
+		{
 			countKill++;
 			sf::Vector2i position(466, 74);
 			sf::Vector2i size(38, 49);
@@ -1597,7 +1608,7 @@ void Npcs::Death()
 	if (referent == 2)
 	{
 		countKill++;
-		stopFunction = true;
+		stopFunction = false;
 		npc->setColor(sf::Color::Transparent);
 	}
 
@@ -1687,7 +1698,7 @@ void Npcs::Death()
 			sf::Vector2i position(732, 10);
 			sf::Vector2i size(42, 63);
 			npc->setTextureRect(sf::IntRect(position, size));
-			stopFunction = true;
+			stopFunction = false;
 			countKill++;
 			npc->setColor(sf::Color::Transparent);
 		}
@@ -1759,7 +1770,7 @@ void Npcs::Death()
 			sf::Vector2i position(22, 2);
 			sf::Vector2i size(36, 46);
 			npc->setTextureRect(sf::IntRect(position, size));
-			stopFunction = true;
+			stopFunction = false;
 			countKill++;
 			npc->setColor(sf::Color::Transparent);
 		}

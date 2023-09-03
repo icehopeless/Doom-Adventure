@@ -29,7 +29,7 @@ DoomAdventure::DoomAdventure()
 	GameWin = false;
 	villain = new Villain(1);
 	time = 0;
-	level = 2;
+	level = 1;
 	view = new sf::View(sf::FloatRect(0, 0, window->getSize().x / 2, window->getSize().y / 2));
 	background = make_shared<sf::Sprite>();
 	map_2 = make_shared<tmx::Map>();
@@ -49,7 +49,7 @@ DoomAdventure::DoomAdventure()
 	npcA2->npc->setPosition(800, 540);
 	npcB1->npc->setPosition(2208, 225);
 	npcB2->npc->setPosition(2032, 475);
-	heroobj->hero->setPosition(0, 440);
+	heroobj->hero->setPosition(0, 480);
 	PowerUp *p1 = new PowerUp(752, 441, 1);
 	PowerUp *p2 = new PowerUp(496, 230, 2);
 	PowerUp *p3 = new PowerUp(1184, 85, 2);
@@ -1008,7 +1008,11 @@ void DoomAdventure::GameOverX()
 	}
 	if (level2 == true)
 	{
-		r1.setPosition(heroobj->hero->getPosition().x + 100, view->getCenter().y - 230);
+		if(heroobj->hero->getPosition().x  < 320){
+			r1.setPosition(420, view->getCenter().y - 230);
+		}else{
+			r1.setPosition(heroobj->hero->getPosition().x + 100, view->getCenter().y - 230);
+		}
 	}
 	if (level3 == true)
 	{
@@ -1117,8 +1121,8 @@ void DoomAdventure::Restart()
 		npcB2->dead = false;
 		npcA1->stopFunction = false;
 		npcA2->stopFunction = false;
-		npcB1->stopFunction = false;
-		npcB2->stopFunction = false;
+		npcB1->stopFunction = true;
+		npcB2->stopFunction = true;
 		checkpoint.setSize(sf::Vector2f(60, 100));
 		checkpoint.setPosition(2504, 290);
 
@@ -1218,8 +1222,8 @@ void DoomAdventure::Restart()
 		npcA2->live = 300;
 		npcB1->live = -1;
 		npcB2->live = -1;
-		npcC1->live = 300;
-		npcC2->live = 300;
+		npcC1->live = 10;
+		npcC2->live = 10;
 		npcC3->live = -1;
 		npcD1->live = 300;
 		npcD2->live = 300;
