@@ -5,10 +5,10 @@
 Recriação do jogo Mini Doom em c++.
 
 ## Indice 
-- <a href="https://github.com/icehopeless/Doom-Adventure/blob/main/readme.md#contextualização-do-projeto-">Contextualização do Projeto</a>
-- <a href="https://github.com/icehopeless/Doom-Adventure/blob/main/readme.md#principais-tecnologias-destacadas-">Principais Tecnologias Destacada</a>
+- <a href="https://github.com/icehopeless/Doom-Adventure/blob/main/readme.md#contextualização-do-projeto">Contextualização do Projeto</a>
+- <a href="https://github.com/icehopeless/Doom-Adventure/blob/main/readme.md#principais-tecnologias-destacadas">Principais Tecnologias Destacada</a>
 - <a href="https://github.com/icehopeless/Doom-Adventure/blob/main/readme.md#objetos-no-jogo">Objetos no jogo</a>
-- <a href="https://github.com/icehopeless/Doom-Adventure/blob/main/readme.md#como-rodar-">Como Rodar?</a>
+- <a href="https://github.com/icehopeless/Doom-Adventure/blob/main/readme.md#como-rodar">Como Rodar?</a>
 - <a href="https://github.com/icehopeless/Doom-Adventure/blob/main/readme.md#autores">Autores</a>
 
 ## Contextualização do Projeto 
