@@ -45,7 +45,7 @@ DoomAdventure::DoomAdventure()
 
 
 	skiplevel = false;
-	transitionTexture.loadFromFile("assets/Background/transition.png");
+	transitionTexture.loadFromFile("assets/Background/Transition.png");
 	transition.setTexture(transitionTexture);
 	transition.setColor(sf::Color::Transparent);
 	clock.restart();
@@ -749,7 +749,7 @@ void DoomAdventure::Interface()
 		KeyGame = false;
 		GameOver = true;
 	}
-	//////////////bullets menu////////////////////////
+	//////////////bullets interface////////////////////////
 
 	sf::Vector2i size(32, 14);
 	sf::Vector2i position(0, 4);
@@ -758,6 +758,15 @@ void DoomAdventure::Interface()
 	bulletmenuSprite.setTexture(bulletmenu, true);
 	bulletmenuSprite.setTextureRect(sf::IntRect(position, size));
 
+	if (heroobj->quantbullet == 0)
+	{
+		sf::Vector2i size(32, 14);
+		sf::Vector2i position(0, 4);
+		bulletmenuSprite.setScale(3, 3);
+		bulletmenuSprite.setPosition(200, 500);
+		bulletmenuSprite.setTexture(bulletmenu, true);
+		bulletmenuSprite.setTextureRect(sf::IntRect(position, size));
+	}
 	if (heroobj->quantbullet == 1)
 	{
 		sf::Vector2i size(32, 14);

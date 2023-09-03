@@ -4,8 +4,10 @@ Hero::Hero()
 {
 	live = 2000;
 	hero = make_shared<sf::Sprite>();
-	herotexture[0].loadFromFile("assets/Hero/Gunner/Gunner_Idle_1.png");
 	timer = 0;
+	quantbullet = 0;
+	herotexture[0].loadFromFile("assets/Hero/Gunner/Gunner_Idle_1.png");
+	
 	for (int i = 0; i < 9; i++)
 	{
 		if (i == 0)
@@ -38,7 +40,6 @@ Hero::Hero()
 }
 
 // animando o hero
-
 void Hero::animation()
 {
 	
@@ -122,17 +123,6 @@ void Hero::animation()
 	{
 		hero->setTexture(down, true);
 	}
-
-	if (ControlSkip <= -2)
-	{
-		count++;
-
-		if (count == 1)
-		{
-			count = 0;
-			ControlSkip = 4;
-		}
-	}
 }
 
 void Hero::attack()
@@ -140,8 +130,7 @@ void Hero::attack()
 
 	int tam = shots.size();
 
-	if (tam >= 30)
-	{
+	if (tam >= 30){
 		shotstimer = 0;
 		pop_attack();
 	}

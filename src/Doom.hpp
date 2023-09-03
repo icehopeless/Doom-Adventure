@@ -85,7 +85,6 @@ private:
 public:
 	bool Activ = false;
 	bool restartClock= false;
-	int ControlSkip;
 	bool jumping;
 	int restjump;
 	int shotstimer = 0;
