@@ -1,6 +1,6 @@
 # Doom Adventure 
 
-![background](./readme_assets/background.jpg)
+![background]("./assets/Background/Doom.png")
 
 Recriação do jogo Mini Doom em c++.
 
