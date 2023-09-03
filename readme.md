@@ -7,7 +7,7 @@ Recriação do jogo Mini Doom em c++.
 ## Indice 
 - <a href="https://github.com/icehopeless/Doom-Adventure/blob/main/README.md#contextualização-do-projeto-">Contextualização do Projeto</a>
 - <a href="https://github.com/icehopeless/Doom-Adventure/blob/main/README.md#principais-tecnologias-destacadas-">Principais Tecnologias Destacada</a>
-- <a href="https://github.com/icehopeless/Doom-Adventure/blob/main/README.md#demonstração">Objetos no jogo</a>
+- <a href="https://github.com/icehopeless/Doom-Adventure/blob/main/README.md#objetos-no-jogo">Objetos no jogo</a>
 - <a href="https://github.com/icehopeless/Doom-Adventure/blob/main/README.md#como-rodar-">Como Rodar?</a>
 - <a href="https://github.com/icehopeless/Doom-Adventure/blob/main/README.md#autores">Autores</a>
 
@@ -56,6 +56,13 @@ Por fim, rode o comando:
 mingw32-make
 ```
 Caso não compile, abra em uma IDE de sua preferência, e atualize os includes (procure suporte para incluir bibliotecas externas em sua IDE). Ou então coloque as DLLs da sfml e da tmxlite na pasta raiz do jogo.
+
+<br> <b>Exemplo no vsCode</b>:
+Para atualizar os includes no vsCode, por padrão, a IDE disponibiliza a pasta <i>.vscode</i>
+![image](https://github.com/icehopeless/Doom-Adventure/assets/114740870/d1d1b6f7-854b-4029-878b-e63d6f038fd1)<br>
+![image](https://github.com/icehopeless/Doom-Adventure/assets/114740870/0b7e90c8-801d-4344-a6b2-923dfa75fcab) <br>
+Atualize o parâmetro <i>"includePath"</i> colocando o local das bibliotecas utilizadas.
+
 
 
 ## Autores
