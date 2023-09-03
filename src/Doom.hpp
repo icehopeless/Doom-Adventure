@@ -12,13 +12,16 @@ using namespace std;
 #include <tmxlite/Map.hpp>
 #include "SFMLOrthogonalLayer.hpp"
 
-class Bullet {
+class Bullet
+{
 private:
 	int frame;
+
 public:
 	shared_ptr<sf::Sprite> attacksprite;
 	shared_ptr<sf::Texture> bullettexture[4];
 	bool orientation;
+
 public:
 	void Orientation(int vel);
 	void animation();
@@ -26,19 +29,36 @@ public:
 	~Bullet();
 };
 
+class PowerUp{
+	int frame;
+	int frameAnimation;
+	sf::Texture Textures[6];
+	sf::Texture Texture;
+	int refernt= 0;
+	bool verificed = false;
 
-class Entity {
+public:
+	shared_ptr<sf::Sprite> Power;
+	void animation();
+	void Update(shared_ptr<sf::Sprite> spr_hero,int * live,bool * Restart, bool * Activ);
+	PowerUp(int x, int y,int referent);
+	~PowerUp();
+};
+
+class Entity
+{
 public:
 	int framestop = 0,
-	frameOrientationX = 1, 
-	referent;
+		frameOrientationX = 1,
+		referent,
+		countKill = 0;
 	int frame = 0;
 	int countattacks;
 	int vel;
 	bool attack;
 	vector<Bullet> shots;
 	bool stopFunction = false;
- 	bool dead = false;
+	bool dead = false;
 	int live;
 	sf::Sound atack;
 	sf::Sound deadSound;
@@ -46,10 +66,11 @@ public:
 	int RightCountColison = 0;
 	int UpCountColison = 0;
 	int DownCountColison = 0;
-
+	int SpikesColision = 0;
 };
 
-class Hero: public Entity {
+class Hero : public Entity
+{
 private:
 	int count;
 	sf::SoundBuffer Heroatack;
@@ -58,25 +79,35 @@ private:
 	sf::Texture down;
 	sf::Texture fall;
 	sf::Texture herotexture[3];
+	sf::Clock clock;
+	sf::Time timepassado;
+	int timer;
 public:
+	bool Activ = false;
+	bool restartClock= false;
 	int ControlSkip;
 	bool jumping;
 	int restjump;
 	int shotstimer = 0;
+	int quantbullet;
 	shared_ptr<sf::Sprite> hero;
+
 public:
 	Hero();
-	void colision(shared_ptr<sf::Sprite> atingido,int * live);
+	void colision(shared_ptr<sf::Sprite> atingido, int *live);
 	void animation();
 	void attack();
+	void CheckVictory(int liveVilon, bool *GameVictory, int level);
 	void pop_attack();
-
+	void SuperHero();
 };
 
-class Villain: public Entity {
+class Villain : public Entity
+{
 private:
-	//variavel de id dos viloes
+	// variavel de id dos viloes
 	int timer = 0;
+	bool perseg = false;
 	int distance = 0;
 	bool fireanimation;
 	sf::Texture textureVilionRight[9];
@@ -86,8 +117,10 @@ private:
 
 public:
 	shared_ptr<sf::Sprite> Vilion;
+	bool visible = true;
 
-
+private:
+void persegui(Hero *heroobj);
 public:
 	Villain(int referent);
 	~Villain();
@@ -96,13 +129,14 @@ public:
 	void attack1();
 	void pop_attack();
 	void Villan1();
-	void testAproxim(Hero * heroobj);
+	void testAproxim(Hero *heroobj);
 	void WalkRight(),
 		WalkLeft(),
 		Idle();
 };
 
-class Npcs : public Entity{
+class Npcs : public Entity
+{
 private:
 	sf::SoundBuffer Npcatack;
 	sf::SoundBuffer NpcDead;
@@ -116,6 +150,7 @@ private:
 public:
 	bool orientation;
 	shared_ptr<sf::Sprite> npc;
+
 public:
 	Npcs(int referent);
 	~Npcs();
@@ -126,19 +161,20 @@ public:
 	void attack1();
 	void attack3();
 	void attack4();
-	void testAproxim(Hero * heroobj);
+	void testAproxim(Hero *heroobj);
 	void pop_attack();
 	void npc1();
 	void npc2();
 	void npc3(); // d
 	void npc4();
 	void Death();
-	void colision(Hero * heroobj, bool * GameOver, int level);
+	void colision(Hero *heroobj, bool *GameOver, int level);
 };
 
-class DoomAdventure {
+class DoomAdventure
+{
 
-	shared_ptr<sf::RenderWindow> window; //ponteiro inteligente para a janela
+	shared_ptr<sf::RenderWindow> window; // ponteiro inteligente para a janela
 	shared_ptr<sf::Sprite> background;
 	sf::Texture bgtexutre;
 	Hero *heroobj = new Hero();
@@ -155,29 +191,33 @@ class DoomAdventure {
 	Npcs *npcD2 = new Npcs(3);
 	Villain *villain = new Villain(1);
 	bool KeyIntro;
-	bool KeyMenu; 
+	bool KeyMenu;
 	bool KeyGame;
-
 	sf::Texture mYSt;
 	sf::Texture mYSt2;
 	sf::Texture mYSt3;
-	sf::Sprite r1;
-	sf::Sprite r2;
-	sf::Sprite r3;
-	sf:: RectangleShape checkpoint;
+	sf::RectangleShape checkpoint;
 	sf::Texture name;
 	sf::Texture name2;
 	sf::Texture name3;
+	sf::Texture bulletmenu;
+	sf::Texture logotexture;
+	sf::Texture texturePersona[4];
+	sf::Texture transitionTexture;
 	sf::Music rain;
 	sf::Music musicGame;
 	bool chekedaudio = false;
 	sf::Sprite n1;
 	sf::Sprite n2;
 	sf::Sprite n3;
+	sf::Sprite r1;
+	sf::Sprite r2;
+	sf::Sprite r3;
+	sf::Sprite bulletmenuSprite;
 	sf::Sprite Persona;
-	sf::Texture texturePersona[4];
 	sf::Sprite logo;
-	sf::Texture logotexture;
+	sf::Sprite transition;
+	bool GameWin;
 	int time;
 	int frame = 0;
 	int Animation = 1;
@@ -186,45 +226,46 @@ class DoomAdventure {
 	bool personagenslibery = false;
 	sf::View *view;
 	tmx::Map map;
-	shared_ptr<tmx::Map>  map_2;
-	shared_ptr<tmx::Map>  map_3;
+	shared_ptr<tmx::Map> map_2;
+	shared_ptr<tmx::Map> map_3;
 	bool KeyDown;
 	bool KeyUp;
 	bool skiplevel;
 	bool level1;
 	bool level2;
 	bool level3;
-	MapLayer * layerDraw;
-	MapLayer * layerDown;
-	MapLayer * layerLeft;
-	MapLayer * layerRight;
-	MapLayer * layerUp;
+	MapLayer *layerDraw;
+	MapLayer *layerDown;
+	MapLayer *layerLeft;
+	MapLayer *layerRight;
+	MapLayer *layerUp;
 
-	MapLayer * layerDraw_2;
-	MapLayer * layerDown_2;
-	MapLayer * layerLeft_2;
-	MapLayer * layerRight_2;
-	MapLayer * layerUp_2;
+	MapLayer *layerDraw_2;
+	MapLayer *layerDown_2;
+	MapLayer *layerLeft_2;
+	MapLayer *layerRight_2;
+	MapLayer *layerUp_2;
+	MapLayer *layerSpikes;
 
-	MapLayer * layerDraw_3;
-	MapLayer * layerDown_3;
-	MapLayer * layerLeft_3;
-	MapLayer * layerRight_3;
-	MapLayer * layerUp_3;
+	MapLayer *layerDraw_3;
+	MapLayer *layerDown_3;
+	MapLayer *layerLeft_3;
+	MapLayer *layerRight_3;
+	MapLayer *layerUp_3;
 	sf::Font font;
-	sf::Sprite transition;
-	sf::Texture transitionTexture;
 	int i = 0;
 	float gravity;
 	sf::Text textGm;
 	sf::Text returnKey;
 	int level;
-
+	bool Finalgame = false;
+	vector<PowerUp> Plusbullet;
 protected:
 	void Introduction(shared_ptr<sf::RenderWindow> window);
 	void events();
 	void draw();
 	void drawGame();
+	void LastMatch();
 	void game();
 	void Menu();
 	void Restart();
@@ -235,6 +276,8 @@ protected:
 	void map2();
 	void map3();
 	void gravityAndColision();
+	void GameWinner();
+
 public:
 	DoomAdventure();
 	~DoomAdventure();

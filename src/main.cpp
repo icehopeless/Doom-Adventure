@@ -7,6 +7,7 @@
 #include "tinyxml2.h"
 #include "Vilions.cpp"
 #include "DoomAdventure.cpp"
+#include "PowerUp.cpp"
 
 
 //rodar game
