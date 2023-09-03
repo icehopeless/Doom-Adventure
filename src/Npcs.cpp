@@ -1392,6 +1392,7 @@ void Npcs::colision(Hero *heroobj, bool *GameOver, int level)
 				if (heroobj->hero->getGlobalBounds().intersects(shots[i].attacksprite->getGlobalBounds()))
 				{
 					heroobj->live -= 50;
+					heroobj->hero->setColor(sf::Color::Black);
 					shots[i].attacksprite->setColor(sf::Color::Transparent);
 				}
 			}
@@ -1402,6 +1403,7 @@ void Npcs::colision(Hero *heroobj, bool *GameOver, int level)
 				{
 					heroobj->live -= 30;
 					shots[i].attacksprite->setColor(sf::Color::Transparent);
+					heroobj->hero->setColor(sf::Color::Black);
 				}
 			}
 		}
@@ -1420,6 +1422,7 @@ void Npcs::colision(Hero *heroobj, bool *GameOver, int level)
 				if (heroBound.intersects(npc->getGlobalBounds()) and npc->getColor() != sf::Color::Transparent)
 				{
 					heroobj->live -= 20;
+					heroobj->hero->setColor(sf::Color::Black);
 				}
 			}
 			else
@@ -1428,6 +1431,7 @@ void Npcs::colision(Hero *heroobj, bool *GameOver, int level)
 				if (heroBound.intersects(npc->getGlobalBounds()) and npc->getColor() != sf::Color::Transparent)
 				{
 					heroobj->live -= 20;
+					heroobj->hero->setColor(sf::Color::Black);
 				}
 			}
 		}
@@ -1443,6 +1447,7 @@ void Npcs::colision(Hero *heroobj, bool *GameOver, int level)
 			{
 				heroobj->live -= 40;
 				shots[i].attacksprite->setColor(sf::Color::Transparent);
+				heroobj->hero->setColor(sf::Color::Black);
 			}
 		}
 
@@ -1460,6 +1465,7 @@ void Npcs::colision(Hero *heroobj, bool *GameOver, int level)
 				if (heroBound.intersects(npc->getGlobalBounds()) and npc->getColor() != sf::Color::Transparent)
 				{
 					heroobj->live -= 40;
+					heroobj->hero->setColor(sf::Color::Black);
 				}
 			}
 			else
@@ -1468,6 +1474,7 @@ void Npcs::colision(Hero *heroobj, bool *GameOver, int level)
 				if (heroBound.intersects(npc->getGlobalBounds()) and npc->getColor() != sf::Color::Transparent)
 				{
 					heroobj->live -= 40;
+					heroobj->hero->setColor(sf::Color::Black);
 				}
 			}
 		}
@@ -1484,6 +1491,7 @@ void Npcs::colision(Hero *heroobj, bool *GameOver, int level)
 				{
 					heroobj->live -= 70;
 					shots[i].attacksprite->setColor(sf::Color::Transparent);
+					heroobj->hero->setColor(sf::Color::Black);
 				}
 			}
 			else
@@ -1492,6 +1500,7 @@ void Npcs::colision(Hero *heroobj, bool *GameOver, int level)
 				{
 					heroobj->live -= 60;
 					shots[i].attacksprite->setColor(sf::Color::Transparent);
+					heroobj->hero->setColor(sf::Color::Black);
 				}
 			}
 		}
@@ -1510,6 +1519,7 @@ void Npcs::colision(Hero *heroobj, bool *GameOver, int level)
 				if (heroBound.intersects(npc->getGlobalBounds()) and npc->getColor() != sf::Color::Transparent)
 				{
 					heroobj->live -= 50;
+					heroobj->hero->setColor(sf::Color::Black);
 				}
 			}
 			else
@@ -1518,6 +1528,7 @@ void Npcs::colision(Hero *heroobj, bool *GameOver, int level)
 				if (heroBound.intersects(npc->getGlobalBounds()) and npc->getColor() != sf::Color::Transparent)
 				{
 					heroobj->live -= 50;
+					heroobj->hero->setColor(sf::Color::Black);
 				}
 			}
 		}

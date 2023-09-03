@@ -1,13 +1,14 @@
 #include "Doom.hpp"
 
 Hero::Hero()
-{
+{	restjump = 0;
+	jumping = 0;
 	live = 2000;
 	hero = make_shared<sf::Sprite>();
 	timer = 0;
 	quantbullet = 0;
 	herotexture[0].loadFromFile("assets/Hero/Gunner/Gunner_Idle_1.png");
-	
+	count = 0;
 	for (int i = 0; i < 9; i++)
 	{
 		if (i == 0)
@@ -42,6 +43,9 @@ Hero::Hero()
 // animando o hero
 void Hero::animation()
 {
+	if(live > -100){
+		hero->setColor(sf::Color::White);
+	}
 	
 	SuperHero();
 	if (frame >= 5)
@@ -232,7 +236,9 @@ void Hero::colision(shared_ptr<sf::Sprite> atingido, int *live)
 			if (atingido->getColor() != sf::Color::Transparent)
 			{
 				*live = *live - 1;
-				atingido->setColor(sf::Color::Black);
+
+					atingido->setColor(sf::Color::Black);
+
 			}
 		}
 	}

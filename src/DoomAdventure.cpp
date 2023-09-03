@@ -6,7 +6,8 @@ DoomAdventure::DoomAdventure()
 		// criando a janela com ponteiro inteligente
 		sf::VideoMode(1280, 720), "Doom Adventure",
 		sf::Style::Titlebar | sf::Style::Close);
-
+	gravity =0;
+	level = 0;
 	GameOver = false;
 	KeyIntro = true;
 	KeyGame = false;
@@ -25,6 +26,9 @@ DoomAdventure::DoomAdventure()
 	map_3 = make_shared<tmx::Map>();
 	villain->live = -1;
 	window->setFramerateLimit(30);
+	static sf::Image Icon;
+	Icon.loadFromFile("assets/Background/Icon.png");
+	window->setIcon(Icon.getSize().x, Icon.getSize().y, Icon.getPixelsPtr());
 
 	rain.openFromFile("assets/sound/rain.wav");
 	static bool test = false;
@@ -877,7 +881,7 @@ void DoomAdventure::game()
 	heroobj->attack();
 	heroobj->shotstimer++;
 	heroobj->animation();
-	if (level3 == 3)
+	if (level == 3)
 	{
 		villain->animation();
 		villain->testAproxim(heroobj);
@@ -1109,7 +1113,7 @@ void DoomAdventure::Restart()
 		npcB1->live = 50;
 		npcB2->live = 50;
 		chekedaudio = false;
-		npcA1->npc->setPosition(800, 45);
+		npcA1->npc->setPosition(1720, 162);
 		npcA2->npc->setPosition(800, 540);
 		npcB1->npc->setPosition(2208, 225);
 		npcB2->npc->setPosition(2032, 475);
@@ -1321,7 +1325,7 @@ void DoomAdventure::map1()
 {
 	// colisoes com o chao (inferior)
 	// testa se o hero esta no alto
-	if (heroobj->DownCountColison != 115 and heroobj->DownCountColison != 153 and heroobj->DownCountColison != 147 and heroobj->DownCountColison != 164 and heroobj->DownCountColison != 58 or heroobj->hero->getPosition().y < 0)
+	if ((heroobj->DownCountColison != 115 and heroobj->DownCountColison != 153 and heroobj->DownCountColison != 147 and heroobj->DownCountColison != 164 and heroobj->DownCountColison != 58) or heroobj->hero->getPosition().y < 0)
 	{
 		gravity += 0.7f;
 		heroobj->hero->move(0, gravity);
@@ -1371,7 +1375,7 @@ void DoomAdventure::map1()
 		heroobj->hero->move(0, gravity);
 	}
 
-	if (npcA1->DownCountColison != 115 and npcA1->DownCountColison != 153 and npcA1->DownCountColison != 147 and npcA1->DownCountColison != 164 and npcA1->DownCountColison != 58 or npcA1->npc->getPosition().y < 0)
+	if ((npcA1->DownCountColison != 115 and npcA1->DownCountColison != 153 and npcA1->DownCountColison != 147 and npcA1->DownCountColison != 164 and npcA1->DownCountColison != 58) or npcA1->npc->getPosition().y < 0)
 	{
 		gravity += 0.7f;
 
@@ -1387,7 +1391,7 @@ void DoomAdventure::map1()
 	{
 		npcA1->orientation = false;
 	}
-	if (npcA1->RightCountColison == 58 or npcA1->RightCountColison == 147 or npcA1->RightCountColison == 164)
+	if (npcA1->RightCountColison == 58 or npcA1->RightCountColison == 147 or npcA1->RightCountColison == 164 or npcA1->npc->getPosition().x > 2340 )
 	{
 		npcA1->orientation = true;
 	}
@@ -1397,7 +1401,7 @@ void DoomAdventure::map1()
 		npcA1->npc->move(0, gravity);
 	}
 
-	if (npcA2->DownCountColison != 115 and npcA2->DownCountColison != 153 and npcA2->DownCountColison != 147 and npcA2->DownCountColison != 164 and npcA2->DownCountColison != 58 or npcA2->npc->getPosition().y < 0)
+	if ((npcA2->DownCountColison != 115 and npcA2->DownCountColison != 153 and npcA2->DownCountColison != 147 and npcA2->DownCountColison != 164 and npcA2->DownCountColison != 58) or npcA2->npc->getPosition().y < 0)
 	{
 		gravity += 0.7f;
 
@@ -1527,7 +1531,7 @@ void DoomAdventure::map2()
 void DoomAdventure::map3()
 {
 
-	if (heroobj->DownCountColison != 115 and heroobj->DownCountColison != 115 or heroobj->hero->getPosition().y < 0)
+	if ((heroobj->DownCountColison != 115 and heroobj->DownCountColison != 115) or heroobj->hero->getPosition().y < 0)
 	{
 		gravity += 0.7f;
 		heroobj->hero->move(0, gravity);
