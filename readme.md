@@ -23,11 +23,11 @@ O projeto <i>Doom Adventure</i> consiste em uma recriação do jogo Mini Doom, o
 
 A presente biblioteca "Simple and Fast Multimedia Library (SFML)" é utilizada para introduiz a parte gráfica no desenvolvimento do jogo, possibilitando assim, a interação visual do usuário.
 
-A biblioteca tmxlite é usada para incluir e manipular mapas nos formatos de tiled. Responsável por ler os arquivos de configuração do mapa, seja ela xml, tmx entre outros...
+A biblioteca tmxlite é usada para incluir e manipular mapas nos formatos de tiled. Responsável por ler os arquivos de configuração do mapa, seja ela xml, tmx entre outros, e disponibilizar o uso por meio de objetos.
 
 ## Objetos no jogo
 <img src = "./assets/PowerUps/frame%201.png" width = 50 alt = powerups/> <br>
-As esferas avermelhadas espalhadas pelo mapas tem a função de restaurar a vida ao máximo e restaurar um cartucho de tiros.
+As esferas avermelhadas espalhadas pelo mapas tem a função de restaurar a vida ao máximo e restaurar um cartucho de tiros. Ela é vista como um poder especial do player.
 
 <img src = "./assets/PowerUps/Portion.png" width = 50 alt = powerups/> <br>
 
