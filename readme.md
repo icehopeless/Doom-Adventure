@@ -50,6 +50,9 @@ Diante do exposto, foi ultilizado a biblioteca Gráfica para a construção do j
 
 <b>Para rodar: </b><br>
 Ápos instalar a pasta raiz do jogo, por padrão, virá um arquivo <i>makefile</i>, modifique os locais das bibliotecas colocando o local instalado no seu computador. O arquivo virá com os locais por padrões em /C:. <br>
+![image](https://github.com/icehopeless/Doom-Adventure/assets/114740870/609295d2-75e6-4b63-8a9f-2044784c1cf1)<br> 
+Mude de acordo com seu local de instalação os paths /SFML/include e tmxlite/include. O mesmo para sfml/lib e tmxlite/bin
+
 Por fim, rode o comando: 
 
 ```bash
