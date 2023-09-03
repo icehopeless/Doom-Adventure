@@ -12,7 +12,7 @@ Recriação do jogo Mini Doom em c++.
 - <a href="https://github.com/icehopeless/Doom-Adventure/blob/main/readme.md#autores">Autores</a>
 
 ## Contextualização do Projeto 
-O projeto <i>Doom Adventure</i> consiste em uma recriação do jogo Mini Doom, onde é desenvolvido por meio da linguagem C++ e a das bibliotecas Simple and Fast Multimedia Library (SFML) e tmxlite. O jogo tem o proposito de sobreviver a fim de chegar na ultima fase para ganhar.
+O projeto <i>Doom Adventure</i> consiste em uma recriação do jogo Mini Doom, onde é desenvolvido por meio da linguagem C++ e a das bibliotecas Simple and Fast Multimedia Library (SFML) e tmxlite. O jogo tem o proposito de sobreviver a fim de chegar na ultima fase para enfrentar o vilão final, o jogo só é ganho ao matar o vilão.
 
 
 
