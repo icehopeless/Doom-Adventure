@@ -396,7 +396,7 @@ void DoomAdventure::Menu()
 	{
 		if (i == 1)
 		{
-			level = 1;
+			level = 3;
 			Restart();
 			KeyMenu = false;
 			KeyGame = true;
@@ -1464,14 +1464,14 @@ void DoomAdventure::map2()
 		heroobj->live -= 130;
 	}
 
-	if (heroobj->LeftCountColison == 58)
-	{
-		heroobj->hero->setPosition(heroobj->hero->getPosition().x + 8, heroobj->hero->getPosition().y);
-	}
-
-	if (heroobj->RightCountColison == 58)
+	if (heroobj->LeftCountColison == 121)
 	{
 		heroobj->hero->setPosition(heroobj->hero->getPosition().x - 8, heroobj->hero->getPosition().y);
+	}
+
+	if (heroobj->RightCountColison == 121)
+	{
+		heroobj->hero->setPosition(heroobj->hero->getPosition().x + 8, heroobj->hero->getPosition().y);
 	}
 
 	if (heroobj->UpCountColison == 58)

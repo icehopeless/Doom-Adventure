@@ -7,7 +7,6 @@
 #include <SFML/Audio.hpp>
 #include <vector>
 #include <sstream>
-#include "tinyxml2.h"
 using namespace std;
 #include <tmxlite/Map.hpp>
 #include "SFMLOrthogonalLayer.hpp"
