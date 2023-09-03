@@ -1,6 +1,6 @@
 # Doom Adventure 
 
-![background]("./assets/Background/Doom.png")
+![background](/assets/Background/Doom.png)
 
 Recriação do jogo Mini Doom em c++.
 
@@ -55,7 +55,7 @@ Por fim, rode o comando:
 ```bash
 mingw32-make
 ```
-Caso não compile, abra em uma IDE de sua preferência, e atualize a pasta de settings. Ou então coloque as DLLs na pasta raiz do jogo.
+Caso não compile, abra em uma IDE de sua preferência, e atualize os includes (procure suporte para incluir bibliotecas externas em sua IDE). Ou então coloque as DLLs da sfml e da tmxlite na pasta raiz do jogo.
 
 
 ## Autores
