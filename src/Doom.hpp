@@ -108,6 +108,7 @@ private:
 	bool perseg = false;
 	int distance = 0;
 	bool fireanimation;
+	sf::Vector2f GetScale;
 	sf::Texture textureVilionRight[9];
 	sf::Texture textureVilionstop[4];
 	sf::Texture downVilion;
@@ -115,7 +116,7 @@ private:
 
 public:
 	shared_ptr<sf::Sprite> Vilion;
-	sf::Sprite lifebar;
+	shared_ptr<sf::Sprite> lifebar;
 	sf::Texture lifebarTexture;
 	bool visible = true;
 

@@ -26,10 +26,8 @@ DoomAdventure::DoomAdventure()
 	villain->live = -1;
 	window->setFramerateLimit(30);
 
-
 	rain.openFromFile("assets/sound/rain.wav");
 	static bool test = false;
-
 
 	PowerUp *p1 = new PowerUp(752, 441, 1);
 	PowerUp *p2 = new PowerUp(496, 230, 2);
@@ -42,7 +40,6 @@ DoomAdventure::DoomAdventure()
 	Plusbullet.push_back(*p3);
 	Plusbullet.push_back(*p4);
 	Plusbullet.push_back(*p5);
-
 
 	skiplevel = false;
 	transitionTexture.loadFromFile("assets/Background/Transition.png");
@@ -396,7 +393,7 @@ void DoomAdventure::Menu()
 	{
 		if (i == 1)
 		{
-			level = 3;
+			level = 1;
 			Restart();
 			KeyMenu = false;
 			KeyGame = true;
@@ -579,7 +576,7 @@ void DoomAdventure::drawGame()
 		window->draw(*npcD1->npc);
 		window->draw(*npcD2->npc);
 		window->draw(*villain->Vilion);
-		window->draw(villain->lifebar);
+		window->draw(*villain->lifebar);
 
 		int x = heroobj->shots.size();
 
@@ -999,15 +996,25 @@ void DoomAdventure::GameOverX()
 	}
 	if (level2 == true)
 	{
-		if(heroobj->hero->getPosition().x  < 320){
+		if (heroobj->hero->getPosition().x < 320)
+		{
 			r1.setPosition(420, view->getCenter().y - 230);
-		}else{
+		}
+		else
+		{
 			r1.setPosition(heroobj->hero->getPosition().x + 100, view->getCenter().y - 230);
 		}
 	}
 	if (level3 == true)
 	{
-		r1.setPosition(heroobj->hero->getPosition().x + 130, view->getCenter().y - 230);
+		if (heroobj->hero->getPosition().x < 320)
+		{
+			r1.setPosition(420, view->getCenter().y - 230);
+		}
+		else
+		{
+			r1.setPosition(heroobj->hero->getPosition().x + 130, view->getCenter().y - 230);
+		}
 	}
 
 	static int framSkull = 0;
@@ -1076,7 +1083,7 @@ void DoomAdventure::GameOverX()
 
 void DoomAdventure::Restart()
 {
-	
+
 	if (level == 1)
 	{
 		npcA1->countKill = npcA2->countKill = npcB1->countKill = npcB2->countKill = npcC1->countKill = npcC2->countKill = npcC3->countKill = npcD1->countKill = npcD2->countKill = heroobj->countKill = 0;
@@ -1084,7 +1091,7 @@ void DoomAdventure::Restart()
 		PowerUp *p1 = new PowerUp(752, 441, 1);
 		PowerUp *p2 = new PowerUp(496, 230, 2);
 		PowerUp *p3 = new PowerUp(1184, 85, 2);
-
+		Finalgame = false;
 		PowerUp *p5 = new PowerUp(1720, 162, 1);
 		heroobj->quantbullet = 0;
 		Plusbullet.push_back(*p1);
@@ -1092,11 +1099,11 @@ void DoomAdventure::Restart()
 		Plusbullet.push_back(*p3);
 		Plusbullet.push_back(*p5);
 
-
 		GameOver = false;
 		KeyMenu = true;
 		heroobj->live = 2000;
 		i = 0;
+		villain->visible = true;
 		npcA1->live = 50;
 		npcA2->live = 50;
 		npcB1->live = 50;
@@ -1123,7 +1130,7 @@ void DoomAdventure::Restart()
 		npcC3->live = -1;
 		npcD1->live = -1;
 		npcD2->live = -1;
-		villain-> live = -1;
+		villain->live = -1;
 
 		if (npcC1->live == 0)
 		{
@@ -1180,7 +1187,7 @@ void DoomAdventure::Restart()
 	if (level == 2)
 	{
 		Plusbullet.clear();
-		
+
 		PowerUp *p2 = new PowerUp(1112, 444, 2);
 		PowerUp *p5 = new PowerUp(1720, 162, 1);
 
@@ -1217,12 +1224,11 @@ void DoomAdventure::Restart()
 	if (level == 3)
 	{
 		Plusbullet.clear();
-	
+
 		PowerUp *p2 = new PowerUp(496, 222, 2);
 		PowerUp *p3 = new PowerUp(1284, 185, 2);
 		PowerUp *p4 = new PowerUp(125, 410, 1);
 		PowerUp *p5 = new PowerUp(1720, 162, 1);
-
 
 		Plusbullet.push_back(*p2);
 		Plusbullet.push_back(*p3);
@@ -1604,64 +1610,65 @@ void DoomAdventure::LastMatch()
 {
 	if (villain->visible == false)
 	{
+		villain->lifebar->setColor(sf::Color::White);
 		if (Finalgame == false)
 		{
 			musicGame.openFromFile("assets/sound/War.wav");
 			musicGame.setLoop(true);
 			musicGame.setVolume(1000);
 			musicGame.play();
-			Finalgame = true;
 
 			villain->lifebarTexture.loadFromFile("assets/Menu/06.png");
-			villain->lifebar.setScale(3, 3);
-			villain->lifebar.setPosition(200, 500);
+			villain->lifebar->setScale(5, 3);
+			villain->lifebar->setPosition(200, 500);
 
-			if(villain->live == 500){
-				sf::Vector2i size(47, 12);
-				sf::Vector2i position(0, 15);
-				villain->lifebar.setTexture(villain->lifebarTexture, true);
-				villain->lifebar.setTextureRect(sf::IntRect(position, size));
-				
-			}
-
-			if(villain->live == 400){
-				sf::Vector2i size(47, 12);
-				sf::Vector2i position(47, 15);
-				villain->lifebar.setTexture(villain->lifebarTexture, true);
-				villain->lifebar.setTextureRect(sf::IntRect(position, size));
-				
-			}
-			if(villain->live == 300){
-				sf::Vector2i size(47, 12);
-				sf::Vector2i position(97, 15);
-				villain->lifebar.setTexture(villain->lifebarTexture, true);
-				villain->lifebar.setTextureRect(sf::IntRect(position, size));
-				
-			}
-			if(villain->live == 200){
-				sf::Vector2i size(47, 12);
-				sf::Vector2i position(145, 15);
-				villain->lifebar.setTexture(villain->lifebarTexture, true);
-				villain->lifebar.setTextureRect(sf::IntRect(position, size));
-				
-			}
-			if(villain->live == 100){
-				sf::Vector2i size(47, 12);
-				sf::Vector2i position(192, 15);
-				villain->lifebar.setTexture(villain->lifebarTexture, true);
-				villain->lifebar.setTextureRect(sf::IntRect(position, size));
-				
-			}
-			if(villain->live == 0){
-				sf::Vector2i size(47, 12);
-				sf::Vector2i position(192, 15);
-				villain->lifebar.setTexture(villain->lifebarTexture, true);
-				villain->lifebar.setTextureRect(sf::IntRect(position, size));
-				
-			}
-
-
+			Finalgame = true;
+		}
+		if (villain->live <= 500 and villain->live > 400)
+		{
+			sf::Vector2i size(47, 12);
+			sf::Vector2i position(0, 15);
+			villain->lifebar->setTexture(villain->lifebarTexture, true);
+			villain->lifebar->setTextureRect(sf::IntRect(position, size));
 		}
 
+		if (villain->live <= 400 and villain->live > 300)
+		{
+			sf::Vector2i size(47, 12);
+			sf::Vector2i position(47, 15);
+			villain->lifebar->setTexture(villain->lifebarTexture, true);
+			villain->lifebar->setTextureRect(sf::IntRect(position, size));
+		}
+		if (villain->live <= 300 and villain->live > 200)
+		{
+			sf::Vector2i size(47, 12);
+			sf::Vector2i position(97, 15);
+			villain->lifebar->setTexture(villain->lifebarTexture, true);
+			villain->lifebar->setTextureRect(sf::IntRect(position, size));
+		}
+		if (villain->live <= 200 and villain->live > 100)
+		{
+			sf::Vector2i size(47, 12);
+			sf::Vector2i position(145, 15);
+			villain->lifebar->setTexture(villain->lifebarTexture, true);
+			villain->lifebar->setTextureRect(sf::IntRect(position, size));
+		}
+		if (villain->live <= 100 and villain->live > 0)
+		{
+			sf::Vector2i  size(47, 12);
+			sf::Vector2i position(192, 15);
+			villain->lifebar->setTexture(villain->lifebarTexture, true);
+			villain->lifebar->setTextureRect(sf::IntRect(position, size));
+		}
+
+		if (villain->live <= 0)
+		{
+			sf::Vector2i size(47, 12);
+			sf::Vector2i position(192, 15);
+			villain->lifebar->setTexture(villain->lifebarTexture, true);
+			villain->lifebar->setTextureRect(sf::IntRect(position, size));
+		}
+	}else{
+		villain->lifebar->setColor(sf::Color::Transparent);
 	}
 }

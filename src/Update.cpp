@@ -37,7 +37,7 @@ void DoomAdventure::update()
 	n1.setTextureRect(sf::IntRect(13, 29, 26, 24));
 	n1.setScale(2, 2);
 	n1.setColor(sf::Color::White);
-	view->setSize(window->getSize().x * 2, window->getSize().y * 2);
+	view->setSize(window->getSize().x / 2, window->getSize().y/ 2);
 
 	if (view->getCenter().x == window->getSize().x / 2)
 	{
@@ -155,6 +155,7 @@ void DoomAdventure::update()
 			r2.setPosition(heroobj->hero->getPosition().x - 360, heroobj->hero->getPosition().y - 400);
 			r3.setPosition(heroobj->hero->getPosition().x - 310, heroobj->hero->getPosition().y - 130);
 			bulletmenuSprite.setPosition(r3.getPosition().x + 70, r3.getPosition().y + 10);
+			villain->lifebar->setPosition(r3.getPosition().x + 270,r3.getPosition().y - 20);
 		}
 		else if (heroobj->hero->getPosition().y < 180 and heroobj->hero->getPosition().x < 2240)
 		{
@@ -168,20 +169,22 @@ void DoomAdventure::update()
 			r3.setPosition(2441, heroobj->hero->getPosition().y - 130);
 			r2.setPosition(1856, heroobj->hero->getPosition().y - 400);
 			bulletmenuSprite.setPosition(r3.getPosition().x - 90, r3.getPosition().y + 10);
+			villain->lifebar->setPosition(1971,r3.getPosition().y - 20);
 		}
 		else if (heroobj->hero->getPosition().x > 2240)
 		{
 			r2.setPosition(heroobj->hero->getPosition().x, heroobj->hero->getPosition().y);
 			r3.setPosition(heroobj->hero->getPosition().x, heroobj->hero->getPosition().y);
 			bulletmenuSprite.setPosition(r3.getPosition().x - 90, r3.getPosition().y + 10);
+			villain->lifebar->setPosition(r3.getPosition().x - 270,r3.getPosition().y - 20);
 		}
 		else if (heroobj->hero->getPosition().x >= 0 and heroobj->hero->getPosition().x <= 320)
 		{
-
 			view->setCenter(320, heroobj->hero->getPosition().y);
 			view->setCenter(view->getCenter().x, heroobj->hero->getPosition().y);
 			r1.setPosition(420, heroobj->hero->getPosition().y - 200);
 			r3.setPosition(555, heroobj->hero->getPosition().y - 130);
+			villain->lifebar->setPosition(r3.getPosition().x -370,r3.getPosition().y - 20);
 			bulletmenuSprite.setPosition(r3.getPosition().x - 90, r3.getPosition().y + 10);
 			r2.setPosition(0, 0);
 		}
@@ -190,6 +193,7 @@ void DoomAdventure::update()
 			view->setCenter(view->getCenter().x, heroobj->hero->getPosition().y);
 			r1.setPosition(420, heroobj->hero->getPosition().y - 200);
 			r3.setPosition(555, heroobj->hero->getPosition().y - 130);
+			villain->lifebar->setPosition(r3.getPosition().x - 270,r3.getPosition().y - 20);
 			bulletmenuSprite.setPosition(r3.getPosition().x - 90, r3.getPosition().y + 10);
 			r2.setPosition(0, 0);
 		}

@@ -6,7 +6,7 @@ Villain::Villain(int referent)
 	fireanimation = false;
 	this->referent = referent;
 	Vilion = make_shared<sf::Sprite>();
-
+	lifebar = make_shared<sf::Sprite>();
 	if (referent == 1)
 	{
 		textureVilionRight[0].loadFromFile(
@@ -59,6 +59,8 @@ void Villain::testAproxim(Hero *herobobj)
 		persegui(herobobj);
 	}
 
+	GetScale.x = herobobj->hero->getScale().x ;
+	GetScale.y = herobobj->hero->getScale().y ;
 	distance = herobobj->hero->getPosition().x - Vilion->getPosition().x ;
 }
 void Villain::Villan1()
@@ -108,15 +110,11 @@ void Villain::attacks()
 void Villain::attack1()
 {
 
-	if (distance < 0)
-	{
-		Vilion->setScale(2.2f, 2.2f);
+	if(GetScale.x < -1){
+		Vilion->setScale(-2.2,2.2);
+	}else{
+		Vilion->setScale(2.2,2.2);
 	}
-	if (distance > 0)
-	{
-		Vilion->setScale(-2.2f, 2.2f);
-	}
-
 	textureVilionRight[0].loadFromFile(
 		"assets/Villain/Dragon/demon-attack.png");
 	Vilion->setTexture(textureVilionRight[0]);
