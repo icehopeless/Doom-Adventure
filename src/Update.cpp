@@ -2,13 +2,19 @@
 
 void DoomAdventure::update(){
 	if(level1 == true){
-		mYSt2.loadFromFile("assets/Background/night-town-background-previewx1.png");
+		mYSt2.loadFromFile("assets/Background/bg1.png");
 		r2.setTexture(mYSt2,true);
 		r2.setColor(sf::Color::White);
 		r2.setScale(1,1);
 	}
 	if(level2 == true){
 		mYSt2.loadFromFile("assets/Background/bg2.png");
+		r2.setTexture(mYSt2,true);
+		r2.setColor(sf::Color::White);
+		r2.setScale(1,1);
+	}
+	if(level3 == true){
+		mYSt2.loadFromFile("assets/Background/bg3.png");
 		r2.setTexture(mYSt2,true);
 		r2.setColor(sf::Color::White);
 		r2.setScale(1,1);
@@ -36,38 +42,110 @@ void DoomAdventure::update(){
 		}
 	}
 
-	if(heroobj->hero->getPosition().x > 320 and heroobj->hero->getPosition().x < 2240){
-		view->setCenter(heroobj->hero->getPosition());
-		r1.setPosition(heroobj->hero->getPosition().x - 320,heroobj->hero->getPosition().y - 200);
-		r2.setPosition(heroobj->hero->getPosition().x - 360, heroobj->hero->getPosition().y - 400);
-		r3.setPosition(heroobj->hero->getPosition().x - 310,heroobj->hero->getPosition().y - 130);
-	}else if(heroobj->hero->getPosition().y < 180 and heroobj->hero->getPosition().x < 2240){
-		r2.setPosition(0,-300);
-		r3.setPosition(0,-300);
+	if(level == 1){
+		if(heroobj->hero->getPosition().x > 320 and heroobj->hero->getPosition().x < 2240){
+			view->setCenter(heroobj->hero->getPosition());
+			r1.setPosition(heroobj->hero->getPosition().x - 320,heroobj->hero->getPosition().y - 200);
+			r2.setPosition(heroobj->hero->getPosition().x - 360, heroobj->hero->getPosition().y - 400);
+			r3.setPosition(heroobj->hero->getPosition().x - 310,heroobj->hero->getPosition().y - 130);
+		}else if(heroobj->hero->getPosition().y < 180 and heroobj->hero->getPosition().x < 2240){
+			r2.setPosition(0,-300);
+			r3.setPosition(0,-300);
 
-	}else if(heroobj->hero->getPosition().x > 2000){
-		view->setCenter(view->getCenter().x,heroobj->hero->getPosition().y);
-		r1.setPosition(2316,heroobj->hero->getPosition().y - 200);
-		r3.setPosition(2441,heroobj->hero->getPosition().y - 130);
-		r2.setPosition(1856, heroobj->hero->getPosition().y - 400);
-	}else if(heroobj->hero->getPosition().x > 2240 ){
-			r2.setPosition(heroobj->hero->getPosition().x, heroobj->hero->getPosition().y);
-			r3.setPosition(heroobj->hero->getPosition().x, heroobj->hero->getPosition().y);
-	}else{
-		view->setCenter(view->getCenter().x,heroobj->hero->getPosition().y);
-		r1.setPosition(420,heroobj->hero->getPosition().y - 200);
-		r3.setPosition(555,heroobj->hero->getPosition().y - 130);
-		r2.setPosition(0,0);
+		}else if(heroobj->hero->getPosition().x > 2000){
+			view->setCenter(view->getCenter().x,heroobj->hero->getPosition().y);
+			r1.setPosition(2316,heroobj->hero->getPosition().y - 200);
+			r3.setPosition(2441,heroobj->hero->getPosition().y - 130);
+			r2.setPosition(1856, heroobj->hero->getPosition().y - 400);
+		}else if(heroobj->hero->getPosition().x > 2240 ){
+				r2.setPosition(heroobj->hero->getPosition().x, heroobj->hero->getPosition().y);
+				r3.setPosition(heroobj->hero->getPosition().x, heroobj->hero->getPosition().y);
+		}else{
+			view->setCenter(view->getCenter().x,heroobj->hero->getPosition().y);
+			r1.setPosition(420,heroobj->hero->getPosition().y - 200);
+			r3.setPosition(555,heroobj->hero->getPosition().y - 130);
+			r2.setPosition(0,0);
+		}
+
+		n1.setPosition(r3.getPosition().x - 5 , r3.getPosition().y) ;
+
+
+		if(heroobj->hero->getPosition().x < 0){
+			heroobj->hero->setPosition(0,heroobj->hero->getPosition().y);
+		}
+		if(heroobj->hero->getPosition().x > 2472){
+			heroobj->hero->setPosition(2472,heroobj->hero->getPosition().y);
+		}
 	}
 
-	n1.setPosition(r3.getPosition().x - 5 , r3.getPosition().y) ;
+	else if(level == 2){
+		if(heroobj->hero->getPosition().x > 320 and heroobj->hero->getPosition().x < 2240){
+			view->setCenter(heroobj->hero->getPosition());
+			r1.setPosition(heroobj->hero->getPosition().x - 320,heroobj->hero->getPosition().y - 200);
+			r2.setPosition(heroobj->hero->getPosition().x - 360, heroobj->hero->getPosition().y - 400);
+			r3.setPosition(heroobj->hero->getPosition().x - 310,heroobj->hero->getPosition().y - 130);
+		}else if(heroobj->hero->getPosition().y < 180 and heroobj->hero->getPosition().x < 2240){
+			r2.setPosition(0,-300);
+			r3.setPosition(0,-300);
+
+		}else if(heroobj->hero->getPosition().x > 2000){
+			view->setCenter(2236,heroobj->hero->getPosition().y);
+			r1.setPosition(2316,heroobj->hero->getPosition().y - 200);
+			r3.setPosition(2441,heroobj->hero->getPosition().y - 130);
+			r2.setPosition(1856, heroobj->hero->getPosition().y - 400);
+		}else if(heroobj->hero->getPosition().x > 2240 ){
+				r2.setPosition(heroobj->hero->getPosition().x, heroobj->hero->getPosition().y);
+				r3.setPosition(heroobj->hero->getPosition().x, heroobj->hero->getPosition().y);
+		}else{
+			view->setCenter(view->getCenter().x,heroobj->hero->getPosition().y);
+			r1.setPosition(420,heroobj->hero->getPosition().y - 200);
+			r3.setPosition(555,heroobj->hero->getPosition().y - 130);
+			r2.setPosition(0,0);
+		}
+
+		n1.setPosition(r3.getPosition().x - 5 , r3.getPosition().y) ;
 
 
-	if(heroobj->hero->getPosition().x < 0){
-		heroobj->hero->setPosition(0,heroobj->hero->getPosition().y);
-	}
-	if(heroobj->hero->getPosition().x > 2472){
-		heroobj->hero->setPosition(2472,heroobj->hero->getPosition().y);
+		if(heroobj->hero->getPosition().x < 0){
+			heroobj->hero->setPosition(0,heroobj->hero->getPosition().y);
+		}
+		if(heroobj->hero->getPosition().x > 2472){
+			heroobj->hero->setPosition(2472,heroobj->hero->getPosition().y);
+		}
+	}else if(level == 3){
+		if(heroobj->hero->getPosition().x > 320 and heroobj->hero->getPosition().x < 2240){
+			view->setCenter(heroobj->hero->getPosition());
+			r1.setPosition(heroobj->hero->getPosition().x - 320,heroobj->hero->getPosition().y - 200);
+			r2.setPosition(heroobj->hero->getPosition().x - 360, heroobj->hero->getPosition().y - 400);
+			r3.setPosition(heroobj->hero->getPosition().x - 310,heroobj->hero->getPosition().y - 130);
+		}else if(heroobj->hero->getPosition().y < 180 and heroobj->hero->getPosition().x < 2240){
+			r2.setPosition(0,-300);
+			r3.setPosition(0,-300);
+
+		}else if(heroobj->hero->getPosition().x > 2000){
+			view->setCenter(2236,heroobj->hero->getPosition().y);
+			r1.setPosition(2316,heroobj->hero->getPosition().y - 200);
+			r3.setPosition(2441,heroobj->hero->getPosition().y - 130);
+			r2.setPosition(1856, heroobj->hero->getPosition().y - 400);
+		}else if(heroobj->hero->getPosition().x > 2240 ){
+				r2.setPosition(heroobj->hero->getPosition().x, heroobj->hero->getPosition().y);
+				r3.setPosition(heroobj->hero->getPosition().x, heroobj->hero->getPosition().y);
+		}else{
+			view->setCenter(view->getCenter().x,heroobj->hero->getPosition().y);
+			r1.setPosition(420,heroobj->hero->getPosition().y - 200);
+			r3.setPosition(555,heroobj->hero->getPosition().y - 130);
+			r2.setPosition(0,0);
+		}
+
+		n1.setPosition(r3.getPosition().x - 5 , r3.getPosition().y) ;
+
+
+		if(heroobj->hero->getPosition().x < 0){
+			heroobj->hero->setPosition(0,heroobj->hero->getPosition().y);
+		}
+		if(heroobj->hero->getPosition().x > 2472){
+			heroobj->hero->setPosition(2472,heroobj->hero->getPosition().y);
+		}
 	}
 
 
@@ -104,6 +182,19 @@ void DoomAdventure::update(){
 			heroobj->UpCountColison = layerUp_2->getTile((int)(heroobj->hero->getPosition().x + heroobj->hero->getGlobalBounds().width / 2) / 32,
 			(int)(heroobj->hero->getPosition().y + (heroobj->hero->getGlobalBounds().height  / 2) + 30) / 32).ID;
 	}
+	if(level3 == true){
+		heroobj->DownCountColison = layerDown_3->getTile((int)(heroobj->hero->getPosition().x + heroobj->hero->getGlobalBounds().width / 2) / 32,
+			(int)(heroobj->hero->getPosition().y + (heroobj->hero->getGlobalBounds().height  / 2) + 30) / 32).ID;
+			
+		heroobj->LeftCountColison = layerLeft_3->getTile((int)(heroobj->hero->getPosition().x + heroobj->hero->getGlobalBounds().width / 2) / 32,
+			(int)(heroobj->hero->getPosition().y + (heroobj->hero->getGlobalBounds().height  / 2) + 30) / 32).ID;
+
+		heroobj->RightCountColison = layerRight_3->getTile((int)(heroobj->hero->getPosition().x + heroobj->hero->getGlobalBounds().width / 2) / 32,
+			(int)(heroobj->hero->getPosition().y + (heroobj->hero->getGlobalBounds().height  / 2) + 30) / 32).ID;
+
+			heroobj->UpCountColison = layerUp_3->getTile((int)(heroobj->hero->getPosition().x + heroobj->hero->getGlobalBounds().width / 2) / 32,
+			(int)(heroobj->hero->getPosition().y + (heroobj->hero->getGlobalBounds().height  / 2) + 30) / 32).ID;
+	}
 
 
 
@@ -134,7 +225,7 @@ void DoomAdventure::update(){
 		skiplevel = true;
 	}
 
-	if(skiplevel == true){
+	if(skiplevel == true and level <= 2){
 		static float g = 0;
 		g+=3;
 		transition.setColor(sf::Color(0,0,0,g));
@@ -144,6 +235,10 @@ void DoomAdventure::update(){
 			g =0;
 			skiplevel = false;
 			level++;
+			if(level == 2){
+					checkpoint.setSize(sf::Vector2f(60,100));
+				checkpoint.setPosition(2472,178);
+			}
 			Restart();
 		}
 	}
@@ -171,5 +266,7 @@ void DoomAdventure::update(){
 		
 	}
 
-	cout << heroobj->hero->getPosition().x << " | " << heroobj->hero->getPosition().y << endl;
+
+
+	cout << heroobj->LeftCountColison << " | " << heroobj->RightCountColison << endl;
 }

@@ -24,17 +24,24 @@ DoomAdventure::DoomAdventure() {
 	npcC1 = new Npcs(4);
 	npcC2 = new Npcs(4);
 	npcC3 = new Npcs(4);
+	npcD1 = new Npcs(3);
+	npcD2 = new Npcs(3);
+
 	villain = new Villain(1);
 	time = 0;
 	level = 1;
 	view = new sf::View(sf::FloatRect(0,0,window->getSize().x / 2, window->getSize().y  / 2));
 	background = make_shared<sf::Sprite>();
 	map_2 = make_shared<tmx::Map>();
+	map_3 = make_shared<tmx::Map>();
 	villain->live = -1;
-	window->setFramerateLimit(60);
-	npcC1->live = -1;
-	npcC2->live = -1;
-	npcC3->live = -1;
+	window->setFramerateLimit(30);
+	// npcC1->live = -1;
+	// npcC2->live = -1;
+	// npcC3->live = -1;
+	// npcD1->live = -1;
+	// npcD2->live = -1;
+	
 	rain.openFromFile("assets/sound/rain.wav");
 	static bool test = false;
 	npcA1->npc->setPosition(450, 595);
@@ -45,8 +52,8 @@ DoomAdventure::DoomAdventure() {
 	checkpoint.setSize(sf::Vector2f(60,100));
 	checkpoint.setPosition(2504,290);
 	skiplevel = false;
-	//transitionTexture.loadFromFile("assets/Background/transition.png");
-	//transition.setTexture(transitionTexture);
+	transitionTexture.loadFromFile("assets/Background/transition.png");
+	transition.setTexture(transitionTexture);
 	transition.setColor(sf::Color::Transparent);
 	
 	if(test == false){
@@ -79,12 +86,19 @@ DoomAdventure::DoomAdventure() {
 			layerDown_2 = new MapLayer(*map_2, 1);
 	}
 	
+	if(map_3->load("maps/map3.tmx")){
+			layerDraw_3 = new MapLayer(*map_3, 0);
+			layerLeft_3 = new MapLayer(*map_3, 1);
+			layerRight_3 = new MapLayer(*map_3, 2);
+			layerUp_3 = new MapLayer(*map_3, 3);
+			layerDown_3 = new MapLayer(*map_3, 4);
+	}
 }
 
 void DoomAdventure::Introduction(shared_ptr<sf::RenderWindow> window){
 	static float i = 0;
 	static float j = 0;
-
+	
 	timepassado = clock.getElapsedTime();
 	time = timepassado.asSeconds();
 
@@ -403,6 +417,9 @@ void DoomAdventure::events() {
 		if (event.type == sf::Event::Closed) {
 			window->close();
 		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			heroobj->restjump--;
+		}
 	}
 }
 void DoomAdventure::drawGame() {
@@ -442,6 +459,63 @@ void DoomAdventure::drawGame() {
 	if(level2 == true){
 		window->draw(*layerDraw_2);
 		window->draw(*layerDown_2);
+		window->draw(*heroobj->hero);
+		window->draw(*npcA1->npc);
+		window->draw(*npcA2->npc);
+		window->draw(*npcB1->npc);
+		window->draw(*npcB2->npc);
+		window->draw(*npcC1->npc);
+		window->draw(*npcC2->npc);
+		window->draw(*npcC3->npc);
+
+		
+		int x = heroobj->shots.size();
+
+		for(int i = 0; i < x; i++){
+			heroobj->shots[i].Orientation(60);
+			window->draw(*heroobj->shots[i].attacksprite);
+		}
+
+
+	int z = npcA1->shots.size();
+
+		for(int i = 0; i < z; i++){
+				npcA1->shots[i].Orientation(50);
+				window->draw(*npcA1->shots[i].attacksprite);
+			}
+
+		int r = npcA2->shots.size();
+
+		for(int i = 0; i < r; i++){
+			npcA2->shots[i].Orientation(90);
+			window->draw(*npcA2->shots[i].attacksprite);
+		}
+
+		int a = npcC1->shots.size();
+
+		for(int i = 0; i < a; i++){
+			npcC1->shots[i].Orientation(90);
+			window->draw(*npcC1->shots[i].attacksprite);
+		}
+
+		int u = npcC2->shots.size();
+
+		for(int i = 0; i < u; i++){
+			npcC2->shots[i].Orientation(90);
+			window->draw(*npcC2->shots[i].attacksprite);
+		}
+
+		int v = npcC3->shots.size();
+
+		for(int i = 0; i < v; i++){
+			npcC3->shots[i].Orientation(90);
+			window->draw(*npcC3->shots[i].attacksprite);
+		}
+
+	}
+
+	if(level3 == true){
+		window->draw(*layerDraw_3);
 		window->draw(*heroobj->hero);
 		window->draw(*npcA1->npc);
 		window->draw(*npcA2->npc);
@@ -781,6 +855,25 @@ void DoomAdventure::Restart(){
 		npcC2->live = 200;
 		npcC3->live = 200;
 	}
+
+	if(level == 3){
+		heroobj->hero->setPosition(0,441);
+		npcA1->npc->setPosition(1250, 430);
+		npcA2->npc->setPosition(1640, 357);
+		npcA2->orientation = false;
+		npcB1->npc->setPosition(844, 477);
+		npcB2->npc->setPosition(2280, 223);
+		npcC1->npc->setPosition(1890,600);
+		npcC2->npc->setPosition(800,heroobj->hero->getPosition().y);
+		npcC3->npc->setPosition(1000,400);
+		npcA1->live = -1;
+		npcA2->live = -1;
+		npcB1->live = -1;
+		npcB1->live = -1;
+		npcC1->live = -1;
+		npcC2->live = -1;
+		npcC3->live = -1;
+	}
 }
 DoomAdventure::~DoomAdventure(){
 	delete heroobj;
@@ -800,31 +893,34 @@ void DoomAdventure::gravityAndColision(){
 		map3();
 	}
 
-	// switch (level)
-	// {
-	// case 1:
-	// 	map1();
-	// case 2:
-	// 	map2();
-	// case 3:
-	// 	map3();
-	// 	break;
-	// }
 }
 
 void DoomAdventure::map1(){
-
+	//colisoes com o chao (inferior)
+	//testa se o hero esta no alto
 	if(heroobj->DownCountColison != 115 and heroobj->DownCountColison != 153 and heroobj->DownCountColison != 147 and heroobj->DownCountColison != 164 and heroobj->DownCountColison != 58 or heroobj->hero->getPosition().y < 0){
-		heroobj->ControlSkip == false;
 		gravity += 0.7f;
 		heroobj->hero->move(0,gravity);
-	}else{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-		gravity = -8.f;
-		heroobj->hero->move(0,gravity);
-	}
+		//testa se o hero já pulou e se o pulos restantes são maior ou igual a 1
+		if(heroobj->restjump >=1 and heroobj->jumping == true){
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) { //se o hero ja tiver pulado, e pular outra vez:
+			gravity = -5.f;
+			heroobj->hero->move(0,gravity);	
+		}	
+		}
+	}else{  //se o hero nao estiver no alto (estiver no chao)
+			//seta os pulos restantes como 2
+		heroobj->restjump = 2;
+		heroobj->jumping = false;
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){ //testa se ha evento de pulo, se tiver, hero esta no alto
+			gravity = -8.f;
+			heroobj->hero->move(0,gravity);	
+			heroobj->jumping = true;
+		} 
 	}
 
+	//colisoes laterais e superior
 	if(heroobj->DownCountColison == 399){
 		heroobj->hero->setPosition(heroobj->hero->getPosition().x,heroobj->hero->getPosition().y - 1);
 	}
@@ -900,16 +996,23 @@ void DoomAdventure::map1(){
 
 void DoomAdventure::map2(){
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) and heroobj->ControlSkip >= 0) {
-		gravity = -7.f;
-		heroobj->hero->move(0,gravity);
-	}
-
-
 	if(heroobj->DownCountColison != 121 or heroobj->hero->getPosition().y < 0){
 			gravity += 0.7f;
-	
+			heroobj->hero->move(0,gravity);
+			if(heroobj->restjump >=1 and heroobj->jumping == true){
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			gravity = -5.f;
+			heroobj->hero->move(0,gravity);	
+		}	
+		}
+	}else{
+		heroobj->restjump = 2;
+		heroobj->jumping = false;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+		gravity = -8.f;
 		heroobj->hero->move(0,gravity);
+		heroobj->jumping = true;
+	}
 	}
 
 	
@@ -959,5 +1062,63 @@ void DoomAdventure::map2(){
 }
 
 void DoomAdventure::map3(){
+
+	
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) and heroobj->ControlSkip >= 0) {
+		gravity = -7.f;
+		heroobj->hero->move(0,gravity);
+	}
+
+
+	if(heroobj->DownCountColison != 115 and heroobj->DownCountColison != 115  or heroobj->hero->getPosition().y < 0){
+			gravity += 0.7f;
+	
+		heroobj->hero->move(0,gravity);
+	}
+
+	
+
+	if(heroobj->LeftCountColison == 115 ){
+			heroobj->hero->setPosition(heroobj->hero->getPosition().x - 8,heroobj->hero->getPosition().y);
+	}
+
+	if(heroobj->RightCountColison == 115){
+			heroobj->hero->setPosition(heroobj->hero->getPosition().x + 8,heroobj->hero->getPosition().y);
+	}
+
+	if(heroobj->UpCountColison == 115 ){
+		gravity += 4.7f;
+			heroobj->hero->move(0,gravity);
+	}
+
+
+	if(npcB1->npc->getPosition().x < 540){
+		npcB1->orientation = true;
+	}
+	if(npcB1->npc->getPosition().x > 884){
+		npcB1->orientation = false;
+	}
+
+	if(npcB2->npc->getPosition().x < 1920){
+		npcB2->orientation = true;
+	}
+	if(npcB2->npc->getPosition().x > 2280){
+		npcB2->orientation = false;
+	}
+
+	if(npcA1->npc->getPosition().x < 1316){
+		npcA1->orientation = false;
+	}
+	if(npcA1->npc->getPosition().x > 1464){
+		npcA1->orientation = true;
+	}
+
+	if(npcA2->npc->getPosition().x < 1590){
+		npcA2->orientation = false;
+	}
+	if(npcA2->npc->getPosition().x > 1700){
+		npcA2->orientation = true;
+	}
+
 
 }

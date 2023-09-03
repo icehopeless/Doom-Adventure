@@ -31,6 +31,7 @@ Hero::Hero() {
 	Heroatack.loadFromFile("assets/attacks_sounds/lazer.wav");
 	atack.setBuffer(Heroatack);
 	atack.setVolume(100);
+	fall.loadFromFile("assets/Hero/Gunner/Gunner_Fall.png");
 }
 
 //animando o hero
@@ -48,6 +49,10 @@ void Hero::animation() {
 	}
 
 	frame++;
+
+	if(jumping == true and restjump < 2){
+		hero->setTexture(fall,true);
+	}
 
 	hero->setTexture(textureherostop[framestop], true);
 
@@ -67,6 +72,10 @@ void Hero::animation() {
 		hero->move(8, 0);
 		hero->setScale(1.5f, 1.5f);
 
+		if(jumping == true and restjump < 2){
+		hero->setTexture(fall,true);
+	}
+
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
@@ -83,6 +92,10 @@ void Hero::animation() {
 		hero->move(-8, 0);
 		hero->setOrigin((hero->getLocalBounds().width / 2 ) +  30,(hero->getLocalBounds().height / 2 ) -  30);
 		hero->setScale(-1.5,1.5);
+
+		if(jumping == true and restjump < 2){
+		hero->setTexture(fall,true);
+	}
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 		hero->setTexture(down, true);

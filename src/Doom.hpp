@@ -56,8 +56,12 @@ private:
 	sf::Texture textureheroRight[9];
 	sf::Texture textureherostop[4];
 	sf::Texture down;
+	sf::Texture fall;
 	sf::Texture herotexture[3];
 public:
+	int ControlSkip;
+	bool jumping;
+	int restjump;
 	int shotstimer = 0;
 	shared_ptr<sf::Sprite> hero;
 public:
@@ -147,6 +151,8 @@ class DoomAdventure {
 	Npcs *npcC1 = new Npcs(4);
 	Npcs *npcC2 = new Npcs(4);
 	Npcs *npcC3 = new Npcs(4);
+	Npcs *npcD1 = new Npcs(3);
+	Npcs *npcD2 = new Npcs(3);
 	Villain *villain = new Villain(1);
 	bool KeyIntro;
 	bool KeyMenu; 
@@ -181,6 +187,7 @@ class DoomAdventure {
 	sf::View *view;
 	tmx::Map map;
 	shared_ptr<tmx::Map>  map_2;
+	shared_ptr<tmx::Map>  map_3;
 	bool KeyDown;
 	bool KeyUp;
 	bool skiplevel;
@@ -198,6 +205,12 @@ class DoomAdventure {
 	MapLayer * layerLeft_2;
 	MapLayer * layerRight_2;
 	MapLayer * layerUp_2;
+
+	MapLayer * layerDraw_3;
+	MapLayer * layerDown_3;
+	MapLayer * layerLeft_3;
+	MapLayer * layerRight_3;
+	MapLayer * layerUp_3;
 	sf::Font font;
 	sf::Sprite transition;
 	sf::Texture transitionTexture;
