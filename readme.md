@@ -2,8 +2,8 @@
 
 ![background](/assets/Background/Doom.png)
 
-Recriação do jogo Mini Doom em c++.
-<a href="">Relatório Técnico</a>
+Recriação do jogo Mini Doom em c++. <br>
+<a href="https://docs.google.com/document/d/1WySuaBYwfDTQky-aOzbMVHkanlCi41giKPa8H0-i3rw/edit?usp=sharing">Relatório Técnico</a>
 
 
 ## Indice 
