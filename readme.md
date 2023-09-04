@@ -3,6 +3,8 @@
 ![background](/assets/Background/Doom.png)
 
 Recriação do jogo Mini Doom em c++.
+<a href="">Relatório Técnico</a>
+
 
 ## Indice 
 - <a href="https://github.com/icehopeless/Doom-Adventure/blob/main/readme.md#contextualização-do-projeto">Contextualização do Projeto</a>
