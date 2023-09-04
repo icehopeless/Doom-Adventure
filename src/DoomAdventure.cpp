@@ -1102,7 +1102,6 @@ void DoomAdventure::Restart()
 		Plusbullet.push_back(*p2);
 		Plusbullet.push_back(*p3);
 		Plusbullet.push_back(*p5);
-
 		GameOver = false;
 		KeyMenu = true;
 		heroobj->live = 2000;
@@ -1186,6 +1185,15 @@ void DoomAdventure::Restart()
 		{
 			villain->countKill--;
 		}
+		heroobj->shots.clear();
+		npcA1->shots.clear();
+		npcA2->shots.clear();
+		npcC1->shots.clear();
+		npcC2->shots.clear();
+		npcC3->shots.clear();
+		npcD1->shots.clear();
+		npcD2->shots.clear();
+
 	}
 
 	if (level == 2)
@@ -1223,6 +1231,15 @@ void DoomAdventure::Restart()
 		npcC1->live = 200;
 		npcC2->live = 200;
 		npcC3->live = 200;
+
+		heroobj->shots.clear();
+		npcA1->shots.clear();
+		npcA2->shots.clear();
+		npcC1->shots.clear();
+		npcC2->shots.clear();
+		npcC3->shots.clear();
+		npcD1->shots.clear();
+		npcD2->shots.clear();
 	}
 
 	if (level == 3)
@@ -1297,6 +1314,14 @@ void DoomAdventure::Restart()
 		{
 			npcC3->countKill--;
 		}
+		heroobj->shots.clear();
+		npcA1->shots.clear();
+		npcA2->shots.clear();
+		npcC1->shots.clear();
+		npcC2->shots.clear();
+		npcC3->shots.clear();
+		npcD1->shots.clear();
+		npcD2->shots.clear();
 	}
 }
 DoomAdventure::~DoomAdventure()
