@@ -61,6 +61,8 @@ Por fim, rode o comando:
 mingw32-make
 ```
 Caso não compile, abra em uma IDE de sua preferência, e atualize os includes (procure suporte para incluir bibliotecas externas em sua IDE). Ou então coloque as DLLs da sfml e da tmxlite na pasta raiz do jogo.
+<br><br>
+Caso use alguma IDE que utilize workspaces, como o Eclipse IDE, tire os includes ".cpp" do arquivo <i>main.cpp</i>, e deixe somente o cabeçalho "Doom.hpp"
 
 <br> <b>Exemplo no vsCode</b>:
 Para atualizar os includes no vsCode, por padrão, a IDE disponibiliza a pasta <i>.vscode</i>
